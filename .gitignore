@@ -1,0 +1,75 @@
+# ---- .NET / Visual Studio / Rider ----
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Ll]og/
+[Ll]ogs/
+.vs/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+*.user
+*.suo
+*.userprefs
+*.rsuser
+*.DotSettings.user
+*.swp
+*.cache
+project.lock.json
+artifacts/
+publish/
+*.nupkg
+*.snupkg
+
+# ---- Tests ----
+TestResults/
+[Tt]est[Rr]esult*/
+*.trx
+coverage/
+*.coverage
+*.coveragexml
+coverage*.json
+coverage*.xml
+coverage*.info
+
+# ---- Playwright / Node ----
+node_modules/
+playwright-report/
+test-results/
+blob-report/
+.playwright/
+
+# ---- Secrets & local config ----
+.env
+.env.*
+!.env.example
+*.local.json
+appsettings.*.local.json
+secrets/
+*.pfx
+*.pem
+*.key
+dataprotection-keys/
+
+# ---- Local data ----
+*.db
+*.sqlite
+pgdata/
+backups/
+*.dump
+
+# ---- OS / sync clients ----
+Thumbs.db
+ehthumbs.db
+desktop.ini
+.DS_Store
+$RECYCLE.BIN/
+.yandex.disk*
+
+# ---- Claude Code local state (роли в .claude/agents коммитим) ----
+.claude/settings.local.json
+.claude/todos/
