@@ -30,7 +30,7 @@
 
 | # | Шаг | Вход → выход | Статус сдачи после шага |
 |---|---|---|---|
-| 1 | `PollInboxJob` (cron, 5 мин) | IMAP → `InboxMessage` + `InboxAttachment` (вложения во временную папку Диска) | — |
+| 1 | `PollInboxJob` (cron, 5 мин) | IMAP (новые UID) → фильтр «сдача работы» (ADR-024) → `InboxMessage` + `InboxAttachment` (PDF/DOCX во временную папку Диска); прочие письма пропускаются | — |
 | 2 | `ParseMessageJob` | тема → группа, предмет, студент, **набор работ**; каждый файл → работа (ADR-022) → по `Submission` на работу; несопоставленные файлы → «Нераспознанные» | `Received` / письмо `Unrecognized` / `PartiallyParsed` |
 | 3 | `StoreFilesJob` | временная папка → постоянная, `SubmissionFile` | `Stored` |
 | 4 | `ExtractTextJob` | DOCX → OpenXml; PDF → PdfPig; PDF без текста → растр + Tesseract (ADR-019) | `TextReady` / `NeedsManual` |
@@ -70,7 +70,8 @@
 ```
 User(id, login, password_hash, display_name, roles: Teacher|Admin)   -- ASP.NET Core Identity
 TeacherConnection(teacher_id, imap_*, smtp_*, yandex_token_encrypted, mail_poll_interval,
-                  mail_poll_enabled)                       -- подключения преподавателя
+                  mail_poll_enabled,
+                  imap_uid_validity, imap_last_uid, mail_since) -- ADR-024: ящик не изменяется
 
 -- Общее для системы: Group, Student, StudentEmail, Term, настройки LLM
 -- Принадлежит преподавателю (teacher_id): Subject и всё под ним, InboxMessage, Notification,
@@ -89,6 +90,7 @@ SubjectTerm(id, subject_id, term_id, study_semester,          -- «КорпИС,
 SubjectTermGroup(subject_term_id, group_id)
 Student(id, group_id, last_name, first_name, middle_name, is_active)
 StudentEmail(id, student_id, email)                          -- у студента может быть несколько адресов
+CourseworkTopic(subject_term_id, student_id, topic)           -- ADR-025: тема курсовой
 
 Assignment(id, subject_term_id, kind: Lab|Coursework, number, title,
            task_text,                                         -- фрагмент общего DOCX по заголовку
@@ -101,7 +103,7 @@ InboxMessage(id, message_id UNIQUE, from_email, subject_raw, received_at,
              parsed_numbers int[] NULL,                       -- работы из темы (ADR-022)
              status: New|Parsed|PartiallyParsed|Unrecognized|Ignored|Error, error_text)
 InboxAttachment(id, inbox_message_id, index, file_name, content_type, size, sha256,
-                temp_disk_path,
+                temp_disk_path, is_accepted,                  -- ADR-023: только PDF и DOCX
                 assignment_id NULL, submission_id NULL,       -- результат сопоставления
                 match_method: Subject|FileName|Content|Elimination|Manual NULL,
                 unmatched_reason NULL,                        -- «номер не найден», «лабы №7 нет в теме»
@@ -142,7 +144,7 @@ AttentionItem(id, kind: ReviewPending|NeedsManual|Unrecognized|AutomatCandidates
               resolved_at NULL)                             -- «Что ждёт от меня»
 EventLog(id, at, level, source, message, ref_type, ref_id)  -- полная лента событий
 MailPollRun(id, started_at, finished_at, trigger: Schedule|Manual,
-            fetched, recognized, unrecognized, error_text)
+            fetched, skipped, recognized, unrecognized, error_text)  -- skipped: не сдача работы (ADR-024)
 Setting(key, value_encrypted)
 ```
 
