@@ -89,7 +89,7 @@ SubjectTerm(id, subject_id, term_id, study_semester,          -- «КорпИС,
             labs_task_file_path, coursework_task_file_path)   -- два DOCX с заданиями
 SubjectTermGroup(subject_term_id, group_id)
 Student(id, group_id, last_name, first_name, middle_name, is_active)
-StudentEmail(id, student_id, email)                          -- у студента может быть несколько адресов
+StudentEmail(id, student_id, email, source: Import|Auto|Manual, created_at)  -- адреса копятся по письмам (ADR-024)
 CourseworkTopic(subject_term_id, student_id, topic)           -- ADR-025: тема курсовой
 
 Assignment(id, subject_term_id, kind: Lab|Coursework, number, title,
