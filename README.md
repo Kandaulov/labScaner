@@ -13,7 +13,7 @@
 ## Возможности
 
 - Автоматический приём почты по расписанию и кнопка «Проверить почту сейчас»
-- Разбор темы письма, ручное сопоставление нераспознанных писем
+- Разбор темы письма, несколько лаб в одном письме, ручное сопоставление нераспознанных писем и файлов
 - Раскладка файлов в существующие папки на Яндекс Диске (`{Группа} - ЛР`, `{Группа} - Кр`), версии при пересдаче
 - Задания из DOCX: один файл на все лабы (делится по заголовкам) + задание на курсовую
 - Проверка ИИ по чек-листу задания с обезличиванием персональных данных
@@ -32,7 +32,7 @@
 | Фоновые задачи | Hangfire (PostgreSQL) |
 | Почта | MailKit (IMAP/SMTP) |
 | Файлы | Яндекс Диск REST API |
-| Документы | DocumentFormat.OpenXml, PdfPig |
+| Документы | DocumentFormat.OpenXml, PdfPig, Tesseract (OCR сканов) |
 | LLM | OpenAI-совместимый API (Timeweb Cloud AI Gateway) |
 | Тесты | xUnit, Testcontainers, Playwright |
 | Развёртывание | Docker Compose, Caddy, GitHub Actions, VPS Timeweb Cloud |
@@ -47,12 +47,14 @@
 | [docs/DECISIONS.md](docs/DECISIONS.md) | Архитектурные решения (ADR) и открытые вопросы |
 | [docs/ROADMAP.md](docs/ROADMAP.md) | План работ по этапам |
 | [docs/design/CLAUDE_DESIGN_PROMPT.md](docs/design/CLAUDE_DESIGN_PROMPT.md) | Промт для макетов интерфейса |
+| [docs/design/DESIGN_REVIEW.md](docs/design/DESIGN_REVIEW.md) | Ревью макетов |
+| [docs/passport/](docs/passport/) | Технический паспорт системы (DOCX, PDF, исходник) |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Как вести работу: ветки, коммиты, PR |
 | [.claude/agents/](.claude/agents/) | Роли ИИ-агентов: архитектор, разработчик, тестировщик |
 
 ## Статус
 
-🟡 **Этап 1 — макеты.** Требования и архитектура зафиксированы, код ещё не начат.
+🟡 **Этап 1 — макеты.** Требования и архитектура зафиксированы, ревью макетов проведено, открытых вопросов нет; код ещё не начат.
 Прогресс — в [ROADMAP](docs/ROADMAP.md).
 
 ## Быстрый старт

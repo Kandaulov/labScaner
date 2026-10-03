@@ -1,0 +1,34 @@
+digraph G {
+  graph [rankdir=TB, fontname="DejaVu Sans", fontsize=13, nodesep=0.4, ranksep=0.45, dpi=200, newrank=true];
+  node  [shape=box, style="rounded", fontname="DejaVu Sans", fontsize=13, color="#333333"];
+  edge  [fontname="DejaVu Sans", fontsize=12, color="#444444"];
+  t  [label="Преподаватель (браузер)"];
+  subgraph cluster_vps {
+    label="VPS (Docker Compose)"; style="dashed"; color="#777777";
+    caddy [label="caddy (HTTPS)"];
+    subgraph cluster_app {
+      label="app — labScaner (ASP.NET Core, .NET 10)"; style="solid"; color="#333333";
+      web   [label="LabScaner.Web\nRazor Pages + htmx,\nIdentity, Hangfire Dashboard"];
+      jobs  [label="LabScaner.Jobs\nзадачи конвейера\n(Hangfire)"];
+      core  [label="LabScaner.Core\nдомен, правила, порты"];
+      infra [label="LabScaner.Infrastructure\nEF Core, MailKit, клиент Я.Диска,\nклиент LLM, OpenXml, PdfPig, Tesseract"];
+    }
+    db [label="db — PostgreSQL 17\n(данные + очередь Hangfire)", shape=cylinder, style=""];
+  }
+  mail [label="Почтовый ящик\nпреподавателя"];
+  disk [label="Яндекс Диск\nпреподавателя"];
+  llm  [label="Timeweb Cloud\nAI Gateway"];
+  st   [label="Студент"];
+  t -> caddy [label=" HTTPS"]; caddy -> web;
+  web -> core; jobs -> core; infra -> core [style=dashed, label=" реализует порты"];
+  {rank=same; web; jobs}
+  core -> db [style=invis];
+  infra -> db [label=" SQL"];
+  infra -> mail [label=" IMAP / SMTP"];
+  infra -> disk [label=" REST API, OAuth"];
+  infra -> llm [label=" HTTPS, обезличенный текст"];
+  st -> mail [label=" письмо с работой"];
+  mail -> st [label=" уведомление", style=dashed];
+  {rank=same; mail; disk; llm}
+  {rank=same; infra; db}
+}

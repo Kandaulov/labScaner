@@ -1,0 +1,19 @@
+digraph P {
+  graph [rankdir=TB, fontname="DejaVu Sans", fontsize=11, nodesep=0.3, ranksep=0.3, dpi=200];
+  node  [shape=box, style="rounded", fontname="DejaVu Sans", fontsize=10, width=3.2];
+  edge  [fontname="DejaVu Sans", fontsize=9];
+  s1 [label="1. PollInboxJob — приём писем по IMAP\n(расписание / «Проверить почту сейчас»)"];
+  s2 [label="2. ParseMessageJob — разбор темы,\nсопоставление файлов с работами"];
+  s3 [label="3. StoreFilesJob — файлы на Яндекс Диск"];
+  s4 [label="4. ExtractTextJob — текст DOCX / PDF / OCR"];
+  s5 [label="5. AiCheckJob — обезличивание и проверка LLM"];
+  s6 [label="6. Решение преподавателя (Review)"];
+  s7 [label="7. SendNotificationJob — письмо студенту\n(только после явной отправки)"];
+  u  [label="Нераспознанные письма и файлы\n(ручное сопоставление)", shape=note];
+  m  [label="Нужна ручная проверка", shape=note];
+  s1->s2; s2->s3 [label=" сдача на каждую работу"]; s2->u [label=" не распознано /\n файл не сопоставлен"]; u->s3 [style=dashed, label=" сопоставлено"];
+  s3->s4; s4->s5 [label=" текст получен"]; s4->m [label=" текста нет"];
+  s5->s6 [label=" ИИ проверил / ИИ выкл."]; s5->m [label=" ИИ не справился"]; m->s6 [style=dashed];
+  s6->s7 [label=" флажок «отправить уведомление»"];
+  {rank=same; s2; u} {rank=same; s4; m}
+}
