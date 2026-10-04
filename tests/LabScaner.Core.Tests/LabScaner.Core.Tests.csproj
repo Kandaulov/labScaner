@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\LabScaner.Core\LabScaner.Core.csproj" />
+  </ItemGroup>
+</Project>

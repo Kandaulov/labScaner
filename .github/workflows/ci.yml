@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [main, "feature/**", "fix/**"]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-test:
+    name: Сборка и тесты
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Восстановление пакетов
+        run: dotnet restore LabScaner.slnx
+
+      - name: Сборка (предупреждения = ошибки)
+        run: dotnet build LabScaner.slnx --no-restore -c Release
+
+      - name: Тесты
+        run: dotnet test LabScaner.slnx --no-build -c Release --logger "trx;LogFilePrefix=results" --results-directory TestResults
+
+      - name: Форматирование
+        run: dotnet format LabScaner.slnx --verify-no-changes --no-restore
+
+      - name: Устаревшие пакеты (информационно)
+        if: always()
+        continue-on-error: true
+        run: dotnet list LabScaner.slnx package --outdated
+
+      - name: Результаты тестов
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: TestResults
+          if-no-files-found: ignore
