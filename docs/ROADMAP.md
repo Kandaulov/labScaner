@@ -31,7 +31,7 @@
 ## Этап 2. Скелет приложения
 - [x] Solution: Web / Core / Infrastructure / Jobs / Tests, версии пакетов зафиксированы (шаг 2.1)
 - [ ] Прототип журнала группы на Razor Pages + htmx (30 студентов, быстрая отметка, боковая панель) — ADR-027
-- [ ] EF Core + PostgreSQL, первая миграция (справочники)
+- [x] EF Core + PostgreSQL, первая миграция (справочники: группы, студенты, e-mail, семестры) — шаг 2.2
 - [ ] ASP.NET Core Identity: пользователи, роли Преподаватель/Администратор, изоляция по `teacher_id`
 - [ ] Вход, layout по макету, пустые страницы
 - [ ] Docker Compose (app + db + caddy), `.env.example`

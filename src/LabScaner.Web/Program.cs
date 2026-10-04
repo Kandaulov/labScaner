@@ -1,4 +1,5 @@
 using LabScaner.Infrastructure;
+using LabScaner.Infrastructure.Persistence;
 using LabScaner.Jobs;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +23,7 @@ app.UseRouting();
 app.MapHealthChecks("/health");
 app.MapRazorPages();
 
+await app.Services.MigrateDatabaseAsync();
 await app.RunAsync();
 
 /// <summary>Точка входа; открыта для WebApplicationFactory в интеграционных тестах.</summary>

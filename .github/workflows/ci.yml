@@ -5,6 +5,7 @@ on:
     branches: [main, "feature/**", "fix/**"]
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -39,7 +40,18 @@ jobs:
       - name: Устаревшие пакеты (информационно)
         if: always()
         continue-on-error: true
-        run: dotnet list LabScaner.slnx package --outdated
+        run: |
+          dotnet list LabScaner.slnx package --outdated --format json > outdated.json || true
+          jq -r '[.projects[].frameworks[]?.topLevelPackages[]? | "\(.id) \(.requestedVersion) → \(.latestVersion)"] | unique[] | "::notice title=Устаревший пакет::" + .' outdated.json || true
+
+      - name: Сводка тестов
+        if: always()
+        run: |
+          for f in TestResults/*.trx; do
+            [ -f "$f" ] || continue
+            c=$(grep -o '<Counters [^>]*>' "$f" | head -1)
+            echo "::notice title=Тесты $(basename "$f" .trx)::$c"
+          done
 
       - name: Результаты тестов
         if: always()
