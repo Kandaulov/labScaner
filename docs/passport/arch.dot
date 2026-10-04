@@ -17,7 +17,7 @@ digraph G {
   }
   mail [label="Почтовый ящик\nпреподавателя"];
   disk [label="Яндекс Диск\nпреподавателя"];
-  llm  [label="Timeweb Cloud\nAI Gateway"];
+  llm  [label="Внешний LLM-провайдер\n(Claude)"];
   st   [label="Студент"];
   t -> caddy [label=" HTTPS"]; caddy -> web;
   web -> core; jobs -> core; infra -> core [style=dashed, label=" реализует порты"];

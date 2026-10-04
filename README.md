@@ -33,7 +33,7 @@
 | Почта | MailKit (IMAP/SMTP) |
 | Файлы | Яндекс Диск REST API |
 | Документы | DocumentFormat.OpenXml, PdfPig, Tesseract (OCR сканов) |
-| LLM | OpenAI-совместимый API (Timeweb Cloud AI Gateway) |
+| LLM | Внешний провайдер через `ILlmClient` (OpenAI-совместимый API или Anthropic), целевая модель — Claude |
 | Тесты | xUnit, Testcontainers, Playwright |
 | Развёртывание | Docker Compose, Caddy, GitHub Actions, VPS Timeweb Cloud |
 

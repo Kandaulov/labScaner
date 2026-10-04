@@ -15,7 +15,7 @@
 **Главный принцип:** ИИ — помощник-аудитор, а не экзаменатор. Ничего не уходит студенту без
 подтверждения преподавателя.
 
-## Стек (зафиксирован, см. ADR в `docs/DECISIONS.md`)
+## Стек (утверждён, ADR-027; детали — в `docs/DECISIONS.md`)
 
 - **Backend:** .NET 10 (LTS), ASP.NET Core, EF Core + Npgsql
 - **БД:** PostgreSQL 17
@@ -23,7 +23,7 @@
 - **Почта:** MailKit (IMAP приём, SMTP отправка)
 - **Файлы:** Яндекс Диск REST API (OAuth, доступ ко всему Диску — работы кладутся в существующие папки преподавателя)
 - **Извлечение текста:** DocumentFormat.OpenXml (DOCX), UglyToad.PdfPig (PDF); сканы — Tesseract локально (ADR-019)
-- **LLM:** `ILlmClient` поверх OpenAI-совместимого API; по умолчанию Timeweb Cloud AI Gateway (VPS тоже на Timeweb)
+- **LLM:** внешний провайдер через `ILlmClient`: реализации OpenAI-совместимая и нативная Anthropic; целевая модель — Claude, канал доступа выбирается на этапе 6 (ADR-026)
 - **UI:** Razor Pages + htmx (+ Alpine.js точечно), без SPA-сборки
 - **Тесты:** xUnit, Testcontainers (PostgreSQL), Playwright (E2E)
 - **Развёртывание:** Docker Compose на VPS Timeweb Cloud (Россия), Caddy (HTTPS), GitHub Actions → GHCR
