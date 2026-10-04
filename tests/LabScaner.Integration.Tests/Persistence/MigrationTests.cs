@@ -4,7 +4,7 @@ using Npgsql;
 
 namespace LabScaner.Integration.Tests.Persistence;
 
-[Collection(PostgresCollection.Name)]
+[Collection(PostgresTests.Name)]
 public sealed class MigrationTests(PostgresFixture postgres)
 {
     [Fact]

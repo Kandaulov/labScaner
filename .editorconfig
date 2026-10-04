@@ -39,3 +39,8 @@ dotnet_naming_style.underscore_camel.capitalization = camel_case
 # Async
 dotnet_diagnostic.CA2007.severity = none
 dotnet_diagnostic.CS4014.severity = error
+
+# Миграции EF Core генерируются инструментом — анализаторы к ним не применяем
+[src/LabScaner.Infrastructure/Persistence/Migrations/*.cs]
+generated_code = true
+dotnet_analyzer_diagnostic.severity = none

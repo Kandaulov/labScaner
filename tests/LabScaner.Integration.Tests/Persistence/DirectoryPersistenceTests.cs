@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LabScaner.Integration.Tests.Persistence;
 
-[Collection(PostgresCollection.Name)]
+[Collection(PostgresTests.Name)]
 public sealed class DirectoryPersistenceTests(PostgresFixture postgres)
 {
     private static readonly DateTimeOffset _now = new(2026, 10, 4, 9, 0, 0, TimeSpan.Zero);

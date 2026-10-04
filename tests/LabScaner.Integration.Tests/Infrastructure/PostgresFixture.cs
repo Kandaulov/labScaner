@@ -8,8 +8,7 @@ namespace LabScaner.Integration.Tests.Infrastructure;
 /// <summary>Один контейнер PostgreSQL 17 на весь прогон; база с применёнными миграциями.</summary>
 public sealed class PostgresFixture : IAsyncLifetime
 {
-    private readonly PostgreSqlContainer _container = new PostgreSqlBuilder()
-        .WithImage("postgres:17-alpine")
+    private readonly PostgreSqlContainer _container = new PostgreSqlBuilder("postgres:17-alpine")
         .Build();
 
     public string ConnectionString => _container.GetConnectionString();
@@ -41,7 +40,7 @@ public sealed class PostgresFixture : IAsyncLifetime
 }
 
 [CollectionDefinition(Name)]
-public sealed class PostgresCollection : ICollectionFixture<PostgresFixture>
+public sealed class PostgresTests : ICollectionFixture<PostgresFixture>
 {
     public const string Name = "PostgreSQL";
 }
