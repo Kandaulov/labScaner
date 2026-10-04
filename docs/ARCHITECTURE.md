@@ -81,7 +81,7 @@ Subject(id, teacher_id, name, code,                           -- code: Корп�
         aliases[],                                            -- допустимые написания в теме письма
         final_assessment: Exam|Pass|GradedPass,
         ai_reference_text, disk_path_template, is_active)
-Group(id, name, direction, admission_year)                    -- direction: ИСТ
+Group(id, name, name_key, direction, admission_year)          -- «ИСТ-41»; name_key — без учёта регистра
 Term(id, academic_year, season: Autumn|Spring,                -- 2026-2027, осенний
      credit_week_start, session_start)                        -- календарь → дедлайны
 SubjectTerm(id, subject_id, term_id, study_semester,          -- «КорпИС, 2026-2027, 7 сем»
