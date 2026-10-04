@@ -46,7 +46,8 @@ jobs:
           NAME: ${{ steps.name.outputs.value }}
         run: |
           dotnet tool restore
-          dotnet ef migrations add "$NAME" \
+          .github/scripts/run.sh dotnet restore LabScaner.slnx
+          .github/scripts/run.sh dotnet ef migrations add "$NAME" \
             --project src/LabScaner.Infrastructure \
             --startup-project src/LabScaner.Infrastructure \
             --output-dir Persistence/Migrations

@@ -26,16 +26,16 @@ jobs:
           global-json-file: global.json
 
       - name: Восстановление пакетов
-        run: dotnet restore LabScaner.slnx
+        run: .github/scripts/run.sh dotnet restore LabScaner.slnx
 
       - name: Сборка (предупреждения = ошибки)
-        run: dotnet build LabScaner.slnx --no-restore -c Release
+        run: .github/scripts/run.sh dotnet build LabScaner.slnx --no-restore -c Release
 
       - name: Тесты
-        run: dotnet test LabScaner.slnx --no-build -c Release --logger "trx;LogFilePrefix=results" --results-directory TestResults
+        run: .github/scripts/run.sh dotnet test LabScaner.slnx --no-build -c Release --logger "trx;LogFilePrefix=results" --results-directory TestResults
 
       - name: Форматирование
-        run: dotnet format LabScaner.slnx --verify-no-changes --no-restore
+        run: .github/scripts/run.sh dotnet format LabScaner.slnx --verify-no-changes --no-restore
 
       - name: Устаревшие пакеты (информационно)
         if: always()
