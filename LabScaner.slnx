@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/LabScaner.Core/LabScaner.Core.csproj" />
+    <Project Path="src/LabScaner.Infrastructure/LabScaner.Infrastructure.csproj" />
+    <Project Path="src/LabScaner.Jobs/LabScaner.Jobs.csproj" />
+    <Project Path="src/LabScaner.Web/LabScaner.Web.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/LabScaner.Core.Tests/LabScaner.Core.Tests.csproj" />
+    <Project Path="tests/LabScaner.Integration.Tests/LabScaner.Integration.Tests.csproj" />
+  </Folder>
+</Solution>

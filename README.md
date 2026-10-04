@@ -54,9 +54,33 @@
 
 ## Статус
 
-🟡 **Этап 1 — макеты.** Требования и архитектура зафиксированы, ревью макетов проведено, открытых вопросов нет; код ещё не начат.
+🟡 **Этап 2 — скелет приложения.** Макеты утверждены, решение собрано, CI работает.
 Прогресс — в [ROADMAP](docs/ROADMAP.md).
 
 ## Быстрый старт
 
-_Появится на этапе 2 (скелет приложения)._
+Нужен .NET SDK 10.0.100 или новее (`dotnet --version`).
+
+```bash
+git clone https://github.com/Kandaulov/labScaner.git
+cd labScaner
+dotnet build
+dotnet test
+dotnet run --project src/LabScaner.Web    # http://localhost:5183
+```
+
+Проверка живости: `GET /health` → `Healthy`.
+
+Структура решения:
+
+| Проект | Назначение |
+|---|---|
+| `src/LabScaner.Web` | Razor Pages, htmx-эндпоинты, вход, Hangfire Dashboard |
+| `src/LabScaner.Core` | Домен: сущности, статусы, правила, порты (`IClock`, `IMailInbox`, …) |
+| `src/LabScaner.Infrastructure` | EF Core, MailKit, Яндекс Диск, LLM, извлечение текста |
+| `src/LabScaner.Jobs` | Задачи конвейера обработки писем |
+| `tests/LabScaner.Core.Tests` | Юнит-тесты домена |
+| `tests/LabScaner.Integration.Tests` | Интеграционные тесты: приложение целиком, позже PostgreSQL в Testcontainers |
+
+Версии NuGet-пакетов — только в `Directory.Packages.props`; общие настройки сборки (предупреждения = ошибки,
+nullable, анализаторы) — в `Directory.Build.props`.

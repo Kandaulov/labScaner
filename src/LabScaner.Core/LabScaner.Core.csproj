@@ -1,0 +1,3 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Домен. Без зависимостей от EF, MailKit, HTTP и прочей инфраструктуры. -->
+</Project>
