@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace LabScaner.Infrastructure.Persistence;
 
-public static class DatabaseMigration
+public static partial class DatabaseMigration
 {
     /// <summary>
     /// Применяет миграции при старте (ARCHITECTURE.md, раздел CD). Отключается
@@ -29,7 +29,14 @@ public static class DatabaseMigration
             return;
         }
 
-        logger.LogInformation("Применение миграций БД: {Migrations}", string.Join(", ", pending));
+        if (logger.IsEnabled(LogLevel.Information))
+        {
+            LogApplyingMigrations(logger, string.Join(", ", pending));
+        }
+
         await db.Database.MigrateAsync(cancellationToken);
     }
+
+    [LoggerMessage(Level = LogLevel.Information, Message = "Применение миграций БД: {Migrations}")]
+    private static partial void LogApplyingMigrations(ILogger logger, string migrations);
 }
