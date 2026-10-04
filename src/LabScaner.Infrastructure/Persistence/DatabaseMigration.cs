@@ -29,14 +29,10 @@ public static partial class DatabaseMigration
             return;
         }
 
-        if (logger.IsEnabled(LogLevel.Information))
-        {
-            LogApplyingMigrations(logger, string.Join(", ", pending));
-        }
-
+        LogApplyingMigrations(logger, pending);
         await db.Database.MigrateAsync(cancellationToken);
     }
 
     [LoggerMessage(Level = LogLevel.Information, Message = "Применение миграций БД: {Migrations}")]
-    private static partial void LogApplyingMigrations(ILogger logger, string migrations);
+    private static partial void LogApplyingMigrations(ILogger logger, IReadOnlyList<string> migrations);
 }
