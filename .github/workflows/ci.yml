@@ -25,6 +25,10 @@ jobs:
         with:
           global-json-file: global.json
 
+      - name: Последние версии пакетов (информационно)
+        continue-on-error: true
+        run: python3 .github/scripts/latest-versions.py
+
       - name: Восстановление пакетов
         run: .github/scripts/run.sh dotnet restore LabScaner.slnx
 
@@ -36,13 +40,6 @@ jobs:
 
       - name: Форматирование
         run: .github/scripts/run.sh dotnet format LabScaner.slnx --verify-no-changes --no-restore
-
-      - name: Устаревшие пакеты (информационно)
-        if: always()
-        continue-on-error: true
-        run: |
-          dotnet list LabScaner.slnx package --outdated --format json > outdated.json || true
-          jq -r '[.projects[].frameworks[]?.topLevelPackages[]? | "\(.id) \(.requestedVersion) → \(.latestVersion)"] | unique[] | "::notice title=Устаревший пакет::" + .' outdated.json || true
 
       - name: Сводка тестов
         if: always()
