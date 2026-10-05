@@ -1,3 +1,5 @@
+using LabScaner.Core.Abstractions;
+using LabScaner.Infrastructure.Identity;
 using LabScaner.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
@@ -23,9 +25,12 @@ public sealed class PostgresFixture : IAsyncLifetime
     public Task DisposeAsync() => _container.DisposeAsync().AsTask();
 
     public LabScanerDbContext CreateDbContext(string? connectionString = null) =>
+        CreateDbContext(NoCurrentTeacher.Instance, connectionString);
+
+    public LabScanerDbContext CreateDbContext(ICurrentTeacher teacher, string? connectionString = null) =>
         new(new DbContextOptionsBuilder<LabScanerDbContext>()
             .UseNpgsql(connectionString ?? ConnectionString)
-            .Options);
+            .Options, teacher);
 
     /// <summary>Строка подключения к новой пустой базе в том же контейнере.</summary>
     public async Task<string> CreateEmptyDatabaseAsync()

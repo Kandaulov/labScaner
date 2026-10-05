@@ -20,3 +20,27 @@ body {
 .muted {
   color: var(--muted);
 }
+
+.login {
+  max-width: 360px;
+  margin: 10vh auto 0;
+}
+
+.login form {
+  display: grid;
+  gap: 12px;
+}
+
+.login label {
+  display: grid;
+  gap: 4px;
+}
+
+.login input {
+  padding: 8px 10px;
+  font: inherit;
+}
+
+.error {
+  color: #b42318;
+}

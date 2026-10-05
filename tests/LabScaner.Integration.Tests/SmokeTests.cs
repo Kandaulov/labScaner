@@ -7,10 +7,10 @@ namespace LabScaner.Integration.Tests;
 public sealed class SmokeTests(PostgresFixture postgres)
 {
     [Fact]
-    public async Task Health_WithDatabase_ReturnsHealthy()
+    public async Task Health_IsAnonymousAndHealthy()
     {
         await using var factory = new LabScanerWebFactory(postgres);
-        using var client = factory.CreateClient();
+        using var client = factory.CreateClientNoRedirect();
 
         var response = await client.GetAsync(new Uri("/health", UriKind.Relative));
 
@@ -19,14 +19,14 @@ public sealed class SmokeTests(PostgresFixture postgres)
     }
 
     [Fact]
-    public async Task Index_RendersRussianPage()
+    public async Task LoginPage_RendersInRussian()
     {
         await using var factory = new LabScanerWebFactory(postgres);
         using var client = factory.CreateClient();
 
-        var html = await client.GetStringAsync(new Uri("/", UriKind.Relative));
+        var html = await client.GetStringAsync(new Uri("/Account/Login", UriKind.Relative));
 
         Assert.Contains("<html lang=\"ru\">", html, StringComparison.Ordinal);
-        Assert.Contains("labScaner", html, StringComparison.Ordinal);
+        Assert.Contains("Войти", html, StringComparison.Ordinal);
     }
 }
