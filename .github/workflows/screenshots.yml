@@ -19,14 +19,6 @@ jobs:
   screenshots:
     name: Снимки экранов
     runs-on: ubuntu-24.04
-    env:
-      ConnectionStrings__Default: Host=localhost;Database=labscaner;Username=labscaner;Password=labscaner-ci
-      Bootstrap__AdminLogin: admin
-      Bootstrap__AdminPassword: screenshots-password
-      Bootstrap__AdminDisplayName: Кандаулов В. М.
-      DataProtection__KeysPath: ${{ github.workspace }}/.keys
-      ASPNETCORE_URLS: http://127.0.0.1:5080
-      ASPNETCORE_ENVIRONMENT: Production
     steps:
       - uses: actions/checkout@v6
 
@@ -43,7 +35,15 @@ jobs:
         run: .github/scripts/run.sh dotnet publish src/LabScaner.Web -c Release -o publish
 
       - name: Запуск приложения
+        env:
+          ConnectionStrings__Default: Host=localhost;Database=labscaner;Username=labscaner;Password=labscaner-ci
+          Bootstrap__AdminLogin: admin
+          Bootstrap__AdminPassword: screenshots-password
+          DataProtection__KeysPath: /tmp/labscaner-keys
+          ASPNETCORE_URLS: http://127.0.0.1:5080
+          ASPNETCORE_ENVIRONMENT: Production
         run: |
+          export Bootstrap__AdminDisplayName="$(printf 'Кандаулов В. М.')"
           nohup dotnet publish/LabScaner.Web.dll > app.log 2>&1 &
           for i in $(seq 1 60); do
             curl -sf http://127.0.0.1:5080/health && exit 0
