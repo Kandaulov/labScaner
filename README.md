@@ -71,8 +71,24 @@ dotnet test                               # интеграционным тес�
 docker run -d --name labscaner-db -e POSTGRES_USER=labscaner -e POSTGRES_PASSWORD=<пароль> -p 5432:5432 postgres:17-alpine
 dotnet user-secrets --project src/LabScaner.Web set ConnectionStrings:Default "Host=localhost;Database=labscaner;Username=labscaner;Password=<пароль>"
 
+# первый администратор (создаётся при старте, если администратора ещё нет)
+dotnet user-secrets --project src/LabScaner.Web set Bootstrap:AdminLogin admin
+dotnet user-secrets --project src/LabScaner.Web set Bootstrap:AdminPassword "<пароль от 10 символов>"
+dotnet user-secrets --project src/LabScaner.Web set Bootstrap:AdminDisplayName "Кандаулов В.М."
+
 dotnet run --project src/LabScaner.Web    # http://localhost:5183, миграции применятся при старте
 ```
+
+Настройки безопасности:
+
+| Ключ | По умолчанию | Назначение |
+|---|---|---|
+| `Bootstrap:AdminLogin`, `Bootstrap:AdminPassword`, `Bootstrap:AdminDisplayName` | — | Первый администратор |
+| `DataProtection:KeysPath` | `dataprotection-keys` рядом с приложением | Ключи шифрования cookie и токенов; в Docker — том |
+| `Security:LoginRequestsPerMinute` | 20 | Запросов к странице входа в минуту с одного адреса |
+| `Database:MigrateOnStartup` | `true` | Применять миграции при старте |
+
+Пароль — от 10 символов; после 5 неудачных попыток вход блокируется на 15 минут.
 
 Проверка живости: `GET /health` → `Healthy`.
 

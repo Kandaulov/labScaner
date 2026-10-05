@@ -32,7 +32,7 @@
 - [x] Solution: Web / Core / Infrastructure / Jobs / Tests, версии пакетов зафиксированы (шаг 2.1)
 - [ ] Прототип журнала группы на Razor Pages + htmx (30 студентов, быстрая отметка, боковая панель) — ADR-027
 - [x] EF Core + PostgreSQL, первая миграция (справочники: группы, студенты, e-mail, семестры) — шаг 2.2
-- [ ] ASP.NET Core Identity: пользователи, роли Преподаватель/Администратор, изоляция по `teacher_id`
+- [x] ASP.NET Core Identity: пользователи, роли Преподаватель/Администратор, изоляция по `teacher_id` — шаг 2.3
 - [ ] Вход, layout по макету, пустые страницы
 - [ ] Docker Compose (app + db + caddy), `.env.example`
 - [x] GitHub Actions: build + test + format (перенесено в шаг 2.1)
