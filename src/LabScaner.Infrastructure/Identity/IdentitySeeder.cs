@@ -9,7 +9,7 @@ namespace LabScaner.Infrastructure.Identity;
 public static partial class IdentitySeeder
 {
     /// <summary>
-    /// Создаёт роли и — если пользователей ещё нет — первого администратора из настроек
+    /// Создаёт роли и — если администратора ещё нет — первого администратора из настроек
     /// <c>Bootstrap:AdminLogin</c>, <c>Bootstrap:AdminPassword</c>, <c>Bootstrap:AdminDisplayName</c>.
     /// Повторный запуск ничего не меняет.
     /// </summary>
@@ -30,7 +30,7 @@ public static partial class IdentitySeeder
             }
         }
 
-        if (userManager.Users.Any())
+        if ((await userManager.GetUsersInRoleAsync(Roles.Admin)).Count > 0)
         {
             return;
         }
@@ -62,7 +62,7 @@ public static partial class IdentitySeeder
         }
     }
 
-    [LoggerMessage(Level = LogLevel.Warning, Message = "Пользователей нет, а Bootstrap:AdminLogin / Bootstrap:AdminPassword не заданы — войти в систему будет некому.")]
+    [LoggerMessage(Level = LogLevel.Warning, Message = "Администратора нет, а Bootstrap:AdminLogin / Bootstrap:AdminPassword не заданы — управлять системой будет некому.")]
     private static partial void LogNoAdmin(ILogger logger);
 
     [LoggerMessage(Level = LogLevel.Information, Message = "Создан первый администратор {Login}.")]
