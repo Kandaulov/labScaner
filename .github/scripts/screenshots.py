@@ -27,6 +27,10 @@ VIEWPORTS = {"desktop": {"width": 1440, "height": 900}, "mobile": {"width": 390,
 
 def login(page, password):
     page.goto(f"{BASE}/Account/Login")
+    if page.locator("input[name='Input.Login']").count() == 0:
+        page.screenshot(path=OUT / "failure.png", full_page=True)
+        text = page.inner_text("body")[:1500].replace("\n", " | ")
+        raise RuntimeError(f"Нет формы входа на {page.url}: {text}")
     page.fill("input[name='Input.Login']", LOGIN)
     page.fill("input[name='Input.Password']", password)
     page.click("button[type=submit]")

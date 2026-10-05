@@ -65,9 +65,10 @@ jobs:
 
       - name: Ошибки приложения
         if: always()
-        run: grep -A3 -E "fail:|crit:" app.log | head -40 | sed 's/^/::warning::/' || true
+        run: grep -v "__EFMigrationsHistory" app.log | grep -A6 -E "fail:|crit:" | grep -v "Database.Command\[20102\]" | head -60 | sed 's/^/::warning::/' || true
 
       - name: Публикация в ветку ci-screenshots
+        if: always()
         env:
           BRANCH: ${{ github.ref_name }}
         run: |
@@ -77,7 +78,7 @@ jobs:
           git fetch origin ci-screenshots:ci-screenshots 2>/dev/null || true
           git worktree add --force ../shots-wt ci-screenshots 2>/dev/null || {
             git worktree add --detach ../shots-wt && cd ../shots-wt && git checkout --orphan ci-screenshots && git rm -rfq . && cd -; }
-          rm -rf "../shots-wt/$dir" && mkdir -p "../shots-wt/$dir" && cp -r shots/* "../shots-wt/$dir/"
+          rm -rf "../shots-wt/$dir" && mkdir -p "../shots-wt/$dir" && cp -r shots/* "../shots-wt/$dir/" 2>/dev/null; cp app.log "../shots-wt/$dir/app.log" 2>/dev/null || true
           cd ../shots-wt
           git add -A
           git commit -qm "Снимки экранов: $BRANCH @ ${GITHUB_SHA::7}" || exit 0
