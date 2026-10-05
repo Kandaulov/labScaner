@@ -1,3 +1,5 @@
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 using LabScaner.Infrastructure;
 using LabScaner.Infrastructure.Identity;
 using LabScaner.Infrastructure.Persistence;
@@ -17,6 +19,10 @@ builder.Services.AddRazorPages(options =>
     options.Conventions.AllowAnonymousToPage("/Error");
 });
 builder.Services.AddHealthChecks();
+
+// Кириллица в разметке — как есть, без &#x...; (по умолчанию Razor кодирует всё, кроме латиницы).
+builder.Services.Configure<WebEncoderOptions>(options =>
+    options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All));
 
 var app = builder.Build();
 
