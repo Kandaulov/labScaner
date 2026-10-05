@@ -297,6 +297,9 @@ h2 {
 .user__role {
   color: var(--nav-muted);
   font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .icon-button {
