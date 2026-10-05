@@ -1,3 +1,4 @@
+using LabScaner.Infrastructure.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
@@ -16,6 +17,6 @@ internal sealed class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<L
         var options = new DbContextOptionsBuilder<LabScanerDbContext>()
             .UseNpgsql(connectionString)
             .Options;
-        return new LabScanerDbContext(options);
+        return new LabScanerDbContext(options, NoCurrentTeacher.Instance);
     }
 }

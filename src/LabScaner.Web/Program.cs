@@ -1,15 +1,33 @@
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 using LabScaner.Infrastructure;
+using LabScaner.Infrastructure.Identity;
 using LabScaner.Infrastructure.Persistence;
 using LabScaner.Jobs;
+using LabScaner.Web.Security;
+using Microsoft.Extensions.WebEncoders;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddJobs();
-builder.Services.AddRazorPages();
+builder.Services.AddWebSecurity(builder.Configuration);
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.AuthorizeFolder("/Admin", SecurityServices.AdminPolicy);
+    options.Conventions.AllowAnonymousToPage("/Account/Login");
+    options.Conventions.AllowAnonymousToPage("/Account/AccessDenied");
+    options.Conventions.AllowAnonymousToPage("/Error");
+});
 builder.Services.AddHealthChecks();
 
+// Кириллица в разметке — как есть, без &#x...; (по умолчанию Razor кодирует всё, кроме латиницы).
+builder.Services.Configure<WebEncoderOptions>(options =>
+    options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All));
+
 var app = builder.Build();
+
+app.UseForwardedHeaders();
 
 if (!app.Environment.IsDevelopment())
 {
@@ -19,11 +37,15 @@ if (!app.Environment.IsDevelopment())
 
 app.UseStaticFiles();
 app.UseRouting();
+app.UseRateLimiter();
+app.UseAuthentication();
+app.UseAuthorization();
 
-app.MapHealthChecks("/health");
+app.MapHealthChecks("/health").AllowAnonymous();
 app.MapRazorPages();
 
 await app.Services.MigrateDatabaseAsync();
+await app.Services.SeedIdentityAsync();
 await app.RunAsync();
 
 /// <summary>Точка входа; открыта для WebApplicationFactory в интеграционных тестах.</summary>

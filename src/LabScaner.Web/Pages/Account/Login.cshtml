@@ -1,0 +1,27 @@
+@page
+@model LoginModel
+@{
+    ViewData["Title"] = "Вход";
+}
+<section class="login">
+    <h1>labScaner</h1>
+    <p class="muted">Вход для преподавателей</p>
+
+    @if (Model.ErrorMessage is not null)
+    {
+        <p class="error" role="alert">@Model.ErrorMessage</p>
+    }
+
+    <form method="post">
+        <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+        <label>
+            Логин
+            <input asp-for="Input.Login" autocomplete="username" autofocus required />
+        </label>
+        <label>
+            Пароль
+            <input asp-for="Input.Password" type="password" autocomplete="current-password" required />
+        </label>
+        <button type="submit">Войти</button>
+    </form>
+</section>
