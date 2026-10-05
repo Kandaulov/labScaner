@@ -19,17 +19,6 @@ jobs:
   screenshots:
     name: Снимки экранов
     runs-on: ubuntu-24.04
-    services:
-      postgres:
-        image: postgres:17-alpine
-        env:
-          POSTGRES_USER: labscaner
-          POSTGRES_PASSWORD: labscaner-ci
-          POSTGRES_DB: labscaner
-        ports: ["5432:5432"]
-        options: >-
-          --health-cmd "pg_isready -U labscaner"
-          --health-interval 5s --health-timeout 5s --health-retries 10
     env:
       ConnectionStrings__Default: Host=localhost;Database=labscaner;Username=labscaner;Password=labscaner-ci
       Bootstrap__AdminLogin: admin
@@ -44,6 +33,11 @@ jobs:
       - uses: actions/setup-dotnet@v5
         with:
           global-json-file: global.json
+
+      - name: PostgreSQL
+        run: |
+          docker run -d --name db -p 5432:5432 -e POSTGRES_USER=labscaner -e POSTGRES_PASSWORD=labscaner-ci -e POSTGRES_DB=labscaner postgres:17-alpine
+          for i in $(seq 1 30); do docker exec db pg_isready -U labscaner && break; sleep 1; done
 
       - name: Сборка
         run: .github/scripts/run.sh dotnet publish src/LabScaner.Web -c Release -o publish
