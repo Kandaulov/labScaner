@@ -1,0 +1,9 @@
+@page
+@{
+    ViewData["Title"] = "Обработка";
+    ViewData[NavMenu.ActiveKey] = NavMenu.Processing;
+}
+<partial name="_PageHeader" model='@("Обработка")' />
+<section class="card">
+    <partial name="_Empty" model='@(new EmptyState("Ничего не обрабатывается", "Здесь видны работы, которые идут через систему: письмо → Диск → текст → проверка ИИ, и ошибки на шагах."))' />
+</section>

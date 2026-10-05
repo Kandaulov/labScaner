@@ -1,15 +1,26 @@
 @page
 @model IndexModel
 @{
-    ViewData["Title"] = "Главная";
+    ViewData["Title"] = "Сводка";
+    ViewData[NavMenu.ActiveKey] = NavMenu.Summary;
 }
-<h1>labScaner</h1>
-<p>Здравствуйте, @Model.DisplayName!</p>
-<p class="muted">Роли: @string.Join(", ", Model.RoleTitles). Версия @Model.Version. Интерфейс по макетам появится на шаге 2.4.</p>
-@if (Model.IsAdmin)
-{
-    <p><a href="/Admin">Администрирование</a></p>
-}
-<form method="post" asp-page="/Account/Logout">
-    <button type="submit">Выйти</button>
-</form>
+<partial name="_PageHeader" model='@("Сводка")' />
+
+<section class="mail-panel" aria-label="Приём почты">
+    <div class="mail-panel__title"><partial name="_Icon" model='@("mail")' /> Приём почты</div>
+    <div class="muted">Почтовый ящик не подключён — письма студентов пока не забираются.</div>
+    <div class="mail-panel__spacer"></div>
+    <a class="button" href="/Settings">Подключить почту</a>
+    <button type="button" class="button button--primary" disabled>Проверить почту сейчас</button>
+</section>
+
+<div class="columns">
+    <section class="card" aria-labelledby="todo-h">
+        <div class="card__header"><h2 id="todo-h">Что ждёт от меня</h2></div>
+        <partial name="_Empty" model='@(new EmptyState("Всё разобрано", "Здесь появятся работы на проверку, нераспознанные письма, уведомления к отправке и приближающиеся дедлайны."))' />
+    </section>
+    <section class="card" aria-labelledby="feed-h">
+        <div class="card__header"><h2 id="feed-h">Что система сделала</h2><a href="/Events">Весь журнал</a></div>
+        <partial name="_Empty" model='@(new EmptyState("Событий пока нет", "Когда система начнёт получать письма, здесь будет короткая лента: что получено, сохранено на Диск и проверено."))' />
+    </section>
+</div>

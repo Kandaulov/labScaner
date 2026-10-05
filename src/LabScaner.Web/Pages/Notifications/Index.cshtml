@@ -1,0 +1,9 @@
+@page
+@{
+    ViewData["Title"] = "Уведомления";
+    ViewData[NavMenu.ActiveKey] = NavMenu.Notifications;
+}
+<partial name="_PageHeader" model='@("Уведомления")' />
+<section class="card">
+    <partial name="_Empty" model='@(new EmptyState("Очередь пуста", "Решения по работам копятся в письма студентам. Отправка — только отсюда, после вашего просмотра."))' />
+</section>

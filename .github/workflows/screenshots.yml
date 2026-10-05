@@ -1,0 +1,91 @@
+name: Снимки экранов
+
+# Поднимает приложение с пустой БД и снимает экраны (компьютер 1440×900 и телефон 390×844).
+# Снимки кладутся в ветку ci-screenshots, папка = имя ветки.
+on:
+  push:
+    branches: ["feature/**"]
+    paths: ["src/LabScaner.Web/**", ".github/workflows/screenshots.yml", ".github/scripts/screenshots.py"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: screenshots-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  screenshots:
+    name: Снимки экранов
+    runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: labscaner
+          POSTGRES_PASSWORD: labscaner-ci
+          POSTGRES_DB: labscaner
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U labscaner"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      ConnectionStrings__Default: Host=localhost;Database=labscaner;Username=labscaner;Password=labscaner-ci
+      Bootstrap__AdminLogin: admin
+      Bootstrap__AdminPassword: screenshots-password
+      Bootstrap__AdminDisplayName: Кандаулов В. М.
+      DataProtection__KeysPath: ${{ github.workspace }}/.keys
+      ASPNETCORE_URLS: http://127.0.0.1:5080
+      ASPNETCORE_ENVIRONMENT: Production
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+
+      - name: Сборка
+        run: .github/scripts/run.sh dotnet publish src/LabScaner.Web -c Release -o publish
+
+      - name: Запуск приложения
+        run: |
+          nohup dotnet publish/LabScaner.Web.dll > app.log 2>&1 &
+          for i in $(seq 1 60); do
+            curl -sf http://127.0.0.1:5080/health && exit 0
+            sleep 1
+          done
+          sed 's/^/::error::/' app.log | tail -40
+          exit 1
+
+      - name: Playwright
+        run: |
+          pip install --quiet playwright
+          python -m playwright install --with-deps chromium
+
+      - name: Снимки
+        env:
+          SHOT_LOGIN: admin
+          SHOT_PASSWORD: screenshots-password
+        run: python .github/scripts/screenshots.py http://127.0.0.1:5080 shots
+
+      - name: Ошибки приложения
+        if: always()
+        run: grep -E "fail:|crit:|Exception" app.log | head -20 | sed 's/^/::warning::/' || true
+
+      - name: Публикация в ветку ci-screenshots
+        env:
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          dir="${BRANCH//\//-}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin ci-screenshots:ci-screenshots 2>/dev/null || true
+          git worktree add --force ../shots-wt ci-screenshots 2>/dev/null || {
+            git worktree add --detach ../shots-wt && cd ../shots-wt && git checkout --orphan ci-screenshots && git rm -rfq . && cd -; }
+          rm -rf "../shots-wt/$dir" && mkdir -p "../shots-wt/$dir" && cp -r shots/* "../shots-wt/$dir/"
+          cd ../shots-wt
+          git add -A
+          git commit -qm "Снимки экранов: $BRANCH @ ${GITHUB_SHA::7}" || exit 0
+          git push -q origin ci-screenshots
+          echo "::notice title=Снимки экранов::ветка ci-screenshots, папка $dir"

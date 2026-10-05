@@ -22,7 +22,7 @@ public sealed class AuthenticationTests(PostgresFixture postgres)
     }
 
     [Fact]
-    public async Task BootstrapAdmin_CanLogIn_AndSeesAdminLink()
+    public async Task BootstrapAdmin_CanLogIn_AndSeesAdminSettings()
     {
         await using var factory = new LabScanerWebFactory(postgres);
         using var client = factory.CreateClient();
@@ -32,7 +32,24 @@ public sealed class AuthenticationTests(PostgresFixture postgres)
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.Contains(LabScanerWebFactory.AdminDisplayName, html, StringComparison.Ordinal);
-        Assert.Contains("Администрирование", html, StringComparison.Ordinal);
+        Assert.Contains("Преподаватель · админ", html, StringComparison.Ordinal);
+
+        var settings = await client.GetStringAsync(new Uri("/Settings", UriKind.Relative));
+        Assert.Contains("id=\"admin-h\"", settings, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task Teacher_DoesNotSeeAdminSettings()
+    {
+        await using var factory = new LabScanerWebFactory(postgres);
+        var teacher = await factory.CreateTeacherAsync(Password);
+        using var client = factory.CreateClient();
+        await client.LoginAsync(teacher.UserName!, Password);
+
+        var settings = await client.GetStringAsync(new Uri("/Settings", UriKind.Relative));
+
+        Assert.DoesNotContain("id=\"admin-h\"", settings, StringComparison.Ordinal);
+        Assert.Contains("Мои настройки", settings, StringComparison.Ordinal);
     }
 
     [Fact]

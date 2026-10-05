@@ -1,0 +1,9 @@
+@page
+@{
+    ViewData["Title"] = "Предметы";
+    ViewData[NavMenu.ActiveKey] = NavMenu.Subjects;
+}
+<partial name="_PageHeader" model='@("Предметы")' />
+<section class="card">
+    <partial name="_Empty" model='@(new EmptyState("Предметов пока нет", "Заведение предметов (КорпИС, ОС, СПП), семестров, заданий и папок на Яндекс Диске появится на этапе 3."))' />
+</section>

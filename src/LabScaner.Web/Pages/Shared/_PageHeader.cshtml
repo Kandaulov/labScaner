@@ -1,0 +1,13 @@
+@model string
+@inject IClock Clock
+@{
+    var ru = System.Globalization.CultureInfo.GetCultureInfo("ru-RU");
+    var today = TimeZoneInfo.ConvertTime(Clock.UtcNow, LabScaner.Web.Navigation.AppTime.Zone);
+    var date = today.ToString("dddd, d MMMM yyyy", ru);
+}
+<header class="page-header">
+    <div class="page-header__text">
+        <div class="page-header__meta">@(char.ToUpper(date[0], ru) + date[1..])</div>
+        <h1>@Model</h1>
+    </div>
+</header>

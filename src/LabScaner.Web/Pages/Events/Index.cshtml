@@ -1,0 +1,9 @@
+@page
+@{
+    ViewData["Title"] = "Журнал событий";
+    ViewData[NavMenu.ActiveKey] = NavMenu.Events;
+}
+<partial name="_PageHeader" model='@("Журнал событий")' />
+<section class="card">
+    <partial name="_Empty" model='@(new EmptyState("Событий пока нет", "Полная лента действий системы: приём почты, сохранение на Диск, проверки ИИ, уведомления и ошибки."))' />
+</section>
