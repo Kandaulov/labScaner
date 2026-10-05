@@ -15,19 +15,19 @@ info: Microsoft.EntityFrameworkCore.Migrations[20402]
 info: Microsoft.EntityFrameworkCore.Migrations[20402]
       Applying migration '20261005063141_AddIdentityAndSubjects'.
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (30ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (29ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
       SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
       FROM roles AS r
       WHERE r.normalized_name = @normalizedName
       LIMIT 1
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (1ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (2ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
       SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
       FROM roles AS r
       WHERE r.normalized_name = @normalizedName
       LIMIT 1
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (2ms) [Parameters=[@p0='?', @p1='?', @p2='?'], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (102ms) [Parameters=[@p0='?', @p1='?', @p2='?'], CommandType='Text', CommandTimeout='30']
       INSERT INTO roles (concurrency_stamp, name, normalized_name)
       VALUES (@p0, @p1, @p2)
       RETURNING id;
@@ -38,7 +38,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       WHERE r.normalized_name = @normalizedName
       LIMIT 1
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (1ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
       SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
       FROM roles AS r
       WHERE r.normalized_name = @normalizedName
@@ -72,7 +72,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14)
       RETURNING id;
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (1ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (0ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
       SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
       FROM roles AS r
       WHERE r.normalized_name = @normalizedRoleName
@@ -84,19 +84,19 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       WHERE u.user_id = @p AND u.role_id = @p1
       LIMIT 1
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (1ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (0ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
       SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
       FROM roles AS r
       WHERE r.normalized_name = @normalizedRoleName
       LIMIT 2
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (1ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (0ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
       SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
       FROM roles AS r
       WHERE r.normalized_name = @normalizedRoleName
       LIMIT 2
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (0ms) [Parameters=[@p='?' (DbType = Int32), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       SELECT u.user_id, u.role_id
       FROM user_roles AS u
       WHERE u.user_id = @p AND u.role_id = @p1
@@ -123,14 +123,8 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       WHERE id = @p19 AND concurrency_stamp = @p20;
 info: LabScaner.Infrastructure.Identity.IdentitySeeder[2037226992]
       Создан первый администратор admin.
-info: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[58]
-      Creating key {6b6e6343-5600-4898-90c2-70b3ff82ff79} with creation date 2026-10-05 21:24:53Z, activation date 2026-10-05 21:24:53Z, and expiration date 2027-01-03 21:24:53Z.
 warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
-      No XML encryptor configured. Key {6b6e6343-5600-4898-90c2-70b3ff82ff79} may be persisted to storage in unencrypted form.
-info: Microsoft.AspNetCore.DataProtection.Repositories.FileSystemXmlRepository[39]
-      Writing data to file '/tmp/labscaner-keys/key-6b6e6343-5600-4898-90c2-70b3ff82ff79.xml'.
-warn: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[16]
-      The WebRootPath was not found: /home/runner/work/labScaner/labScaner/wwwroot. Static files may be unavailable.
+      No XML encryptor configured. Key {764260ac-5979-4cf5-8e05-8ac872104463} may be persisted to storage in unencrypted form.
 info: Microsoft.Hosting.Lifetime[14]
       Now listening on: http://127.0.0.1:5080
 info: Microsoft.Hosting.Lifetime[0]
@@ -138,182 +132,10 @@ info: Microsoft.Hosting.Lifetime[0]
 info: Microsoft.Hosting.Lifetime[0]
       Hosting environment: Production
 info: Microsoft.Hosting.Lifetime[0]
-      Content root path: /home/runner/work/labScaner/labScaner
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/health - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'Health checks'
+      Content root path: /home/runner/work/labScaner/labScaner/publish
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
       SELECT 1
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'Health checks'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/health - 200 - text/plain 178.2740ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/Account/Login - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[103]
-      Route matched with {page = "/Account/Login"}. Executing page /Account/Login
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[105]
-      Executing handler method LabScaner.Web.Pages.Account.LoginModel.OnGet - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[108]
-      Executed handler method OnGet, returned result .
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[107]
-      Executing an implicit handler method - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[109]
-      Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[104]
-      Executed page /Account/Login in 129.8082ms
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/Account/Login - 200 - text/html;+charset=utf-8 170.7732ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - - -
-info: Microsoft.AspNetCore.Authorization.DefaultAuthorizationService[2]
-      Authorization failed. These requirements were not met:
-      DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
-info: Microsoft.AspNetCore.Authorization.DefaultAuthorizationService[2]
-      Authorization failed. These requirements were not met:
-      DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
-info: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler[12]
-      AuthenticationScheme: Identity.Application was challenged.
-info: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler[12]
-      AuthenticationScheme: Identity.Application was challenged.
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - 302 0 - 10.9544ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - 302 0 - 10.9846ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/Account/Login?ReturnUrl=%2Fcss%2Ffonts.css - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/Account/Login?ReturnUrl=%2Fcss%2Fsite.css - - -
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[103]
-      Route matched with {page = "/Account/Login"}. Executing page /Account/Login
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[103]
-      Route matched with {page = "/Account/Login"}. Executing page /Account/Login
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[105]
-      Executing handler method LabScaner.Web.Pages.Account.LoginModel.OnGet - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[105]
-      Executing handler method LabScaner.Web.Pages.Account.LoginModel.OnGet - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[108]
-      Executed handler method OnGet, returned result .
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[108]
-      Executed handler method OnGet, returned result .
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[107]
-      Executing an implicit handler method - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[107]
-      Executing an implicit handler method - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[109]
-      Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[109]
-      Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[104]
-      Executed page /Account/Login in 12.0645ms
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[104]
-      Executed page /Account/Login in 11.8883ms
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/Account/Login?ReturnUrl=%2Fcss%2Fsite.css - 200 - text/html;+charset=utf-8 12.2703ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/Account/Login?ReturnUrl=%2Fcss%2Ffonts.css - 200 - text/html;+charset=utf-8 13.6191ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/Account/Login - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[103]
-      Route matched with {page = "/Account/Login"}. Executing page /Account/Login
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[105]
-      Executing handler method LabScaner.Web.Pages.Account.LoginModel.OnGet - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[108]
-      Executed handler method OnGet, returned result .
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[107]
-      Executing an implicit handler method - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[109]
-      Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[104]
-      Executed page /Account/Login in 14.213ms
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/Account/Login - 200 - text/html;+charset=utf-8 15.5154ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - - -
-info: Microsoft.AspNetCore.Authorization.DefaultAuthorizationService[2]
-      Authorization failed. These requirements were not met:
-      DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
-info: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler[12]
-      AuthenticationScheme: Identity.Application was challenged.
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - 302 0 - 0.9331ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - - -
-info: Microsoft.AspNetCore.Authorization.DefaultAuthorizationService[2]
-      Authorization failed. These requirements were not met:
-      DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
-info: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler[12]
-      AuthenticationScheme: Identity.Application was challenged.
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - 302 0 - 2.0507ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/Account/Login?ReturnUrl=%2Fcss%2Fsite.css - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[103]
-      Route matched with {page = "/Account/Login"}. Executing page /Account/Login
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/Account/Login?ReturnUrl=%2Fcss%2Ffonts.css - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[103]
-      Route matched with {page = "/Account/Login"}. Executing page /Account/Login
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[105]
-      Executing handler method LabScaner.Web.Pages.Account.LoginModel.OnGet - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[105]
-      Executing handler method LabScaner.Web.Pages.Account.LoginModel.OnGet - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[108]
-      Executed handler method OnGet, returned result .
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[108]
-      Executed handler method OnGet, returned result .
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[107]
-      Executing an implicit handler method - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[107]
-      Executing an implicit handler method - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[109]
-      Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[109]
-      Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[104]
-      Executed page /Account/Login in 1.7227ms
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[104]
-      Executed page /Account/Login in 1.2434ms
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/Account/Login?ReturnUrl=%2Fcss%2Fsite.css - 200 - text/html;+charset=utf-8 2.1669ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/Account/Login?ReturnUrl=%2Fcss%2Ffonts.css - 200 - text/html;+charset=utf-8 1.4387ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 POST http://127.0.0.1:5080/Account/Login - application/x-www-form-urlencoded 241
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[103]
-      Route matched with {page = "/Account/Login"}. Executing page /Account/Login
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[105]
-      Executing handler method LabScaner.Web.Pages.Account.LoginModel.OnPostAsync - ModelState is Valid
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       Executed DbCommand (1ms) [Parameters=[@normalizedUserName='?'], CommandType='Text', CommandTimeout='30']
       SELECT u.id, u.access_failed_count, u.concurrency_stamp, u.display_name, u.email, u.email_confirmed, u.lockout_enabled, u.lockout_end, u.normalized_email, u.normalized_user_name, u.password_hash, u.phone_number, u.phone_number_confirmed, u.security_stamp, u.two_factor_enabled, u.user_name
@@ -330,158 +152,6 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       Executed DbCommand (1ms) [Parameters=[@p15='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?', @p16='?', @p2='?', @p3='?', @p4='?' (DbType = Boolean), @p5='?' (DbType = Boolean), @p6='?' (DbType = DateTime), @p7='?', @p8='?', @p9='?', @p10='?', @p11='?' (DbType = Boolean), @p12='?', @p13='?' (DbType = Boolean), @p14='?'], CommandType='Text', CommandTimeout='30']
       UPDATE users SET access_failed_count = @p0, concurrency_stamp = @p1, display_name = @p2, email = @p3, email_confirmed = @p4, lockout_enabled = @p5, lockout_end = @p6, normalized_email = @p7, normalized_user_name = @p8, password_hash = @p9, phone_number = @p10, phone_number_confirmed = @p11, security_stamp = @p12, two_factor_enabled = @p13, user_name = @p14
       WHERE id = @p15 AND concurrency_stamp = @p16;
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[108]
-      Executed handler method OnPostAsync, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[104]
-      Executed page /Account/Login in 105.9833ms
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 POST http://127.0.0.1:5080/Account/Login - 200 - text/html;+charset=utf-8 107.0243ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - - -
-info: Microsoft.AspNetCore.Authorization.DefaultAuthorizationService[2]
-      Authorization failed. These requirements were not met:
-      DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
-info: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler[12]
-      AuthenticationScheme: Identity.Application was challenged.
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - 302 0 - 0.4047ms
-info: Microsoft.AspNetCore.Authorization.DefaultAuthorizationService[2]
-      Authorization failed. These requirements were not met:
-      DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
-info: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler[12]
-      AuthenticationScheme: Identity.Application was challenged.
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - 302 0 - 0.2395ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/Account/Login?ReturnUrl=%2Fcss%2Ffonts.css - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[103]
-      Route matched with {page = "/Account/Login"}. Executing page /Account/Login
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[105]
-      Executing handler method LabScaner.Web.Pages.Account.LoginModel.OnGet - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[108]
-      Executed handler method OnGet, returned result .
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[107]
-      Executing an implicit handler method - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[109]
-      Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[104]
-      Executed page /Account/Login in 1.7504ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/Account/Login?ReturnUrl=%2Fcss%2Fsite.css - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[103]
-      Route matched with {page = "/Account/Login"}. Executing page /Account/Login
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/Account/Login?ReturnUrl=%2Fcss%2Ffonts.css - 200 - text/html;+charset=utf-8 2.3963ms
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[105]
-      Executing handler method LabScaner.Web.Pages.Account.LoginModel.OnGet - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[108]
-      Executed handler method OnGet, returned result .
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[107]
-      Executing an implicit handler method - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[109]
-      Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[104]
-      Executed page /Account/Login in 1.0961ms
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/Account/Login?ReturnUrl=%2Fcss%2Fsite.css - 200 - text/html;+charset=utf-8 1.3561ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/Account/Login - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[103]
-      Route matched with {page = "/Account/Login"}. Executing page /Account/Login
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[105]
-      Executing handler method LabScaner.Web.Pages.Account.LoginModel.OnGet - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[108]
-      Executed handler method OnGet, returned result .
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[107]
-      Executing an implicit handler method - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[109]
-      Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[104]
-      Executed page /Account/Login in 2.0296ms
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/Account/Login - 200 - text/html;+charset=utf-8 2.6082ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - - -
-info: Microsoft.AspNetCore.Authorization.DefaultAuthorizationService[2]
-      Authorization failed. These requirements were not met:
-      DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
-info: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler[12]
-      AuthenticationScheme: Identity.Application was challenged.
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - 302 0 - 0.3940ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - - -
-info: Microsoft.AspNetCore.Authorization.DefaultAuthorizationService[2]
-      Authorization failed. These requirements were not met:
-      DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
-info: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler[12]
-      AuthenticationScheme: Identity.Application was challenged.
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - 302 0 - 0.1540ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/Account/Login?ReturnUrl=%2Fcss%2Ffonts.css - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[103]
-      Route matched with {page = "/Account/Login"}. Executing page /Account/Login
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/Account/Login?ReturnUrl=%2Fcss%2Fsite.css - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[103]
-      Route matched with {page = "/Account/Login"}. Executing page /Account/Login
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[105]
-      Executing handler method LabScaner.Web.Pages.Account.LoginModel.OnGet - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[108]
-      Executed handler method OnGet, returned result .
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[107]
-      Executing an implicit handler method - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[109]
-      Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[105]
-      Executing handler method LabScaner.Web.Pages.Account.LoginModel.OnGet - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[108]
-      Executed handler method OnGet, returned result .
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[107]
-      Executing an implicit handler method - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[109]
-      Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[104]
-      Executed page /Account/Login in 2.1666ms
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/Account/Login?ReturnUrl=%2Fcss%2Ffonts.css - 200 - text/html;+charset=utf-8 3.1636ms
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[104]
-      Executed page /Account/Login in 3.3187ms
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/Account/Login?ReturnUrl=%2Fcss%2Fsite.css - 200 - text/html;+charset=utf-8 3.5701ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 POST http://127.0.0.1:5080/Account/Login - application/x-www-form-urlencoded 247
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[103]
-      Route matched with {page = "/Account/Login"}. Executing page /Account/Login
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[105]
-      Executing handler method LabScaner.Web.Pages.Account.LoginModel.OnPostAsync - ModelState is Valid
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       Executed DbCommand (1ms) [Parameters=[@normalizedUserName='?'], CommandType='Text', CommandTimeout='30']
       SELECT u.id, u.access_failed_count, u.concurrency_stamp, u.display_name, u.email, u.email_confirmed, u.lockout_enabled, u.lockout_end, u.normalized_email, u.normalized_user_name, u.password_hash, u.phone_number, u.phone_number_confirmed, u.security_stamp, u.two_factor_enabled, u.user_name
@@ -521,7 +191,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       FROM role_claims AS r
       WHERE r.role_id = @role_Id
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (1ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (0ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
       SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
       FROM roles AS r
       WHERE r.normalized_name = @normalizedName
@@ -531,564 +201,6 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       SELECT r.claim_type, r.claim_value
       FROM role_claims AS r
       WHERE r.role_id = @role_Id
-info: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler[10]
-      AuthenticationScheme: Identity.Application signed in.
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[108]
-      Executed handler method OnPostAsync, returned result Microsoft.AspNetCore.Mvc.LocalRedirectResult.
-info: Microsoft.AspNetCore.Mvc.Infrastructure.LocalRedirectResultExecutor[1]
-      Executing LocalRedirectResult, redirecting to /.
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[104]
-      Executed page /Account/Login in 125.1573ms
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 POST http://127.0.0.1:5080/Account/Login - 302 0 - 125.7326ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/ - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint '/Index'
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[103]
-      Route matched with {page = "/Index"}. Executing page /Index
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[105]
-      Executing handler method LabScaner.Web.Pages.IndexModel.OnGet - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[108]
-      Executed handler method OnGet, returned result .
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[107]
-      Executing an implicit handler method - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[109]
-      Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[104]
-      Executed page /Index in 557.215ms
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint '/Index'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/ - 200 - text/html;+charset=utf-8 566.8086ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - 404 0 - 1.5710ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/lib/htmx/htmx.min.js - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/css/site.css, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - 404 0 - 3.1577ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/css/fonts.css, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/lib/htmx/htmx.min.js - 404 0 - 2.5177ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/lib/htmx/htmx.min.js, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/ - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint '/Index'
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[103]
-      Route matched with {page = "/Index"}. Executing page /Index
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[105]
-      Executing handler method LabScaner.Web.Pages.IndexModel.OnGet - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[108]
-      Executed handler method OnGet, returned result .
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[107]
-      Executing an implicit handler method - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[109]
-      Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[104]
-      Executed page /Index in 2.6632ms
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint '/Index'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/ - 200 - text/html;+charset=utf-8 4.1000ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - 404 0 - 1.0297ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/css/fonts.css, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - 404 0 - 0.9565ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/css/site.css, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/lib/htmx/htmx.min.js - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/lib/htmx/htmx.min.js - 404 0 - 1.2755ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/lib/htmx/htmx.min.js, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/Journal - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint '/Journal/Index'
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[103]
-      Route matched with {page = "/Journal/Index"}. Executing page /Journal/Index
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[107]
-      Executing an implicit handler method - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[109]
-      Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[104]
-      Executed page /Journal/Index in 9.1942ms
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint '/Journal/Index'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/Journal - 200 - text/html;+charset=utf-8 16.0892ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - 404 0 - 0.7337ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/css/fonts.css, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - 404 0 - 0.6042ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/css/site.css, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/lib/htmx/htmx.min.js - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/lib/htmx/htmx.min.js - 404 0 - 0.4932ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/lib/htmx/htmx.min.js, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/Processing - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint '/Processing/Index'
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[103]
-      Route matched with {page = "/Processing/Index"}. Executing page /Processing/Index
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[107]
-      Executing an implicit handler method - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[109]
-      Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[104]
-      Executed page /Processing/Index in 8.9583ms
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint '/Processing/Index'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/Processing - 200 - text/html;+charset=utf-8 15.6350ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - 404 0 - 0.8493ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/css/fonts.css, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - 404 0 - 0.3981ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/css/site.css, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/lib/htmx/htmx.min.js - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/lib/htmx/htmx.min.js - 404 0 - 0.3935ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/lib/htmx/htmx.min.js, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/Unrecognized - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint '/Unrecognized/Index'
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[103]
-      Route matched with {page = "/Unrecognized/Index"}. Executing page /Unrecognized/Index
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[107]
-      Executing an implicit handler method - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[109]
-      Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[104]
-      Executed page /Unrecognized/Index in 8.5313ms
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint '/Unrecognized/Index'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/Unrecognized - 200 - text/html;+charset=utf-8 14.8293ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - 404 0 - 0.6388ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/css/site.css, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - 404 0 - 0.7698ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/css/fonts.css, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/lib/htmx/htmx.min.js - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/lib/htmx/htmx.min.js - 404 0 - 0.5731ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/lib/htmx/htmx.min.js, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/Notifications - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint '/Notifications/Index'
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[103]
-      Route matched with {page = "/Notifications/Index"}. Executing page /Notifications/Index
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[107]
-      Executing an implicit handler method - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[109]
-      Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[104]
-      Executed page /Notifications/Index in 10.0138ms
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint '/Notifications/Index'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/Notifications - 200 - text/html;+charset=utf-8 19.7210ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - 404 0 - 0.5071ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/css/fonts.css, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - 404 0 - 0.5112ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/css/site.css, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/lib/htmx/htmx.min.js - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/lib/htmx/htmx.min.js - 404 0 - 0.4092ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/lib/htmx/htmx.min.js, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/Events - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint '/Events/Index'
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[103]
-      Route matched with {page = "/Events/Index"}. Executing page /Events/Index
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[107]
-      Executing an implicit handler method - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[109]
-      Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[104]
-      Executed page /Events/Index in 9.9283ms
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint '/Events/Index'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/Events - 200 - text/html;+charset=utf-8 19.2419ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - 404 0 - 0.5516ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - 404 0 - 0.5879ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/css/fonts.css, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/css/site.css, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/lib/htmx/htmx.min.js - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/lib/htmx/htmx.min.js - 404 0 - 0.5986ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/lib/htmx/htmx.min.js, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/Subjects - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint '/Subjects/Index'
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[103]
-      Route matched with {page = "/Subjects/Index"}. Executing page /Subjects/Index
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[107]
-      Executing an implicit handler method - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[109]
-      Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[104]
-      Executed page /Subjects/Index in 9.8777ms
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint '/Subjects/Index'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/Subjects - 200 - text/html;+charset=utf-8 19.5049ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - 404 0 - 0.6530ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/css/fonts.css, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - 404 0 - 0.2912ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/css/site.css, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/lib/htmx/htmx.min.js - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/lib/htmx/htmx.min.js - 404 0 - 0.4558ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/lib/htmx/htmx.min.js, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/Groups - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint '/Groups/Index'
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[103]
-      Route matched with {page = "/Groups/Index"}. Executing page /Groups/Index
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[107]
-      Executing an implicit handler method - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[109]
-      Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[104]
-      Executed page /Groups/Index in 10.0527ms
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint '/Groups/Index'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/Groups - 200 - text/html;+charset=utf-8 19.3915ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - 404 0 - 0.6057ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/css/fonts.css, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - 404 0 - 0.3849ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/css/site.css, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/lib/htmx/htmx.min.js - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/lib/htmx/htmx.min.js - 404 0 - 0.7427ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/lib/htmx/htmx.min.js, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/Settings - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint '/Settings/Index'
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[103]
-      Route matched with {page = "/Settings/Index"}. Executing page /Settings/Index
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[107]
-      Executing an implicit handler method - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[109]
-      Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[104]
-      Executed page /Settings/Index in 9.3092ms
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint '/Settings/Index'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/Settings - 200 - text/html;+charset=utf-8 18.4547ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - 404 0 - 0.4390ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/css/fonts.css, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - 404 0 - 1.6349ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/css/site.css, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/lib/htmx/htmx.min.js - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/lib/htmx/htmx.min.js - 404 0 - 0.2686ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/lib/htmx/htmx.min.js, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/Admin - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint '/Admin/Index'
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[103]
-      Route matched with {page = "/Admin/Index"}. Executing page /Admin/Index
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[107]
-      Executing an implicit handler method - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[109]
-      Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[104]
-      Executed page /Admin/Index in 9.6386ms
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint '/Admin/Index'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/Admin - 200 - text/html;+charset=utf-8 19.8489ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - 404 0 - 0.4660ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/css/site.css, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - 404 0 - 0.4965ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/css/fonts.css, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/lib/htmx/htmx.min.js - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/lib/htmx/htmx.min.js - 404 0 - 0.5337ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[16]
-      Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://127.0.0.1:5080/lib/htmx/htmx.min.js, Response status code: 404
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/Account/Login - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[103]
-      Route matched with {page = "/Account/Login"}. Executing page /Account/Login
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[105]
-      Executing handler method LabScaner.Web.Pages.Account.LoginModel.OnGet - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[108]
-      Executed handler method OnGet, returned result .
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[107]
-      Executing an implicit handler method - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[109]
-      Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[104]
-      Executed page /Account/Login in 1.5284ms
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/Account/Login - 200 - text/html;+charset=utf-8 1.8591ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - - -
-info: Microsoft.AspNetCore.Authorization.DefaultAuthorizationService[2]
-      Authorization failed. These requirements were not met:
-      DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
-info: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler[12]
-      AuthenticationScheme: Identity.Application was challenged.
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - 302 0 - 0.2864ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - - -
-info: Microsoft.AspNetCore.Authorization.DefaultAuthorizationService[2]
-      Authorization failed. These requirements were not met:
-      DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
-info: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler[12]
-      AuthenticationScheme: Identity.Application was challenged.
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - 302 0 - 0.0699ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/Account/Login?ReturnUrl=%2Fcss%2Fsite.css - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/Account/Login?ReturnUrl=%2Fcss%2Ffonts.css - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[103]
-      Route matched with {page = "/Account/Login"}. Executing page /Account/Login
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[103]
-      Route matched with {page = "/Account/Login"}. Executing page /Account/Login
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[105]
-      Executing handler method LabScaner.Web.Pages.Account.LoginModel.OnGet - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[108]
-      Executed handler method OnGet, returned result .
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[105]
-      Executing handler method LabScaner.Web.Pages.Account.LoginModel.OnGet - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[108]
-      Executed handler method OnGet, returned result .
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[107]
-      Executing an implicit handler method - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[107]
-      Executing an implicit handler method - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[109]
-      Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[109]
-      Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[104]
-      Executed page /Account/Login in 1.2417ms
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[104]
-      Executed page /Account/Login in 1.2403ms
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/Account/Login?ReturnUrl=%2Fcss%2Fsite.css - 200 - text/html;+charset=utf-8 1.7639ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/Account/Login?ReturnUrl=%2Fcss%2Ffonts.css - 200 - text/html;+charset=utf-8 1.4001ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/Account/Login - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[103]
-      Route matched with {page = "/Account/Login"}. Executing page /Account/Login
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[105]
-      Executing handler method LabScaner.Web.Pages.Account.LoginModel.OnGet - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[108]
-      Executed handler method OnGet, returned result .
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[107]
-      Executing an implicit handler method - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[109]
-      Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[104]
-      Executed page /Account/Login in 1.0553ms
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/Account/Login - 200 - text/html;+charset=utf-8 1.3459ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - - -
-info: Microsoft.AspNetCore.Authorization.DefaultAuthorizationService[2]
-      Authorization failed. These requirements were not met:
-      DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
-info: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler[12]
-      AuthenticationScheme: Identity.Application was challenged.
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - 302 0 - 0.2028ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - - -
-info: Microsoft.AspNetCore.Authorization.DefaultAuthorizationService[2]
-      Authorization failed. These requirements were not met:
-      DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
-info: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler[12]
-      AuthenticationScheme: Identity.Application was challenged.
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - 302 0 - 0.1606ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/Account/Login?ReturnUrl=%2Fcss%2Ffonts.css - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[103]
-      Route matched with {page = "/Account/Login"}. Executing page /Account/Login
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/Account/Login?ReturnUrl=%2Fcss%2Fsite.css - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[103]
-      Route matched with {page = "/Account/Login"}. Executing page /Account/Login
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[105]
-      Executing handler method LabScaner.Web.Pages.Account.LoginModel.OnGet - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[108]
-      Executed handler method OnGet, returned result .
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[107]
-      Executing an implicit handler method - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[109]
-      Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[105]
-      Executing handler method LabScaner.Web.Pages.Account.LoginModel.OnGet - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[108]
-      Executed handler method OnGet, returned result .
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[107]
-      Executing an implicit handler method - ModelState is Valid
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[109]
-      Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[104]
-      Executed page /Account/Login in 0.795ms
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[104]
-      Executed page /Account/Login in 1.1257ms
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/Account/Login?ReturnUrl=%2Fcss%2Fsite.css - 200 - text/html;+charset=utf-8 0.9855ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/Account/Login?ReturnUrl=%2Fcss%2Ffonts.css - 200 - text/html;+charset=utf-8 1.3177ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 POST http://127.0.0.1:5080/Account/Login - application/x-www-form-urlencoded 241
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[103]
-      Route matched with {page = "/Account/Login"}. Executing page /Account/Login
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[105]
-      Executing handler method LabScaner.Web.Pages.Account.LoginModel.OnPostAsync - ModelState is Valid
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       Executed DbCommand (1ms) [Parameters=[@normalizedUserName='?'], CommandType='Text', CommandTimeout='30']
       SELECT u.id, u.access_failed_count, u.concurrency_stamp, u.display_name, u.email, u.email_confirmed, u.lockout_enabled, u.lockout_end, u.normalized_email, u.normalized_user_name, u.password_hash, u.phone_number, u.phone_number_confirmed, u.security_stamp, u.two_factor_enabled, u.user_name
@@ -1105,41 +217,52 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       Executed DbCommand (1ms) [Parameters=[@p15='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?', @p16='?', @p2='?', @p3='?', @p4='?' (DbType = Boolean), @p5='?' (DbType = Boolean), @p6='?' (DbType = DateTime), @p7='?', @p8='?', @p9='?', @p10='?', @p11='?' (DbType = Boolean), @p12='?', @p13='?' (DbType = Boolean), @p14='?'], CommandType='Text', CommandTimeout='30']
       UPDATE users SET access_failed_count = @p0, concurrency_stamp = @p1, display_name = @p2, email = @p3, email_confirmed = @p4, lockout_enabled = @p5, lockout_end = @p6, normalized_email = @p7, normalized_user_name = @p8, password_hash = @p9, phone_number = @p10, phone_number_confirmed = @p11, security_stamp = @p12, two_factor_enabled = @p13, user_name = @p14
       WHERE id = @p15 AND concurrency_stamp = @p16;
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[108]
-      Executed handler method OnPostAsync, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
-info: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker[104]
-      Executed page /Account/Login in 76.0018ms
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint '/Account/Login'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 POST http://127.0.0.1:5080/Account/Login - 200 - text/html;+charset=utf-8 76.3215ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - - -
-info: Microsoft.AspNetCore.Authorization.DefaultAuthorizationService[2]
-      Authorization failed. These requirements were not met:
-      DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
-info: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler[12]
-      AuthenticationScheme: Identity.Application was challenged.
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/site.css - 302 0 - 0.3495ms
-info: Microsoft.AspNetCore.Authorization.DefaultAuthorizationService[2]
-      Authorization failed. These requirements were not met:
-      DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
-info: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler[12]
-      AuthenticationScheme: Identity.Application was challenged.
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/css/fonts.css - 302 0 - 0.4612ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/Account/Login?ReturnUrl=%2Fcss%2Fsite.css - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/Account/Login?ReturnUrl=%2Fcss%2Ffonts.css - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/Account/Login?ReturnUrl=%2Fcss%2Ffonts.css - 429 0 - 0.7424ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/Account/Login?ReturnUrl=%2Fcss%2Fsite.css - 429 0 - 1.4500ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://127.0.0.1:5080/Account/Login - - -
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://127.0.0.1:5080/Account/Login - 429 0 - 0.1566ms
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedUserName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u.id, u.access_failed_count, u.concurrency_stamp, u.display_name, u.email, u.email_confirmed, u.lockout_enabled, u.lockout_end, u.normalized_email, u.normalized_user_name, u.password_hash, u.phone_number, u.phone_number_confirmed, u.security_stamp, u.two_factor_enabled, u.user_name
+      FROM users AS u
+      WHERE u.normalized_user_name = @normalizedUserName
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedUserName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u.id, u.access_failed_count, u.concurrency_stamp, u.display_name, u.email, u.email_confirmed, u.lockout_enabled, u.lockout_end, u.normalized_email, u.normalized_user_name, u.password_hash, u.phone_number, u.phone_number_confirmed, u.security_stamp, u.two_factor_enabled, u.user_name
+      FROM users AS u
+      WHERE u.normalized_user_name = @normalizedUserName
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p15='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?', @p16='?', @p2='?', @p3='?', @p4='?' (DbType = Boolean), @p5='?' (DbType = Boolean), @p6='?' (DbType = DateTime), @p7='?', @p8='?', @p9='?', @p10='?', @p11='?' (DbType = Boolean), @p12='?', @p13='?' (DbType = Boolean), @p14='?'], CommandType='Text', CommandTimeout='30']
+      UPDATE users SET access_failed_count = @p0, concurrency_stamp = @p1, display_name = @p2, email = @p3, email_confirmed = @p4, lockout_enabled = @p5, lockout_end = @p6, normalized_email = @p7, normalized_user_name = @p8, password_hash = @p9, phone_number = @p10, phone_number_confirmed = @p11, security_stamp = @p12, two_factor_enabled = @p13, user_name = @p14
+      WHERE id = @p15 AND concurrency_stamp = @p16;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@user_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT u.id, u.claim_type, u.claim_value, u.user_id
+      FROM user_claims AS u
+      WHERE u.user_id = @user_Id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT r.name
+      FROM user_roles AS u
+      INNER JOIN roles AS r ON u.role_id = r.id
+      WHERE u.user_id = @userId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+      FROM roles AS r
+      WHERE r.normalized_name = @normalizedName
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@role_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT r.claim_type, r.claim_value
+      FROM role_claims AS r
+      WHERE r.role_id = @role_Id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+      FROM roles AS r
+      WHERE r.normalized_name = @normalizedName
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@role_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT r.claim_type, r.claim_value
+      FROM role_claims AS r
+      WHERE r.role_id = @role_Id
