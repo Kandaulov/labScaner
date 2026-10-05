@@ -5,6 +5,7 @@ using LabScaner.Infrastructure.Identity;
 using LabScaner.Infrastructure.Persistence;
 using LabScaner.Jobs;
 using LabScaner.Web.Security;
+using Microsoft.Extensions.WebEncoders;
 
 var builder = WebApplication.CreateBuilder(args);
 
