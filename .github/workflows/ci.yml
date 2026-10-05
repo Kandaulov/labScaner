@@ -5,6 +5,7 @@ on:
     branches: [main, "feature/**", "fix/**"]
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -16,34 +17,42 @@ concurrency:
 jobs:
   build-test:
     name: Сборка и тесты
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v5
         with:
           global-json-file: global.json
 
+      - name: Последние версии пакетов (информационно)
+        continue-on-error: true
+        run: python3 .github/scripts/latest-versions.py
+
       - name: Восстановление пакетов
-        run: dotnet restore LabScaner.slnx
+        run: .github/scripts/run.sh dotnet restore LabScaner.slnx
 
       - name: Сборка (предупреждения = ошибки)
-        run: dotnet build LabScaner.slnx --no-restore -c Release
+        run: .github/scripts/run.sh dotnet build LabScaner.slnx --no-restore -c Release
 
       - name: Тесты
-        run: dotnet test LabScaner.slnx --no-build -c Release --logger "trx;LogFilePrefix=results" --results-directory TestResults
+        run: .github/scripts/run.sh dotnet test LabScaner.slnx --no-build -c Release --logger "trx;LogFilePrefix=results" --results-directory TestResults
 
       - name: Форматирование
-        run: dotnet format LabScaner.slnx --verify-no-changes --no-restore
+        run: .github/scripts/run.sh dotnet format LabScaner.slnx --verify-no-changes --no-restore
 
-      - name: Устаревшие пакеты (информационно)
+      - name: Сводка тестов
         if: always()
-        continue-on-error: true
-        run: dotnet list LabScaner.slnx package --outdated
+        run: |
+          for f in TestResults/*.trx; do
+            [ -f "$f" ] || continue
+            c=$(grep -o '<Counters [^>]*>' "$f" | head -1)
+            echo "::notice title=Тесты $(basename "$f" .trx)::$c"
+          done
 
       - name: Результаты тестов
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: test-results
           path: TestResults

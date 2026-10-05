@@ -65,8 +65,13 @@
 git clone https://github.com/Kandaulov/labScaner.git
 cd labScaner
 dotnet build
-dotnet test
-dotnet run --project src/LabScaner.Web    # http://localhost:5183
+dotnet test                               # интеграционным тестам нужен Docker (Testcontainers)
+
+# локальная БД и строка подключения
+docker run -d --name labscaner-db -e POSTGRES_USER=labscaner -e POSTGRES_PASSWORD=<пароль> -p 5432:5432 postgres:17-alpine
+dotnet user-secrets --project src/LabScaner.Web set ConnectionStrings:Default "Host=localhost;Database=labscaner;Username=labscaner;Password=<пароль>"
+
+dotnet run --project src/LabScaner.Web    # http://localhost:5183, миграции применятся при старте
 ```
 
 Проверка живости: `GET /health` → `Healthy`.

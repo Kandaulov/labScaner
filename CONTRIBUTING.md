@@ -34,3 +34,16 @@ Refs #12
 ## Тестовые данные
 Реальные письма и работы студентов в репозиторий не кладём. В `tests/fixtures/` — только
 синтетические данные с вымышленными ФИО.
+
+## База данных и миграции
+- Схема меняется только миграциями EF Core (`src/LabScaner.Infrastructure/Persistence/Migrations`).
+  Тест `Model_HasNoChangesWithoutMigration` падает, если модель изменили без миграции.
+- Создать миграцию локально:
+  ```bash
+  dotnet tool restore
+  dotnet ef migrations add <Имя> -p src/LabScaner.Infrastructure -s src/LabScaner.Infrastructure -o Persistence/Migrations
+  ```
+- Или в GitHub: добавить в сообщение коммита `[ef-migration <Имя>]` — workflow «EF-миграция» создаст
+  миграцию и закоммитит её в ту же ветку.
+- Миграции применяются при старте приложения (`Database:MigrateOnStartup`, по умолчанию `true`).
+- Имена в БД — snake_case (`student_emails.student_id`), задаются автоматически.

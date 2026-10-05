@@ -1,8 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="Testcontainers.PostgreSql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\LabScaner.Web\LabScaner.Web.csproj" />
+    <ProjectReference Include="..\..\src\LabScaner.Infrastructure\LabScaner.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

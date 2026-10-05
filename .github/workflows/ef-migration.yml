@@ -1,0 +1,66 @@
+name: EF-миграция
+
+# Создаёт миграцию EF Core и коммитит её в ту же ветку. Два способа запуска:
+#   1) push коммита, в сообщении которого есть «[ef-migration ИмяМиграции]» (работает в любой ветке);
+#   2) Actions → «EF-миграция» → Run workflow (после попадания этого файла в main).
+on:
+  push:
+    branches: ["feature/**", "fix/**"]
+  workflow_dispatch:
+    inputs:
+      name:
+        description: Имя миграции (PascalCase), например AddDirectories
+        required: true
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  add-migration:
+    name: dotnet ef migrations add
+    runs-on: ubuntu-24.04
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[ef-migration ')
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+
+      - name: Имя миграции
+        id: name
+        env:
+          INPUT_NAME: ${{ inputs.name }}
+          MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          NAME="$INPUT_NAME"
+          if [ -z "$NAME" ]; then
+            NAME=$(printf '%s' "$MESSAGE" | grep -oP '\[ef-migration \K[A-Za-z0-9]+(?=\])' | head -1)
+          fi
+          [[ "$NAME" =~ ^[A-Z][A-Za-z0-9]+$ ]] || { echo "::error::Имя миграции должно быть в PascalCase: «$NAME»"; exit 1; }
+          echo "value=$NAME" >> "$GITHUB_OUTPUT"
+
+      - name: Создание миграции
+        env:
+          NAME: ${{ steps.name.outputs.value }}
+        run: |
+          dotnet tool restore
+          .github/scripts/run.sh dotnet restore LabScaner.slnx
+          .github/scripts/run.sh dotnet ef migrations add "$NAME" \
+            --project src/LabScaner.Infrastructure \
+            --startup-project src/LabScaner.Infrastructure \
+            --output-dir Persistence/Migrations
+          dotnet format src/LabScaner.Infrastructure/LabScaner.Infrastructure.csproj --include src/LabScaner.Infrastructure/Persistence/Migrations/
+
+      - name: Коммит в ветку
+        env:
+          NAME: ${{ steps.name.outputs.value }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/LabScaner.Infrastructure/Persistence/Migrations
+          git commit -m "Добавить миграцию $NAME"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+          gh workflow run ci.yml -r "${GITHUB_REF_NAME}" || echo "::notice::Запустите CI повторным push"
