@@ -44,7 +44,7 @@ jobs:
           ASPNETCORE_ENVIRONMENT: Production
         run: |
           export Bootstrap__AdminDisplayName="$(printf 'Кандаулов В. М.')"
-          nohup dotnet publish/LabScaner.Web.dll > app.log 2>&1 &
+          (cd publish && nohup dotnet LabScaner.Web.dll > ../app.log 2>&1 &)
           for i in $(seq 1 60); do
             curl -sf http://127.0.0.1:5080/health && exit 0
             sleep 1
