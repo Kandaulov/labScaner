@@ -1,5 +1,5 @@
 fail: Microsoft.EntityFrameworkCore.Database.Command[20102]
-      Failed executing DbCommand (20ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      Failed executing DbCommand (19ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
       SELECT "MigrationId", "ProductVersion"
       FROM "__EFMigrationsHistory"
       ORDER BY "MigrationId";
@@ -15,19 +15,19 @@ info: Microsoft.EntityFrameworkCore.Migrations[20402]
 info: Microsoft.EntityFrameworkCore.Migrations[20402]
       Applying migration '20261005063141_AddIdentityAndSubjects'.
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (29ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (24ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
       SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
       FROM roles AS r
       WHERE r.normalized_name = @normalizedName
       LIMIT 1
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (2ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (1ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
       SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
       FROM roles AS r
       WHERE r.normalized_name = @normalizedName
       LIMIT 1
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (102ms) [Parameters=[@p0='?', @p1='?', @p2='?'], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (2ms) [Parameters=[@p0='?', @p1='?', @p2='?'], CommandType='Text', CommandTimeout='30']
       INSERT INTO roles (concurrency_stamp, name, normalized_name)
       VALUES (@p0, @p1, @p2)
       RETURNING id;
@@ -38,7 +38,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       WHERE r.normalized_name = @normalizedName
       LIMIT 1
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (1ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (0ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
       SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
       FROM roles AS r
       WHERE r.normalized_name = @normalizedName
@@ -72,7 +72,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14)
       RETURNING id;
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (1ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
       SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
       FROM roles AS r
       WHERE r.normalized_name = @normalizedRoleName
@@ -84,19 +84,19 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       WHERE u.user_id = @p AND u.role_id = @p1
       LIMIT 1
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (1ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
       SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
       FROM roles AS r
       WHERE r.normalized_name = @normalizedRoleName
       LIMIT 2
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (1ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
       SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
       FROM roles AS r
       WHERE r.normalized_name = @normalizedRoleName
       LIMIT 2
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[@p='?' (DbType = Int32), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       SELECT u.user_id, u.role_id
       FROM user_roles AS u
       WHERE u.user_id = @p AND u.role_id = @p1
@@ -124,7 +124,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
 info: LabScaner.Infrastructure.Identity.IdentitySeeder[2037226992]
       Создан первый администратор admin.
 warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
-      No XML encryptor configured. Key {764260ac-5979-4cf5-8e05-8ac872104463} may be persisted to storage in unencrypted form.
+      No XML encryptor configured. Key {4bb9519d-d716-4086-ad44-edd0ce28ae60} may be persisted to storage in unencrypted form.
 info: Microsoft.Hosting.Lifetime[14]
       Now listening on: http://127.0.0.1:5080
 info: Microsoft.Hosting.Lifetime[0]
@@ -191,7 +191,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       FROM role_claims AS r
       WHERE r.role_id = @role_Id
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (1ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
       SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
       FROM roles AS r
       WHERE r.normalized_name = @normalizedName
@@ -214,7 +214,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       WHERE u.normalized_user_name = @normalizedUserName
       LIMIT 1
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (1ms) [Parameters=[@p15='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?', @p16='?', @p2='?', @p3='?', @p4='?' (DbType = Boolean), @p5='?' (DbType = Boolean), @p6='?' (DbType = DateTime), @p7='?', @p8='?', @p9='?', @p10='?', @p11='?' (DbType = Boolean), @p12='?', @p13='?' (DbType = Boolean), @p14='?'], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (5ms) [Parameters=[@p15='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?', @p16='?', @p2='?', @p3='?', @p4='?' (DbType = Boolean), @p5='?' (DbType = Boolean), @p6='?' (DbType = DateTime), @p7='?', @p8='?', @p9='?', @p10='?', @p11='?' (DbType = Boolean), @p12='?', @p13='?' (DbType = Boolean), @p14='?'], CommandType='Text', CommandTimeout='30']
       UPDATE users SET access_failed_count = @p0, concurrency_stamp = @p1, display_name = @p2, email = @p3, email_confirmed = @p4, lockout_enabled = @p5, lockout_end = @p6, normalized_email = @p7, normalized_user_name = @p8, password_hash = @p9, phone_number = @p10, phone_number_confirmed = @p11, security_stamp = @p12, two_factor_enabled = @p13, user_name = @p14
       WHERE id = @p15 AND concurrency_stamp = @p16;
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
@@ -234,7 +234,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       UPDATE users SET access_failed_count = @p0, concurrency_stamp = @p1, display_name = @p2, email = @p3, email_confirmed = @p4, lockout_enabled = @p5, lockout_end = @p6, normalized_email = @p7, normalized_user_name = @p8, password_hash = @p9, phone_number = @p10, phone_number_confirmed = @p11, security_stamp = @p12, two_factor_enabled = @p13, user_name = @p14
       WHERE id = @p15 AND concurrency_stamp = @p16;
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[@user_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (1ms) [Parameters=[@user_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       SELECT u.id, u.claim_type, u.claim_value, u.user_id
       FROM user_claims AS u
       WHERE u.user_id = @user_Id
