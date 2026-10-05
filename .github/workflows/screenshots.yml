@@ -67,11 +67,11 @@ jobs:
         env:
           SHOT_LOGIN: admin
           SHOT_PASSWORD: screenshots-password
-        run: python .github/scripts/screenshots.py http://127.0.0.1:5080 shots
+        run: .github/scripts/run.sh python .github/scripts/screenshots.py http://127.0.0.1:5080 shots
 
       - name: Ошибки приложения
         if: always()
-        run: grep -E "fail:|crit:|Exception" app.log | head -20 | sed 's/^/::warning::/' || true
+        run: grep -A3 -E "fail:|crit:" app.log | head -40 | sed 's/^/::warning::/' || true
 
       - name: Публикация в ветку ci-screenshots
         env:
