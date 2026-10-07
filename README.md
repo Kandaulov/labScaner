@@ -59,6 +59,16 @@
 
 ## Быстрый старт
 
+Система целиком (приложение, БД, HTTPS) — одной командой, см. [deploy/README.md](deploy/README.md):
+
+```bash
+cd deploy && cp .env.example .env   # заполнить пароли
+docker compose up -d
+```
+
+Для разработки:
+
+
 Нужен .NET SDK 10.0.100 или новее (`dotnet --version`).
 
 ```bash

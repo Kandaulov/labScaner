@@ -1,0 +1,63 @@
+# labScaner: приложение + PostgreSQL 17 + Caddy (HTTPS).
+# Запуск из папки deploy:  cp .env.example .env  →  заполнить .env  →  docker compose up -d
+# Обновление:              docker compose pull && docker compose up -d   (миграции БД — при старте app)
+
+name: labscaner
+
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: labscaner
+      POSTGRES_USER: labscaner
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Задайте DB_PASSWORD в .env}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U labscaner -d labscaner"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  app:
+    image: ${APP_IMAGE:-ghcr.io/kandaulov/labscaner:main}
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      ConnectionStrings__Default: Host=db;Database=labscaner;Username=labscaner;Password=${DB_PASSWORD}
+      Bootstrap__AdminLogin: ${ADMIN_LOGIN:-admin}
+      Bootstrap__AdminPassword: ${ADMIN_PASSWORD:?Задайте ADMIN_PASSWORD в .env}
+      Bootstrap__AdminDisplayName: ${ADMIN_DISPLAY_NAME:-Администратор}
+      TZ: Europe/Ulyanovsk
+    volumes:
+      - keys:/app/keys
+    expose:
+      - "8080"
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      app:
+        condition: service_healthy
+    ports:
+      - "${HTTP_PORT:-80}:80"
+      - "${HTTPS_PORT:-443}:443"
+    environment:
+      LABSCANER_DOMAIN: ${DOMAIN:-localhost}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  pgdata:
+  keys:
+  caddy_data:
+  caddy_config:

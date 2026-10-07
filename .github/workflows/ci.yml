@@ -57,3 +57,38 @@ jobs:
           name: test-results
           path: TestResults
           if-no-files-found: ignore
+
+  docker:
+    name: Docker Compose
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Настройки .env
+        working-directory: deploy
+        run: |
+          cp .env.example .env
+          sed -i "s/^DB_PASSWORD=.*/DB_PASSWORD=$(openssl rand -hex 16)/; s/^ADMIN_PASSWORD=.*/ADMIN_PASSWORD=$(openssl rand -hex 16)/" .env
+          sed -i "s/^HTTP_PORT=.*/HTTP_PORT=8081/; s/^HTTPS_PORT=.*/HTTPS_PORT=8443/; s#^APP_IMAGE=.*#APP_IMAGE=labscaner:ci#" .env
+
+      - name: Сборка и запуск
+        working-directory: deploy
+        run: ../.github/scripts/run.sh docker compose up -d --build --wait --wait-timeout 180
+
+      - name: Проверка через Caddy (HTTPS)
+        run: |
+          curl -kfsS https://localhost:8443/health | grep -q Healthy
+          curl -kfsS https://localhost:8443/Account/Login | grep -q "Вход"
+          curl -kfsSI https://localhost:8443/css/site.css | grep -qi "content-type: text/css"
+          curl -kfsS -H "Accept-Encoding: gzip" -o /dev/null -w "%{size_download}" https://localhost:8443/Account/Login
+          echo "::notice title=Docker Compose::приложение отвечает через Caddy по HTTPS"
+
+      - name: Журналы контейнеров
+        if: failure()
+        working-directory: deploy
+        run: docker compose logs --no-color | grep -iE "fail|error|exception|crit" | head -40 | sed 's/^/::error::/' || true
+
+      - name: Остановка
+        if: always()
+        working-directory: deploy
+        run: docker compose down -v

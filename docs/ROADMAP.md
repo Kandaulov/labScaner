@@ -34,7 +34,7 @@
 - [x] EF Core + PostgreSQL, первая миграция (справочники: группы, студенты, e-mail, семестры) — шаг 2.2
 - [x] ASP.NET Core Identity: пользователи, роли Преподаватель/Администратор, изоляция по `teacher_id` — шаг 2.3
 - [x] Вход, layout по макету, пустые страницы — шаг 2.4
-- [ ] Docker Compose (app + db + caddy), `.env.example`
+- [x] Docker Compose (app + db + caddy), `.env.example` — шаг 2.6; образ публикуется в GHCR
 - [x] GitHub Actions: build + test + format (перенесено в шаг 2.1)
 
 **Готово, когда:** `docker compose up` поднимает систему, вход работает, CI зелёный.
