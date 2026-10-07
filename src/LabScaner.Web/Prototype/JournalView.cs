@@ -44,7 +44,7 @@ public static class JournalView
             _ => " · сдано " + ProtoFormat.Day(w.SubmittedAt),
         };
         var version = w.Version > 1 ? $" · версия v{w.Version}" : "";
-        var comments = w.History.Count(c => c.Author is "teacher" or "note");
+        var comments = w.History.Count(IsComment);
         return new CellView(
             s.Id,
             lab,
@@ -73,7 +73,11 @@ public static class JournalView
         s.Labs.Any(w => w.Status is CellStatus.NotSubmitted or CellStatus.Returned);
 
     public static bool HasComments(ProtoStudent s) =>
-        s.Labs.Append(s.Coursework).Any(w => w.History.Any(c => c.Author is "teacher" or "note"));
+        s.Labs.Append(s.Coursework).Any(w => w.History.Any(IsComment));
+
+    /// <summary>Комментарий — замечание при возврате или заметка для себя; отметки о принятии не считаются.</summary>
+    public static bool IsComment(ProtoComment c) =>
+        c.Author == "note" || (c.Author == "teacher" && c.Text.StartsWith("На доработку", StringComparison.Ordinal));
 
     public static string FinalText(ProtoStudent s) => s.Exam switch
     {

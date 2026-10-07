@@ -54,7 +54,7 @@ public sealed partial class JournalPrototypeTests(PostgresFixture postgres)
 
         var html = await client.GetStringAsync(new Uri(Page, UriKind.Relative));
 
-        Assert.Equal(25, Regex.Matches(html, "class=\"jt__check\"").Count);
+        Assert.Equal(25, Regex.Count(html, "class=\"jt__check\""));
         Assert.Contains("Лаб 8", html, StringComparison.Ordinal);
         Assert.Contains("Прототип на тестовых данных", html, StringComparison.Ordinal);
     }
