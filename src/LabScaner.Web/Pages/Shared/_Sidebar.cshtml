@@ -1,0 +1,39 @@
+@{
+    var active = ViewData[NavMenu.ActiveKey] as string;
+    var displayName = User.FindFirst(LabScaner.Infrastructure.Identity.AppClaims.DisplayName)?.Value ?? User.Identity?.Name ?? "";
+    var role = User.IsInRole(Roles.Admin) ? "Преподаватель · админ" : "Преподаватель";
+}
+<nav class="sidebar" id="sidebar" aria-label="Основное меню">
+    <a class="brand" href="/"><span class="brand__logo"><partial name="_Icon" model='@("logo")' /></span>labScaner</a>
+    @foreach (var item in NavMenu.Items)
+    {
+        if (item.SectionLabel is not null)
+        {
+            <div class="nav__section"></div>
+            <div class="nav__section-label">@item.SectionLabel</div>
+        }
+        <a class="nav__item" href="@item.Href" aria-current="@(item.Id == active ? "page" : null)">
+            <span class="nav__label">@item.Label</span>
+        </a>
+    }
+    <div class="sidebar__spacer"></div>
+    <div class="mail-status" aria-label="Приём почты">
+        <div class="mail-status__title">
+            <partial name="_Icon" model='@("mail")' />
+            Приём почты
+            <span class="mail-status__badge">выкл.</span>
+        </div>
+        <div class="mail-status__text">Почта не подключена · <a href="/Settings">настроить</a></div>
+        <button type="button" class="button button--primary" disabled title="Сначала подключите почту в настройках">Проверить почту</button>
+    </div>
+    <div class="user">
+        <div class="user__avatar" aria-hidden="true">@NavMenu.Initials(displayName)</div>
+        <div class="user__info">
+            <span class="user__name">@displayName</span>
+            <span class="user__role">@role</span>
+        </div>
+        <form method="post" asp-page="/Account/Logout">
+            <button type="submit" class="icon-button" aria-label="Выйти" title="Выйти"><partial name="_Icon" model='@("logout")' /></button>
+        </form>
+    </div>
+</nav>

@@ -2,26 +2,40 @@
 @model LoginModel
 @{
     ViewData["Title"] = "Вход";
+    Layout = "_LayoutBare";
 }
-<section class="login">
-    <h1>labScaner</h1>
-    <p class="muted">Вход для преподавателей</p>
+<div class="login-page">
+    <div class="login-card">
+        <div class="brand">
+            <span class="brand__logo"><partial name="_Icon" model='@("logo")' /></span>
+            <div>
+                <div>labScaner</div>
+                <div class="muted" style="font-size: 12px; font-weight: 400">Приём и проверка студенческих работ</div>
+            </div>
+        </div>
+        <h1>Вход</h1>
 
-    @if (Model.ErrorMessage is not null)
-    {
-        <p class="error" role="alert">@Model.ErrorMessage</p>
-    }
+        @if (Model.IsLockedOut)
+        {
+            <div class="alert alert--warn" role="alert">@LoginModel.LockedOut</div>
+        }
+        else if (Model.ErrorMessage is not null)
+        {
+            <div class="alert" role="alert">@Model.ErrorMessage</div>
+        }
 
-    <form method="post">
-        <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
-        <label>
-            Логин
-            <input asp-for="Input.Login" autocomplete="username" autofocus required />
-        </label>
-        <label>
-            Пароль
-            <input asp-for="Input.Password" type="password" autocomplete="current-password" required />
-        </label>
-        <button type="submit">Войти</button>
-    </form>
-</section>
+        <form method="post">
+            <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+            <label class="field @(Model.ErrorMessage is not null ? "field--error" : null)">
+                Логин
+                <input asp-for="Input.Login" autocomplete="username" autofocus required />
+            </label>
+            <label class="field @(Model.ErrorMessage is not null ? "field--error" : null)">
+                Пароль
+                <input asp-for="Input.Password" type="password" autocomplete="current-password" required />
+            </label>
+            <button type="submit" class="button button--primary">Войти</button>
+        </form>
+        <p class="login-card__hint">Забыли пароль? Новый пароль выдаёт администратор системы.</p>
+    </div>
+</div>

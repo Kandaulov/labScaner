@@ -46,7 +46,8 @@ public static class DependencyInjection
             })
             .AddEntityFrameworkStores<LabScanerDbContext>()
             .AddDefaultTokenProviders()
-            .AddErrorDescriber<RussianIdentityErrorDescriber>();
+            .AddErrorDescriber<RussianIdentityErrorDescriber>()
+            .AddClaimsPrincipalFactory<AppClaimsPrincipalFactory>();
 
         services.AddSingleton<IClock, SystemClock>();
 

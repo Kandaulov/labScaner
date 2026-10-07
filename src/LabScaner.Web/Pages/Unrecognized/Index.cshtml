@@ -1,0 +1,9 @@
+@page
+@{
+    ViewData["Title"] = "Нераспознанные";
+    ViewData[NavMenu.ActiveKey] = NavMenu.Unrecognized;
+}
+<partial name="_PageHeader" model='@("Нераспознанные")' />
+<section class="card">
+    <partial name="_Empty" model='@(new EmptyState("Нераспознанных писем нет", "Письма, в которых система не нашла группу, предмет, студента или номер работы, попадут сюда для ручного сопоставления."))' />
+</section>

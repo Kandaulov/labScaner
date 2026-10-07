@@ -1,0 +1,10 @@
+@model EmptyState
+<div class="empty">
+    <div class="empty__icon"><partial name="_Icon" model='@("check")' /></div>
+    <div class="empty__title">@Model.Title</div>
+    <div class="empty__text">@Model.Text</div>
+    @if (Model.LinkText is not null)
+    {
+        <a class="button" href="@Model.LinkHref">@Model.LinkText</a>
+    }
+</div>

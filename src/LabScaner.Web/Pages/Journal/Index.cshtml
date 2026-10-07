@@ -1,0 +1,9 @@
+@page
+@{
+    ViewData["Title"] = "Журнал группы";
+    ViewData[NavMenu.ActiveKey] = NavMenu.Journal;
+}
+<partial name="_PageHeader" model='@("Журнал группы")' />
+<section class="card">
+    <partial name="_Empty" model='@(new EmptyState("Журнал пока пуст", "Заведите предмет, семестр и группу — здесь появится таблица: студенты, лабораторные, курсовая, экзамен или зачёт.", "Перейти к предметам", "/Subjects"))' />
+</section>

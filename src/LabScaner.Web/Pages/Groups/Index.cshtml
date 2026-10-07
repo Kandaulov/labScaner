@@ -1,0 +1,9 @@
+@page
+@{
+    ViewData["Title"] = "Группы и студенты";
+    ViewData[NavMenu.ActiveKey] = NavMenu.Groups;
+}
+<partial name="_PageHeader" model='@("Группы и студенты")' />
+<section class="card">
+    <partial name="_Empty" model='@(new EmptyState("Групп пока нет", "Импорт групп из Excel и общий справочник студентов появятся на этапе 3."))' />
+</section>

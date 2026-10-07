@@ -4,11 +4,21 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@ViewData["Title"] — labScaner</title>
+    <link rel="stylesheet" href="~/css/fonts.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <script src="~/lib/htmx/htmx.min.js" asp-append-version="true" defer></script>
 </head>
 <body>
-    <main class="page">
-        @RenderBody()
-    </main>
+    <div class="shell">
+        <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-hidden="true" />
+        <header class="topbar">
+            <a class="brand" href="/"><span class="brand__logo"><partial name="_Icon" model='@("logo")' /></span>labScaner</a>
+            <label for="nav-toggle" class="topbar__burger" aria-label="Меню"><partial name="_Icon" model='@("menu")' /></label>
+        </header>
+        <partial name="_Sidebar" />
+        <main class="shell__main">
+            @RenderBody()
+        </main>
+    </div>
 </body>
 </html>

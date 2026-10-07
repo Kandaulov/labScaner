@@ -1,6 +1,9 @@
 @page
 @{
     ViewData["Title"] = "Администрирование";
+    ViewData[NavMenu.ActiveKey] = NavMenu.Settings;
 }
-<h1>Администрирование</h1>
-<p class="muted">Пользователи, общий календарь и настройки LLM появятся на этапе 3.</p>
+<partial name="_PageHeader" model='@("Администрирование")' />
+<section class="card">
+    <partial name="_Empty" model='@(new EmptyState("Раздел в разработке", "Пользователи, учебный календарь и настройки ИИ появятся на этапе 3.", "К настройкам", "/Settings"))' />
+</section>

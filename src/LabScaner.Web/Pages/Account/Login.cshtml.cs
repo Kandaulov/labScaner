@@ -11,7 +11,7 @@ namespace LabScaner.Web.Pages.Account;
 public sealed class LoginModel(SignInManager<AppUser> signInManager) : PageModel
 {
     public const string WrongCredentials = "Неверный логин или пароль.";
-    public const string LockedOut = "Слишком много неудачных попыток. Вход временно заблокирован, попробуйте через 15 минут.";
+    public const string LockedOut = "Слишком много неудачных попыток. Вход временно заблокирован — попробуйте через 15 минут или обратитесь к администратору.";
 
     [BindProperty]
     public LoginInput Input { get; set; } = new();
@@ -19,6 +19,8 @@ public sealed class LoginModel(SignInManager<AppUser> signInManager) : PageModel
     public string? ReturnUrl { get; private set; }
 
     public string? ErrorMessage { get; private set; }
+
+    public bool IsLockedOut { get; private set; }
 
     public void OnGet(string? returnUrl = null) => ReturnUrl = returnUrl;
 
@@ -37,6 +39,7 @@ public sealed class LoginModel(SignInManager<AppUser> signInManager) : PageModel
             return LocalRedirect(Url.IsLocalUrl(returnUrl) ? returnUrl : "/");
         }
 
+        IsLockedOut = result.IsLockedOut;
         ErrorMessage = result.IsLockedOut ? LockedOut : WrongCredentials;
         return Page();
     }
