@@ -35,7 +35,7 @@ public sealed partial class JournalPrototypeTests(PostgresFixture postgres)
         return new Session(factory, client, HxToken().Match(html).Groups[1].Value);
     }
 
-    private static Task<HttpResponseMessage> HxPostAsync(HttpClient client, string token, string url, Dictionary<string, string> form)
+    private static async Task<HttpResponseMessage> HxPostAsync(HttpClient client, string token, string url, Dictionary<string, string> form)
     {
         using var request = new HttpRequestMessage(HttpMethod.Post, new Uri(url, UriKind.Relative))
         {
@@ -43,7 +43,7 @@ public sealed partial class JournalPrototypeTests(PostgresFixture postgres)
         };
         request.Headers.Add("RequestVerificationToken", token);
         request.Headers.Add("HX-Request", "true");
-        return client.SendAsync(request);
+        return await client.SendAsync(request);
     }
 
     [Fact]
