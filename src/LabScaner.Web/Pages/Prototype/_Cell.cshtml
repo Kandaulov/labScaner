@@ -1,0 +1,23 @@
+@model CellView
+@* Ячейка работы: клик — быстрая отметка. Обновляется целиком (outerHTML) после отметки или решения. *@
+<td id="c@(Model.StudentId)-@(Model.Lab)" class="jt__work @(Model.Lab == 0 ? "jt__cw" : null)" hx-swap-oob="@(Model.Oob ? "true" : null)">
+    <button type="button" class="cell cell--@Model.Css" title="@Model.Title" aria-label="@Model.Aria"
+            hx-get="@Url.Page("/Prototype/Journal", "Quick", new { s = Model.StudentId, l = Model.Lab })"
+            hx-target="next .pop" hx-swap="innerHTML">
+        @if (Model.Resubmitted)
+        {
+            <span class="cell__v">v2</span>
+        }
+        <partial name="_CellIcon" model="Model.Icon" />
+        <span class="cell__main">@Model.Main</span>
+        @if (Model.Notified)
+        {
+            <span class="cell__sent" title="Уведомление отправлено"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span>
+        }
+        @if (Model.Comments > 0)
+        {
+            <span class="cell__comments" title="Комментарии">@Model.Comments</span>
+        }
+    </button>
+    <div class="pop"></div>
+</td>

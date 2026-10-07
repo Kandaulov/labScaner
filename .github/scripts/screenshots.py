@@ -56,6 +56,53 @@ with sync_playwright() as p:
             page.wait_for_load_state("networkidle")
             page.screenshot(path=folder / f"{file}.png", full_page=True)
 
+        # Прототип журнала (шаг 2.5): сценарии с htmx
+        import time
+        started = time.perf_counter()
+        response = page.goto(f"{BASE}/Prototype/Journal")
+        page.wait_for_load_state("networkidle")
+        elapsed = (time.perf_counter() - started) * 1000
+        size = len(response.body()) // 1024
+        print(f"::notice title=Журнал ({name})::загрузка {elapsed:.0f} мс, HTML {size} КБ")
+        page.screenshot(path=folder / "20-journal.png", full_page=name == "desktop")
+
+        page.click("#c4-4 .cell")
+        page.wait_for_selector("#c4-4 .quick")
+        page.screenshot(path=folder / "21-journal-quick.png")
+
+        started = time.perf_counter()
+        page.click("#c4-4 .quick button[value='5']")
+        page.wait_for_selector("#c4-4 .cell--ok")
+        print(f"::notice title=Быстрая отметка ({name})::{(time.perf_counter() - started) * 1000:.0f} мс до обновления ячейки")
+        page.screenshot(path=folder / "22-journal-marked.png")
+
+        page.click("#c9-3 .cell")
+        page.wait_for_selector("#c9-3 .quick")
+        page.click("#c9-3 .quick a")
+        page.wait_for_selector("#panel .panel")
+        page.screenshot(path=folder / "23-journal-panel.png", full_page=name == "mobile")
+
+        page.click("#panel button[role=tab]:nth-child(2)")
+        page.wait_for_selector("#panel .timeline")
+        page.screenshot(path=folder / "24-journal-comments.png", full_page=name == "mobile")
+        page.click("#panel [data-close-panel]")
+
+        page.goto(f"{BASE}/Prototype/Journal?filter=automat")
+        page.wait_for_load_state("networkidle")
+        for box in page.query_selector_all(".jt__check")[:2]:
+            box.check()
+        page.query_selector_all("tbody .jt__check")[0].dispatch_event("change")
+        page.wait_for_selector("#selection button")
+        page.click("#selection button")
+        page.wait_for_selector("#modal .modal")
+        page.screenshot(path=folder / "25-journal-automat-dialog.png")
+        page.keyboard.press("Escape")
+
+        page.goto(f"{BASE}/Prototype/Journal")
+        page.click("#e3 .final")
+        page.wait_for_selector("#e3 .quick")
+        page.screenshot(path=folder / "26-journal-exam.png")
+
         if name == "mobile":
             page.goto(f"{BASE}/")
             page.click("label[for=nav-toggle]")

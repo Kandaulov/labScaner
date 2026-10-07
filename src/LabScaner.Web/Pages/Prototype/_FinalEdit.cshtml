@@ -1,0 +1,23 @@
+@model ProtoStudent
+<form class="quick quick--final" role="dialog" aria-label="Экзамен: ввод"
+      hx-post="@Url.Page("/Prototype/Journal", "Final", new { s = Model.Id })"
+      hx-target="#e@(Model.Id)" hx-swap="outerHTML">
+    <div class="quick__title">@Model.ShortName · Экзамен</div>
+    <div class="quick__row">
+        <label>Дата<input type="date" name="date" value="@((Model.ExamDate ?? new DateOnly(2026, 12, 22)).ToString("yyyy-MM-dd"))" /></label>
+        <label>Оценка
+            <select name="mark">
+                @foreach (var m in new[] { "5", "4", "3", "2", "не явился" })
+                {
+                    <option selected="@(Model.Exam == m)">@m</option>
+                }
+                <option value="">— очистить —</option>
+            </select>
+        </label>
+    </div>
+    <div class="quick__hint">Вводится только вручную. Студенту не отправляется.</div>
+    <div class="quick__actions">
+        <button type="button" class="button" data-close-pop>Отмена</button>
+        <button type="submit" class="button button--accepted">Сохранить</button>
+    </div>
+</form>

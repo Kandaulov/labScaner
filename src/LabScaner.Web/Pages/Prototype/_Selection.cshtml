@@ -1,0 +1,21 @@
+@model SelectionModel
+<div id="selection" class="selbar @(Model.Selected.Count == 0 ? "selbar--empty" : null)">
+    @if (Model.Selected.Count > 0)
+    {
+        <b>Выбрано: @Model.Selected.Count</b>
+        <span class="selbar__info">
+            претендуют на автомат: @Model.Candidates.Count
+            @foreach (var s in Model.Skipped.Take(2))
+            {
+                <text> · @s.ShortName — нет</text>
+            }
+        </span>
+        <span class="selbar__spacer"></span>
+        <button type="button" class="button" disabled="@(Model.Candidates.Count == 0)"
+                hx-post="@Url.Page("/Prototype/Journal", "AutoDialog")" hx-include=".jt__check" hx-target="#modal">Поставить автомат «5» претендентам (@Model.Candidates.Count)…</button>
+    }
+    else
+    {
+        <span class="selbar__info">Отметьте студентов, чтобы поставить автомат нескольким сразу</span>
+    }
+</div>

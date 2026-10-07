@@ -1,0 +1,123 @@
+@model PanelModel
+@inject JournalPrototypeStore Store
+@{
+    var w = Model.Work;
+    var s = Model.Student;
+    var isDecision = Model.Tab != "comments";
+    var deadline = JournalView.Deadline(Model.Lab);
+    var daysLeft = deadline.DayNumber - DateOnly.FromDateTime(JournalPrototypeStore.Today).DayNumber;
+    var panelUrl = (string tab) => Url.Page("/Prototype/Journal", "Panel", new { s = s.Id, l = Model.Lab, tab });
+    var selectedGrade = w.Grade ?? w.AiGrade ?? "5";
+    var whoTitle = new Dictionary<string, string> { ["sys"] = "Система", ["ai"] = "ИИ", ["teacher"] = "Преподаватель", ["sent"] = "Отправлено студенту", ["note"] = "Заметка для себя" };
+}
+<aside class="panel" aria-label="Карточка сдачи">
+    <div class="panel__head">
+        <div class="panel__title">
+            <div class="muted panel__context">КорпИС · ИСТ-41</div>
+            <h2>@s.FullName — @JournalView.WorkName(Model.Lab)</h2>
+        </div>
+        <button type="button" class="panel__close" aria-label="Закрыть карточку" data-close-panel>✕</button>
+    </div>
+    <div class="panel__meta">
+        @if (w.SubmittedAt is { } at)
+        {
+            <span>Сдано <b>@ProtoFormat.DayTime(at)</b></span>
+        }
+        else
+        {
+            <span>Не сдано</span>
+        }
+        <span>Дедлайн <b>@ProtoFormat.Day(deadline)</b> · осталось @daysLeft дн.</span>
+        @if (w.Version > 1)
+        {
+            <span class="chip">версия v@(w.Version)</span>
+        }
+    </div>
+    <div class="tabs" role="tablist">
+        <button type="button" role="tab" aria-selected="@(isDecision ? "true" : "false")" hx-get="@panelUrl("decision")" hx-target="#panel">Решение</button>
+        <button type="button" role="tab" aria-selected="@(!isDecision ? "true" : "false")" hx-get="@panelUrl("comments")" hx-target="#panel">Комментарии <span class="tabs__count">@w.History.Count</span></button>
+    </div>
+
+    @if (Model.Updated)
+    {
+        <div class="panel__saved" role="status">Сохранено. Ячейка в журнале обновлена.</div>
+    }
+
+    @if (isDecision)
+    {
+        <div class="panel__body">
+            @if (w.Status != CellStatus.NotSubmitted)
+            {
+                <section class="file">
+                    <div class="file__type">DOCX</div>
+                    <div class="file__info">
+                        <b>@(Model.Lab == 0 ? "Курсовая" : $"Лаб {Model.Lab:00}") - @s.FileShortName - v@(w.Version).docx</b>
+                        <span class="mono muted">…/2026-2027 КорпИС ИСТ - 7 сем/ИСТ-41 - @(Model.Lab == 0 ? "Кр" : "ЛР")/</span>
+                    </div>
+                </section>
+            }
+
+            @if (w.AiGrade is not null)
+            {
+                <section class="ai-block" aria-labelledby="ai-h">
+                    <div class="ai-block__head"><span class="cell__ai">ИИ</span><h3 id="ai-h">Предварительная проверка — предложение</h3></div>
+                    <ul class="checklist">
+                        <li><span class="mark mark--yes">✓</span>Описана предметная область и цель работы</li>
+                        <li><span class="mark mark--yes">✓</span>Модель AS-IS в нотации BPMN</li>
+                        <li><span class="mark mark--part">½</span>Модель TO-BE с обоснованием изменений<small>Изменения перечислены, обоснование — одной фразой</small></li>
+                        <li><span class="mark mark--yes">✓</span>Расчёт показателей процесса</li>
+                        <li><span class="mark mark--no">✕</span>Выводы<small>Раздел отсутствует</small></li>
+                    </ul>
+                    <div>Предлагаемая оценка: <b class="ai-block__grade">@w.AiGrade</b> <span class="muted">· уверенность средняя · данные прототипа</span></div>
+                </section>
+            }
+
+            <form class="decision" hx-post="@Url.Page("/Prototype/Journal", "Decide", new { s = s.Id, l = Model.Lab })" hx-target="#panel">
+                <h3>Решение преподавателя</h3>
+                <div class="grades" role="radiogroup" aria-label="Оценка">
+                    @foreach (var g in new[] { "5", "4", "3", "2", "ОК" })
+                    {
+                        <label class="grade"><input type="radio" name="grade" value="@g" checked="@(g == selectedGrade)" /><span>@(g == "ОК" ? "ОК без оценки" : g)</span></label>
+                    }
+                </div>
+                <label class="field">Замечания для студента
+                    <textarea name="remarks" rows="3">@w.Remarks</textarea>
+                </label>
+                <label class="check"><input type="checkbox" name="notify" value="true" checked /> Отправить уведомление студенту</label>
+                <div class="decision__actions">
+                    <button type="submit" name="decision" value="ok" class="button button--accepted">@(Model.Lab == 0 ? "Курсовая ОК" : "Лаба ОК")</button>
+                    <button type="submit" name="decision" value="return" class="button button--return">На доработку</button>
+                </div>
+                <div class="hint-box">Решение попадёт в черновик письма студенту по КорпИС. Само письмо уйдёт только после отправки с экрана «Уведомления».</div>
+            </form>
+        </div>
+    }
+    else
+    {
+        <div class="panel__body">
+            <ol class="timeline">
+                @foreach (var c in w.History)
+                {
+                    <li class="timeline__item timeline__item--@c.Author">
+                        <div class="timeline__who">@whoTitle[c.Author] <span class="mono muted">@ProtoFormat.DayTime(c.At)</span></div>
+                        <div class="timeline__text">@c.Text</div>
+                    </li>
+                }
+            </ol>
+            <form hx-post="@Url.Page("/Prototype/Journal", "Note", new { s = s.Id, l = Model.Lab })" hx-target="#panel" class="decision">
+                <label class="field">Заметка для себя (студент не увидит)
+                    <textarea name="note" rows="2" placeholder="Например: спросить на защите про расчёт стоимости"></textarea>
+                </label>
+                <button type="submit" class="button">Добавить заметку</button>
+            </form>
+        </div>
+    }
+</aside>
+@if (Model.Updated)
+{
+    <template>
+        <partial name="_Cell" model="JournalView.Cell(s, Model.Lab) with { Oob = true }" />
+        <td id="t@(Model.Lab)" hx-swap-oob="true" class="jt__total">@JournalView.Totals(Store.Students, Model.Lab)</td>
+        <partial name="_AutomatOob" model="s" />
+    </template>
+}
