@@ -1,0 +1,19 @@
+@model ProtoStudent
+@{
+    var state = JournalPrototypeStore.Automat(Model);
+    var text = state switch
+    {
+        AutomatState.Given => "★ Автомат 5",
+        AutomatState.Candidate => "★ претендует",
+        AutomatState.WaitsCoursework => "ждёт курсовую",
+        _ => "—",
+    };
+    var css = state switch
+    {
+        AutomatState.Given => "auto auto--given",
+        AutomatState.Candidate => "auto auto--candidate",
+        AutomatState.WaitsCoursework => "auto auto--waits",
+        _ => "auto",
+    };
+}
+<td id="a@(Model.Id)" class="jt__auto" hx-swap-oob="true"><span class="@css">@text</span></td>

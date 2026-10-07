@@ -1,0 +1,21 @@
+@model WorkRef
+@{
+    var w = Model.Work;
+    var hint = w.Status == CellStatus.AwaitingReview && w.AiGrade is not null ? $" · ИИ предложил {w.AiGrade}" : "";
+}
+<form class="quick" role="dialog" aria-label="Быстрая отметка"
+      hx-post="@Url.Page("/Prototype/Journal", "Mark", new { s = Model.Student.Id, l = Model.Lab })"
+      hx-target="#c@(Model.Student.Id)-@(Model.Lab)" hx-swap="outerHTML">
+    <div class="quick__title">@Model.Student.ShortName · @JournalView.WorkName(Model.Lab)@hint</div>
+    <div class="quick__grades" role="group" aria-label="Принять">
+        <button type="submit" name="grade" value="ОК" class="quick__ok">ОК</button>
+        <button type="submit" name="grade" value="5">5</button>
+        <button type="submit" name="grade" value="4">4</button>
+        <button type="submit" name="grade" value="3">3</button>
+    </div>
+    <label class="quick__letter"><input type="checkbox" name="inLetter" value="true" /> В письмо студенту</label>
+    <div class="quick__footer">
+        <span>Принята устно — без карточки</span>
+        <a href="#" hx-get="@Url.Page("/Prototype/Journal", "Panel", new { s = Model.Student.Id, l = Model.Lab })" hx-target="#panel" hx-swap="innerHTML">Карточка →</a>
+    </div>
+</form>

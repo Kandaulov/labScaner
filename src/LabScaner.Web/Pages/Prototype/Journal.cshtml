@@ -1,0 +1,101 @@
+@page
+@model JournalModel
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
+@{
+    ViewData["Title"] = "Журнал группы — прототип";
+    ViewData[NavMenu.ActiveKey] = NavMenu.Journal;
+    var students = Model.Store.Students;
+    var filters = new (string Id, string Label, int Count)[]
+    {
+        ("all", "Все", students.Count),
+        ("review", "Ждут проверки", students.Count(JournalView.NeedsReview)),
+        ("debtors", "Должники", students.Count(JournalView.IsDebtor)),
+        ("automat", "Претенденты на автомат", students.Count(s => JournalPrototypeStore.Automat(s) == AutomatState.Candidate)),
+        ("comments", "С комментариями", students.Count(JournalView.HasComments)),
+    };
+    var token = Antiforgery.GetAndStoreTokens(HttpContext).RequestToken;
+    var labDays = JournalPrototypeStore.LabDeadline.DayNumber - DateOnly.FromDateTime(JournalPrototypeStore.Today).DayNumber;
+}
+<div class="journal-page" hx-headers='{"RequestVerificationToken": "@token"}'>
+    <div class="banner">
+        <span class="banner__text"><b>Прототип на тестовых данных</b> (шаг 2.5): 25 вымышленных студентов, «сегодня» — 14.12.2026. Изменения хранятся в памяти и пропадают при перезапуске.</span>
+        <form method="post" asp-page-handler="Reset"><button type="submit" class="button">Сбросить данные</button></form>
+    </div>
+
+    <header class="jhead">
+        <h1>Журнал группы</h1>
+        <label class="jhead__field">Предмет<select disabled><option>КорпИС</option></select></label>
+        <label class="jhead__field">Группа<select disabled><option>ИСТ-41</option></select></label>
+        <div class="jhead__field">Семестр<span>2026-2027 · 7 сем · экзамен</span></div>
+        <span class="chip chip--warn">Лабы до 21.12 — @labDays дней · курсовая до 11.01</span>
+        <span class="jhead__spacer"></span>
+        <button type="button" class="button" disabled title="Экспорт появится на этапе 5">Экспорт в Excel</button>
+    </header>
+
+    <div id="journal">
+        <div class="filters" role="group" aria-label="Фильтры">
+            @foreach (var f in filters)
+            {
+                <a class="filter" aria-pressed="@(Model.Filter == f.Id ? "true" : "false")" href="?filter=@f.Id"
+                   hx-get="?filter=@f.Id" hx-target="#journal" hx-select="#journal" hx-swap="outerHTML" hx-push-url="true">@f.Label · @f.Count</a>
+            }
+            <span class="jhead__spacer"></span>
+            <span class="legend"><i class="cell cell--ai"></i>ждёт проверки <i class="cell cell--ok"></i>принято в срок <i class="cell cell--late"></i>после срока <i class="cell cell--back"></i>на доработку</span>
+        </div>
+
+        <partial name="_Selection" model="new SelectionModel([])" />
+        <div class="journal-layout">
+            <div class="jt-wrap" hx-post="@Url.Page("/Prototype/Journal", "Selection")" hx-trigger="change[target.classList.contains('jt__check')]"
+                 hx-include=".jt__check" hx-target="#selection" hx-swap="outerHTML">
+                    <table class="jt">
+                        <thead>
+                            <tr>
+                                <th class="jt__name"><span>Студент</span><span class="muted">@Model.Rows.Count</span></th>
+                                @for (var l = 1; l <= JournalPrototypeStore.LabCount; l++)
+                                {
+                                    <th class="jt__work"><b>Лаб @l</b><small>до 21.12</small></th>
+                                }
+                                <th class="jt__work jt__cw"><b>Курсовая</b><small>до 11.01</small></th>
+                                <th class="jt__auto"><b>Автомат</b><small>«5»</small></th>
+                                <th class="jt__final"><b>Экзамен</b><small>дата · оценка</small></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var s in Model.Rows)
+                            {
+                                <tr>
+                                    <th class="jt__name" scope="row">
+                                        <input type="checkbox" class="jt__check" name="selected" value="@s.Id" aria-label="Выбрать @s.ShortName" />
+                                        <span class="jt__n mono">@s.Id</span>
+                                        <span class="jt__student" title="@s.FullName">@s.ShortName</span>
+                                    </th>
+                                    @for (var l = 1; l <= JournalPrototypeStore.LabCount; l++)
+                                    {
+                                        <partial name="_Cell" model="JournalView.Cell(s, l)" />
+                                    }
+                                    <partial name="_Cell" model="JournalView.Cell(s, 0)" />
+                                    <partial name="_AutomatCell" model="s" />
+                                    <partial name="_FinalCell" model="s" />
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th class="jt__name">Принято / сдано</th>
+                                @for (var l = 1; l <= JournalPrototypeStore.LabCount; l++)
+                                {
+                                    <td id="t@(l)" class="jt__total">@JournalView.Totals(students, l)</td>
+                                }
+                                <td id="t0" class="jt__total jt__cw">@JournalView.Totals(students, 0)</td>
+                                <td class="jt__total">@students.Count(s => JournalPrototypeStore.Automat(s) is AutomatState.Candidate or AutomatState.Given) из @students.Count</td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+            </div>
+            <div id="panel" class="panel-slot"></div>
+        </div>
+    </div>
+    <div id="modal"></div>
+</div>
+<script src="~/js/journal.js" asp-append-version="true" defer></script>

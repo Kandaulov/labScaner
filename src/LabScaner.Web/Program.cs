@@ -20,6 +20,7 @@ builder.Services.AddRazorPages(options =>
     options.Conventions.AllowAnonymousToPage("/Error");
 });
 builder.Services.AddHealthChecks();
+builder.Services.AddSingleton<LabScaner.Web.Prototype.JournalPrototypeStore>();
 
 // Кириллица в разметке — как есть, без &#x...; (по умолчанию Razor кодирует всё, кроме латиницы).
 builder.Services.Configure<WebEncoderOptions>(options =>
