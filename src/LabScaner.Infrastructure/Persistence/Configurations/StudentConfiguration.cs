@@ -13,6 +13,7 @@ internal sealed class StudentConfiguration : IEntityTypeConfiguration<Student>
         builder.Property(s => s.FirstName).HasMaxLength(100).IsRequired();
         builder.Property(s => s.MiddleName).HasMaxLength(100);
         builder.Ignore(s => s.Name);
+        builder.Ignore(s => s.NameKey);
         builder.HasIndex(s => new { s.GroupId, s.LastName, s.FirstName });
 
         builder.HasMany(s => s.Emails)

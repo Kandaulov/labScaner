@@ -76,6 +76,20 @@ with sync_playwright() as p:
         page.wait_for_load_state("networkidle")
         page.screenshot(path=folder / "15-admin-calendar-added.png", full_page=True)
 
+        # Шаг 3.2: импорт групп из Excel и справочник
+        if name == "desktop":
+            page.goto(f"{BASE}/Groups/Import")
+            page.set_input_files("input[type=file]", os.environ["SHOT_GROUPS_XLSX"])
+            page.click("form[action*='Preview'] button[type=submit]")
+            page.wait_for_load_state("networkidle")
+            page.screenshot(path=folder / "16-groups-import-preview.png", full_page=True)
+            page.click("form[action*='Apply'] .import-summary button[type=submit]")
+            page.wait_for_load_state("networkidle")
+            page.screenshot(path=folder / "17-groups-import-done.png")
+        page.goto(f"{BASE}/Groups")
+        page.wait_for_load_state("networkidle")
+        page.screenshot(path=folder / "18-groups.png", full_page=True)
+
         # Прототип журнала (шаг 2.5): сценарии с htmx
         import time
         started = time.perf_counter()

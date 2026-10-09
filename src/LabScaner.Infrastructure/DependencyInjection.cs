@@ -50,6 +50,7 @@ public static class DependencyInjection
             .AddClaimsPrincipalFactory<AppClaimsPrincipalFactory>();
 
         services.AddScoped<UserAdministration>();
+        services.AddScoped<Import.GroupImportService>();
         services.Configure<SecurityStampValidatorOptions>(o => o.ValidationInterval = TimeSpan.FromMinutes(1));
 
         services.AddSingleton<IClock, SystemClock>();

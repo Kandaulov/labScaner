@@ -890,3 +890,129 @@ h2 {
 .settings-item--link .settings-item__title {
   color: var(--accent);
 }
+
+/* ---------- Группы и импорт (шаг 3.2) ---------- */
+.lead {
+  margin: -12px 0 0;
+}
+
+.group-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.inline-form {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  margin: 0;
+}
+
+.inline-form input,
+.input-small {
+  font: inherit;
+  font-size: 13px;
+  min-height: 30px;
+  border: 1px solid #c9cfd8;
+  border-radius: 6px;
+  padding: 0 8px;
+  background: var(--surface);
+}
+
+.input-small {
+  width: 150px;
+  border-style: dashed;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.toolbar__search {
+  font: inherit;
+  font-size: 13px;
+  min-height: 38px;
+  border: 1px solid #c9cfd8;
+  border-radius: 6px;
+  padding: 0 12px;
+  flex: 1 1 260px;
+  max-width: 360px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+}
+
+.chip-mono {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-family: var(--mono);
+  font-size: 12px;
+  background: var(--bg);
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+.chip-mono__remove {
+  border: 0;
+  background: transparent;
+  color: #9aa3af;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 0 2px;
+}
+
+.chip-mono__remove:hover {
+  color: #a33a12;
+}
+
+.table__row--muted td {
+  color: #7c8796;
+}
+
+.table--compact td {
+  padding: 5px 12px;
+  font-size: 13px;
+}
+
+.card__footer-form {
+  padding: 14px 20px 18px;
+  border-top: 1px solid var(--border-soft);
+}
+
+.sheet-counts {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.sheet-error {
+  margin: 12px 20px;
+}
+
+.card__header .check h2 {
+  display: inline;
+}
+
+.error-text {
+  color: #a33a12;
+}
+
+.warn-text {
+  color: #7a4a00;
+  font-size: 13px;
+}
+
+.import-summary .card__header h2 {
+  flex: 1;
+}
