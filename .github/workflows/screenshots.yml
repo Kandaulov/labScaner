@@ -61,6 +61,7 @@ jobs:
         env:
           SHOT_LOGIN: admin
           SHOT_PASSWORD: screenshots-password
+          SHOT_GROUPS_XLSX: ${{ github.workspace }}/tests/fixtures/groups/groups-yandex-tables-synthetic.xlsx
         run: .github/scripts/run.sh python .github/scripts/screenshots.py http://127.0.0.1:5080 shots
 
       - name: Ошибки приложения

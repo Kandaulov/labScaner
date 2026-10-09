@@ -40,6 +40,33 @@ public sealed class Student
 
     public void Deactivate() => IsActive = false;
 
+    public void Activate() => IsActive = true;
+
+    /// <summary>Ключ сравнения ФИО: без регистра, «ё» = «е».</summary>
+    public string NameKey => StudentNames.Key(Name);
+
+    /// <summary>
+    /// Уточнить ФИО по списку группы: заполнить отчество, если его не было, и привести регистр.
+    /// Фамилию и имя не меняет — это уже другой человек.
+    /// </summary>
+    public bool RefineName(PersonName name)
+    {
+        ArgumentNullException.ThrowIfNull(name);
+        if (!StudentNames.SameLastAndFirst(Name, name))
+        {
+            throw new InvalidOperationException("Уточнять можно только отчество и написание ФИО.");
+        }
+
+        var changed = false;
+        if (MiddleName is null && name.MiddleName is not null)
+        {
+            MiddleName = name.MiddleName;
+            changed = true;
+        }
+
+        return changed;
+    }
+
     /// <summary>
     /// Запоминает адрес отправителя за студентом (ADR-024). Повторный адрес не дублируется;
     /// источник «Manual» имеет приоритет над «Auto».

@@ -15,6 +15,7 @@ builder.Services.AddWebSecurity(builder.Configuration);
 builder.Services.AddRazorPages(options =>
 {
     options.Conventions.AuthorizeFolder("/Admin", SecurityServices.AdminPolicy);
+    options.Conventions.AuthorizePage("/Groups/Import", SecurityServices.AdminPolicy);
     options.Conventions.AllowAnonymousToPage("/Account/Login");
     options.Conventions.AllowAnonymousToPage("/Account/AccessDenied");
     options.Conventions.AllowAnonymousToPage("/Error");

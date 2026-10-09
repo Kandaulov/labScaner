@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 namespace LabScaner.Integration.Tests.Infrastructure;
 
 /// <summary>Приложение целиком поверх тестовой базы из <see cref="PostgresFixture"/>.</summary>
-public sealed class LabScanerWebFactory(PostgresFixture postgres, int loginRequestsPerMinute = 1000) : WebApplicationFactory<Program>
+public sealed class LabScanerWebFactory(PostgresFixture postgres, int loginRequestsPerMinute = 1000, string? connectionString = null) : WebApplicationFactory<Program>
 {
     public const string AdminLogin = "admin";
     public const string AdminPassword = "admin-password-1";
@@ -18,7 +18,7 @@ public sealed class LabScanerWebFactory(PostgresFixture postgres, int loginReque
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment("Testing");
-        builder.UseSetting("ConnectionStrings:Default", postgres.ConnectionString);
+        builder.UseSetting("ConnectionStrings:Default", connectionString ?? postgres.ConnectionString);
         builder.UseSetting("Bootstrap:AdminLogin", AdminLogin);
         builder.UseSetting("Bootstrap:AdminPassword", AdminPassword);
         builder.UseSetting("Bootstrap:AdminDisplayName", AdminDisplayName);

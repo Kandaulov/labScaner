@@ -1,0 +1,134 @@
+@page
+@model LabScaner.Web.Pages.Groups.ImportModel
+@using LabScaner.Infrastructure.Import
+@{
+    ViewData["Title"] = "Импорт групп";
+    ViewData[NavMenu.ActiveKey] = NavMenu.Groups;
+}
+<partial name="_PageHeader" model='@("Импорт групп из Excel")' />
+<nav class="breadcrumbs"><a href="/Groups">Группы и студенты</a> / Импорт</nav>
+
+@if (Model.Error is not null)
+{
+    <div class="notice notice--error" role="alert">@Model.Error</div>
+}
+
+@if (Model.Result is { } r)
+{
+    <div class="notice notice--ok" role="status">
+        <b>Импорт выполнен: @string.Join(", ", r.Groups)</b>
+        <span>Новых групп — @r.GroupsCreated, новых студентов — @r.StudentsAdded, уточнено ФИО — @r.StudentsUpdated, добавлено e-mail — @r.EmailsAdded.</span>
+        <span><a href="/Groups">Открыть справочник</a></span>
+    </div>
+}
+else if (Model.Preview is { } p)
+{
+    <form method="post" asp-page-handler="Apply">
+        <input type="hidden" name="payload" value="@p.Payload" />
+        <section class="card import-summary">
+            <div class="card__header">
+                <h2>Файл «@p.FileName»</h2>
+                <a class="button" href="/Groups/Import">Другой файл</a>
+                <button type="submit" class="button button--primary">Импортировать выбранные</button>
+            </div>
+            <p class="card__note muted">Отметьте группы для импорта. Студенты, которых уже нет в файле, не удаляются и не отчисляются — это делается вручную в справочнике.
+                Тема курсовой из файла пригодится при заведении предмета в семестре (шаг 3.4); сейчас она только показывается.</p>
+        </section>
+
+        @foreach (var sheet in p.Sheets)
+        {
+            <section class="card">
+                <div class="card__header">
+                    @if (sheet.CanImport)
+                    {
+                        <label class="check"><input type="checkbox" name="groups" value="@sheet.GroupName" checked />
+                            <h2>@sheet.GroupName</h2></label>
+                    }
+                    else
+                    {
+                        <h2>@(sheet.GroupName ?? sheet.SheetName)</h2>
+                    }
+                    <span class="muted">лист «@sheet.SheetName» · @(sheet.GroupExists ? "группа уже есть" : "новая группа")</span>
+                    <span class="sheet-counts">
+                        @if (sheet.Count(ImportRowStatus.New) > 0) { <span class="tag tag--ok">новых @sheet.Count(ImportRowStatus.New)</span> }
+                        @if (sheet.Count(ImportRowStatus.Updated) > 0) { <span class="tag tag--warn">уточнится @sheet.Count(ImportRowStatus.Updated)</span> }
+                        @if (sheet.Count(ImportRowStatus.Existing) > 0) { <span class="tag">уже есть @sheet.Count(ImportRowStatus.Existing)</span> }
+                        @if (sheet.Count(ImportRowStatus.Error) > 0) { <span class="tag tag--danger">с ошибками @sheet.Count(ImportRowStatus.Error)</span> }
+                    </span>
+                </div>
+                @if (sheet.Error is not null)
+                {
+                    <div class="notice notice--error sheet-error">@sheet.Error Лист будет пропущен.</div>
+                }
+                else
+                {
+                    @if (!sheet.CanImport)
+                    {
+                        <p class="card__note muted">Изменений нет — все студенты уже в справочнике.</p>
+                    }
+                    <div class="table-wrap">
+                        <table class="table table--compact">
+                            <thead><tr><th>Строка</th><th>ФИО</th><th>Тема КР</th><th>E-mail</th><th>Что произойдёт</th></tr></thead>
+                            <tbody>
+                                @foreach (var row in sheet.Rows)
+                                {
+                                    <tr class="@(row.Status == ImportRowStatus.Error ? "table__row--error" : row.Status == ImportRowStatus.Existing ? "table__row--muted" : null)">
+                                        <td class="mono muted">@row.RowNumber</td>
+                                        <td>@row.Name</td>
+                                        <td class="muted">@row.Topic</td>
+                                        <td class="mono">@row.Email</td>
+                                        <td>
+                                            @switch (row.Status)
+                                            {
+                                                case ImportRowStatus.New:
+                                                    <span>будет добавлен</span>
+                                                    break;
+                                                case ImportRowStatus.Updated:
+                                                    <span>уже есть, @row.Note</span>
+                                                    break;
+                                                case ImportRowStatus.Existing:
+                                                    <span>уже есть</span>
+                                                    break;
+                                                default:
+                                                    <span class="error-text">@row.Note — строка пропускается</span>
+                                                    break;
+                                            }
+                                            @if (row.Status is ImportRowStatus.New && row.Note is not null)
+                                            {
+                                                <div class="warn-text">@row.Note</div>
+                                            }
+                                            @if (row.Status is ImportRowStatus.Existing && row.Note is not null)
+                                            {
+                                                <div class="muted">@row.Note</div>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    @if (sheet.MissingInFile.Count > 0)
+                    {
+                        <p class="card__note warn-text">Есть в справочнике, но нет в файле (останутся как есть): @string.Join(", ", sheet.MissingInFile).</p>
+                    }
+                }
+            </section>
+        }
+    </form>
+}
+else
+{
+    <section class="card form-card">
+        <form method="post" asp-page-handler="Preview" enctype="multipart/form-data" class="form">
+            <label class="field">Файл со списками групп (.xlsx)
+                <input type="file" name="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required />
+            </label>
+            <div class="hint-box">
+                <b>Формат:</b> один лист на группу, имя листа — название группы («ИСТ41» или «ИСТ-41»).
+                Колонки: «№», «ФИО», «Тема КР»; если есть — «E-mail». ФИО можно прописными, отчество необязательно.
+                Сначала покажем, что будет загружено, — ничего не изменится до подтверждения.
+            </div>
+            <div class="form__actions"><button type="submit" class="button button--primary">Показать, что будет загружено</button></div>
+        </form>
+    </section>
+}

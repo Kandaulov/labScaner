@@ -1,9 +1,128 @@
 @page
+@model LabScaner.Web.Pages.Groups.IndexModel
 @{
     ViewData["Title"] = "Группы и студенты";
     ViewData[NavMenu.ActiveKey] = NavMenu.Groups;
+    var source = new Dictionary<LabScaner.Core.Directory.EmailSource, string>
+    {
+        [LabScaner.Core.Directory.EmailSource.Import] = "из списка группы",
+        [LabScaner.Core.Directory.EmailSource.Auto] = "запомнен по письму",
+        [LabScaner.Core.Directory.EmailSource.Manual] = "введён вручную",
+    };
 }
 <partial name="_PageHeader" model='@("Группы и студенты")' />
-<section class="card">
-    <partial name="_Empty" model='@(new EmptyState("Групп пока нет", "Импорт групп из Excel и общий справочник студентов появятся на этапе 3."))' />
-</section>
+<p class="muted lead">Общий справочник для всех преподавателей. @(Model.IsAdmin ? "Изменять может администратор." : "Изменять может только администратор.")</p>
+
+@if (!Model.IsAdmin)
+{
+    <div class="notice" role="note">Только просмотр. Нашли ошибку в ФИО или e-mail — сообщите администратору.</div>
+}
+@if (Model.Message is not null)
+{
+    <div class="notice notice--ok" role="status">@Model.Message</div>
+}
+@if (Model.Error is not null)
+{
+    <div class="notice notice--error" role="alert">@Model.Error</div>
+}
+
+<div class="group-tabs" role="tablist" aria-label="Группы">
+    @foreach (var g in Model.Groups)
+    {
+        <a class="filter" role="tab" aria-pressed="@(g.Id == Model.Group ? "true" : "false")" aria-selected="@(g.Id == Model.Group ? "true" : "false")"
+           href="?group=@g.Id">@g.Name · @g.Active</a>
+    }
+    @if (Model.IsAdmin)
+    {
+        <form method="post" asp-page-handler="AddGroup" class="inline-form">
+            <input name="name" placeholder="ИСТ-43" aria-label="Новая группа" required size="8" />
+            <button type="submit" class="button button--small">+ Группа</button>
+        </form>
+        <a class="button" href="/Groups/Import">Импорт из Excel</a>
+    }
+</div>
+
+@if (Model.Groups.Count == 0)
+{
+    <section class="card">
+        <partial name="_Empty" model='@(new EmptyState("Групп пока нет", Model.IsAdmin ? "Загрузите списки групп из Excel — один лист на группу, колонки «№», «ФИО», «Тема КР»." : "Группы заводит администратор.", Model.IsAdmin ? "Импорт из Excel" : null, Model.IsAdmin ? "/Groups/Import" : null))' />
+    </section>
+}
+else if (Model.Current is { } group)
+{
+    <form method="get" class="toolbar" hx-get="/Groups" hx-trigger="input changed delay:300ms from:input[name=q], change from:input[name=inactive]"
+          hx-target="#students" hx-select="#students" hx-swap="outerHTML" hx-push-url="true">
+        <input type="hidden" name="group" value="@group.Id" />
+        <input type="search" name="q" value="@Model.Q" placeholder="Поиск по ФИО или e-mail" aria-label="Поиск" class="toolbar__search" />
+        <label class="check"><input type="checkbox" name="inactive" value="true" checked="@Model.Inactive" /> Показать отчисленных</label>
+        <noscript><button type="submit" class="button button--small">Найти</button></noscript>
+    </form>
+
+    <section class="card" id="students">
+        <div class="card__header"><h2>@group.Name</h2><span class="muted">@Model.Students.Count</span></div>
+        @if (Model.Students.Count == 0)
+        {
+            <partial name="_Empty" model='@(new EmptyState(string.IsNullOrWhiteSpace(Model.Q) ? "В группе нет студентов" : "Никого не нашлось", string.IsNullOrWhiteSpace(Model.Q) ? "Добавьте студентов вручную или загрузите список из Excel." : "Измените запрос или включите «Показать отчисленных»."))' />
+        }
+        else
+        {
+            <div class="table-wrap">
+                <table class="table">
+                    <thead><tr><th>№</th><th>ФИО</th><th>E-mail</th><th>Статус</th>@if (Model.IsAdmin) { <th></th> }</tr></thead>
+                    <tbody>
+                        @{ var n = 0; }
+                        @foreach (var s in Model.Students)
+                        {
+                            n++;
+                            <tr class="@(s.IsActive ? null : "table__row--muted")">
+                                <td class="mono muted">@n</td>
+                                <td><b>@s.Name.FullName</b></td>
+                                <td>
+                                    <div class="chips">
+                                        @foreach (var e in s.Emails.OrderBy(e => e.CreatedAt))
+                                        {
+                                            <span class="chip-mono" title="@source[e.Source]">@e.Email
+                                                @if (Model.IsAdmin)
+                                                {
+                                                    <form method="post" asp-page-handler="RemoveEmail" asp-route-id="@s.Id" asp-route-emailId="@e.Id" asp-route-group="@group.Id" class="inline-form">
+                                                        <button type="submit" class="chip-mono__remove" aria-label="Удалить @e.Email">×</button>
+                                                    </form>
+                                                }
+                                            </span>
+                                        }
+                                        @if (Model.IsAdmin)
+                                        {
+                                            <form method="post" asp-page-handler="AddEmail" asp-route-id="@s.Id" asp-route-group="@group.Id" class="inline-form">
+                                                <input type="email" name="email" placeholder="+ e-mail" aria-label="Добавить e-mail для @s.Name.WithInitials" class="input-small" required />
+                                            </form>
+                                        }
+                                    </div>
+                                </td>
+                                <td><span class="tag @(s.IsActive ? "tag--ok" : "tag--muted")">@(s.IsActive ? "активен" : "отчислен")</span></td>
+                                @if (Model.IsAdmin)
+                                {
+                                    <td>
+                                        <div class="table__actions">
+                                            <form method="post" asp-page-handler="SetActive" asp-route-id="@s.Id" asp-route-active="@(!s.IsActive)" asp-route-group="@group.Id">
+                                                <button type="submit" class="button button--small">@(s.IsActive ? "Отчислить" : "Восстановить")</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        @if (Model.IsAdmin)
+        {
+            <form method="post" asp-page-handler="AddStudent" asp-route-group="@group.Id" class="form form--inline card__footer-form">
+                <label class="field">Добавить студента в @group.Name
+                    <input name="fullName" placeholder="Иванов Иван Иванович" required />
+                </label>
+                <button type="submit" class="button button--primary">+ Студент</button>
+            </form>
+        }
+    </section>
+}
