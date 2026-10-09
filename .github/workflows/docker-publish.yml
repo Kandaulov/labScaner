@@ -50,5 +50,8 @@ jobs:
           while IFS= read -r t; do [ -n "$t" ] && args+=(--tag "$t"); done <<< "$TAGS"
           while IFS= read -r l; do [ -n "$l" ] && args+=(--label "$l"); done <<< "$LABELS"
           [ "$PUSH" = "true" ] && args+=(--push)
+          # Версия должна быть корректной SemVer: v1.2.3 → 1.2.3, иначе 0.0.0-<ветка>.<коммит>
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then version="${GITHUB_REF_NAME#v}"
+          else version="0.0.0-$(echo "$GITHUB_REF_NAME" | tr -c 'A-Za-z0-9\n' '-').${GITHUB_SHA::7}"; fi
           .github/scripts/run.sh docker buildx build --progress=plain -f deploy/Dockerfile \
-            --build-arg "VERSION=${GITHUB_REF_NAME}-${GITHUB_SHA::7}" "${args[@]}" .
+            --build-arg "VERSION=$version" "${args[@]}" .
