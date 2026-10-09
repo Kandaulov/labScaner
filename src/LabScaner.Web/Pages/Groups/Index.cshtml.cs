@@ -189,7 +189,7 @@ public sealed class IndexModel(LabScanerDbContext db, IClock clock) : PageModel
             .ToListAsync();
         Groups = [.. groups.OrderBy(g => g.Name, StringComparer.Ordinal).Select(g => new GroupTab(g.Id, g.Name, g.Active))];
 
-        var id = Group ?? Groups.FirstOrDefault()?.Id;
+        var id = Group ?? (Groups.Count > 0 ? Groups[0].Id : null);
         Current = id is null ? null : await db.Groups.AsNoTracking().SingleOrDefaultAsync(g => g.Id == id);
         if (Current is null)
         {

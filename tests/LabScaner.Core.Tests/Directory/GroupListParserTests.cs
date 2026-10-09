@@ -4,7 +4,7 @@ namespace LabScaner.Core.Tests.Directory;
 
 public sealed class GroupListParserTests
 {
-    private static IReadOnlyList<IReadOnlyList<string?>> Rows(params string?[][] rows) => rows;
+    private static string?[][] Rows(params string?[][] rows) => rows;
 
     [Theory]
     [InlineData("ИСТ41", "ИСТ-41")]
