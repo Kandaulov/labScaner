@@ -127,7 +127,7 @@ public sealed class IndexModel(LabScanerDbContext db) : PageModel
     {
         var subjects = await db.Subjects.AsNoTracking().ToListAsync();
         Subjects = [.. subjects.OrderByDescending(s => s.IsActive).ThenBy(s => s.Code, StringComparer.CurrentCulture)];
-        Current = New ? null : Subjects.FirstOrDefault(s => s.Id == Id) ?? (Id is null ? Subjects.FirstOrDefault() : null);
+        Current = New ? null : Subjects.FirstOrDefault(s => s.Id == Id) ?? (Id is null && Subjects.Count > 0 ? Subjects[0] : null);
         Id = Current?.Id;
         if (Subjects.Count == 0)
         {
