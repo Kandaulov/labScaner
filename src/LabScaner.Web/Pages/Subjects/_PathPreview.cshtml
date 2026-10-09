@@ -1,0 +1,18 @@
+@model LabScaner.Web.Pages.Subjects.PathPreview
+<div id="path-preview" class="path-preview" aria-live="polite">
+    @if (Model.Error is not null)
+    {
+        <span class="error-text">@Model.Error</span>
+    }
+    else
+    {
+        <span class="muted">Например, для 2026-2027, ИСТ, 7 семестр:</span>
+        <nav class="path" aria-label="Путь на Диске">
+            @for (var i = 0; i < Model.Segments.Count; i++)
+            {
+                if (i > 0) { <span class="path__sep">/</span> }
+                <span class="path__seg">@Model.Segments[i]</span>
+            }
+        </nav>
+    }
+</div>

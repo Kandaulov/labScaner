@@ -1016,3 +1016,141 @@ h2 {
 .import-summary .card__header h2 {
   flex: 1;
 }
+
+/* ---------- Предметы (шаг 3.3) ---------- */
+.split {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.split__nav {
+  flex: 1 1 220px;
+  max-width: 280px;
+  padding: 8px;
+  gap: 2px;
+}
+
+.split__main {
+  flex: 999 1 560px;
+}
+
+.subject-link {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.subject-link:hover {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.subject-link[aria-current="page"] {
+  background: var(--accent-soft);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.subject-link .muted {
+  font-size: 12px;
+}
+
+.subject-link--archived b {
+  color: #7c8796;
+}
+
+.subject-link--add {
+  color: var(--accent);
+  font-weight: 600;
+  border: 1px dashed #b8c6de;
+  margin-top: 6px;
+}
+
+.subject-form__body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px 20px 20px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.subject-form .field input,
+.subject-form .field select,
+.subject-form .field textarea {
+  font: inherit;
+  font-size: 14px;
+  font-weight: 400;
+  min-height: 38px;
+  border: 1px solid #c9cfd8;
+  border-radius: 6px;
+  padding: 0 10px;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.subject-form .field textarea {
+  padding: 8px 10px;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.subject-form .field input.mono {
+  font-family: var(--mono);
+  font-size: 13px;
+}
+
+.field__hint code {
+  font-family: var(--mono);
+  background: var(--bg);
+  border-radius: 3px;
+  padding: 0 3px;
+}
+
+.path-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  background: #f7f8fa;
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.path {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+}
+
+.path__seg {
+  background: var(--surface);
+  border: 1px solid #e1e4e9;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+
+.path__sep {
+  color: #9aa3af;
+}
+
+.subject-form__footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-top: 1px solid var(--border-soft);
+  font-size: 13px;
+}

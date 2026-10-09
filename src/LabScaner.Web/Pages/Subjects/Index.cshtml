@@ -1,9 +1,98 @@
 @page
+@model LabScaner.Web.Pages.Subjects.IndexModel
+@using LabScaner.Core.Subjects
 @{
     ViewData["Title"] = "Предметы";
     ViewData[NavMenu.ActiveKey] = NavMenu.Subjects;
+    var current = Model.Current;
+    var title = current is null ? "Новый предмет" : current.Name;
 }
 <partial name="_PageHeader" model='@("Предметы")' />
-<section class="card">
-    <partial name="_Empty" model='@(new EmptyState("Предметов пока нет", "Заведение предметов (КорпИС, ОС, СПП), семестров, заданий и папок на Яндекс Диске появится на этапе 3."))' />
-</section>
+
+@if (Model.Message is not null)
+{
+    <div class="notice notice--ok" role="status">@Model.Message</div>
+}
+@if (Model.Error is not null)
+{
+    <div class="notice notice--error" role="alert">@Model.Error</div>
+}
+
+<div class="split">
+    <nav class="split__nav card" aria-label="Мои предметы">
+        @foreach (var s in Model.Subjects)
+        {
+            <a class="subject-link @(s.IsActive ? null : "subject-link--archived")" href="?id=@s.Id" aria-current="@(s.Id == current?.Id ? "page" : null)">
+                <b>@s.Code</b>
+                <span class="muted">@s.FinalAssessment.Title()@(s.IsActive ? "" : " · в архиве")</span>
+            </a>
+        }
+        <a class="subject-link subject-link--add" href="?new=true" aria-current="@(Model.New ? "page" : null)">+ Добавить предмет</a>
+    </nav>
+
+    <section class="card split__main" aria-labelledby="subj-h">
+        <form method="post" asp-page-handler="Save" asp-route-id="@current?.Id" class="subject-form">
+            <div class="card__header">
+                <h2 id="subj-h">@title</h2>
+                @if (current is { IsActive: false })
+                {
+                    <span class="tag tag--muted">в архиве</span>
+                }
+                <button type="submit" class="button button--primary">@(current is null ? "Добавить" : "Сохранить")</button>
+            </div>
+            <div class="subject-form__body">
+                <label class="field field--wide">Полное название
+                    <input asp-for="Input.Name" placeholder="Корпоративные информационные системы" required maxlength="200" />
+                </label>
+                <div class="form-row">
+                    <label class="field">Код в теме письма
+                        <input asp-for="Input.Code" placeholder="КорпИС" required maxlength="32"
+                               hx-post="?handler=PathPreview" hx-trigger="input changed delay:300ms" hx-target="#path-preview" hx-swap="outerHTML" hx-include="closest form" />
+                        <span class="field__hint">Как студенты пишут предмет: «ИСТ-41 – <b>КорпИС</b> – Иванов И.И. – Лаб №3»</span>
+                    </label>
+                    <label class="field">Другие написания
+                        <input asp-for="Input.Aliases" placeholder="КИС, КорпИнфСист" />
+                        <span class="field__hint">Через запятую. Регистр, пробелы, точки и дефисы не важны: «Корп ИС» = «КорпИС».</span>
+                    </label>
+                    <label class="field">Итоговая аттестация
+                        <select asp-for="Input.FinalAssessment">
+                            @foreach (var a in Enum.GetValues<FinalAssessment>())
+                            {
+                                <option value="@a" selected="@(a == Model.Input.FinalAssessment)">@a.Title()</option>
+                            }
+                        </select>
+                        <span class="field__hint">Автомат: @(Model.Input.FinalAssessment.AutomatMark() == "5" ? "«5»" : "«зачтено»")</span>
+                    </label>
+                </div>
+                <label class="field field--wide">Справочные материалы для ИИ
+                    <textarea asp-for="Input.AiReferenceText" rows="5" maxlength="20000"
+                              placeholder="Нотации: BPMN 2.0, IDEF0. Отчёт: титульный лист, цель, ход работы, выводы. Типовые ошибки: …"></textarea>
+                    <span class="field__hint">Уходят в каждую проверку по предмету вместе с заданием. Персональных данных здесь быть не должно. Загрузка файлов (методички) — на этапе 6.</span>
+                </label>
+                <label class="field field--wide">Шаблон пути на Яндекс Диске
+                    <input asp-for="Input.DiskPathTemplate" required maxlength="400" class="mono"
+                           hx-post="?handler=PathPreview" hx-trigger="input changed delay:300ms" hx-target="#path-preview" hx-swap="outerHTML" hx-include="closest form" />
+                    <span class="field__hint">
+                        Подстановки:
+                        @foreach (var p in DiskPathTemplate.Placeholders)
+                        {
+                            <code>@p.Key</code><text> — @p.Value; </text>
+                        }
+                        Путь у конкретного семестра можно будет поправить.
+                    </span>
+                </label>
+                <partial name="_PathPreview" model="new LabScaner.Web.Pages.Subjects.PathPreview(Model.Input.DiskPathTemplate ?? string.Empty, Model.Input.Code ?? string.Empty)" />
+            </div>
+        </form>
+        @if (current is not null)
+        {
+            <form method="post" asp-page-handler="Archive" asp-route-id="@current.Id" asp-route-restore="@(!current.IsActive)" class="subject-form__footer">
+                <span class="muted">@(current.IsActive ? "Предмет больше не читается? Перенесите в архив — данные сохранятся, письма по нему перестанут распознаваться." : "Предмет в архиве.")</span>
+                <button type="submit" class="button button--small @(current.IsActive ? "button--danger" : null)">@(current.IsActive ? "В архив" : "Вернуть из архива")</button>
+            </form>
+            <div class="subject-form__footer">
+                <span class="muted">Семестры, группы, задания и дедлайны предмета — шаги 3.4 и 3.5.</span>
+            </div>
+        }
+    </section>
+</div>
