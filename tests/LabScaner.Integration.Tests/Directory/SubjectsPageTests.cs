@@ -47,7 +47,7 @@ public sealed class SubjectsPageTests(PostgresFixture postgres)
         using var other = factory.CreateClient();
         await other.LoginAsync(colleague.UserName!, Password);
         var otherPage = await other.GetStringAsync(new Uri("/Subjects", UriKind.Relative));
-        Assert.DoesNotContain("<b>КорпИС</b>", otherPage, StringComparison.Ordinal);
+        Assert.DoesNotContain("href=\"?id=", otherPage, StringComparison.Ordinal);
         Assert.Contains("Новый предмет", otherPage, StringComparison.Ordinal);
     }
 
