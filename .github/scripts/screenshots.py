@@ -21,6 +21,9 @@ PAGES = [
     ("08-groups", "/Groups"),
     ("09-settings", "/Settings"),
     ("10-admin", "/Admin"),
+    ("11-admin-users", "/Admin/Users"),
+    ("12-admin-calendar", "/Admin/Calendar"),
+    ("13-password", "/Settings/Password"),
 ]
 VIEWPORTS = {"desktop": {"width": 1440, "height": 900}, "mobile": {"width": 390, "height": 844}}
 
@@ -55,6 +58,23 @@ with sync_playwright() as p:
             page.goto(f"{BASE}{path}")
             page.wait_for_load_state("networkidle")
             page.screenshot(path=folder / f"{file}.png", full_page=True)
+
+        # Шаг 3.1: добавить преподавателя (временный пароль) и семестр
+        page.goto(f"{BASE}/Admin/Users")
+        page.fill("input[name='NewUser.Login']", f"petrov{name}")
+        page.fill("input[name='NewUser.DisplayName']", "Петров П. П.")
+        page.click("form[action*='Create'] button[type=submit]")
+        page.wait_for_load_state("networkidle")
+        page.screenshot(path=folder / "14-admin-user-created.png", full_page=True)
+
+        page.goto(f"{BASE}/Admin/Calendar")
+        page.select_option("select[name='NewTerm.StartYear']", "2026")
+        page.select_option("select[name='NewTerm.Season']", "Autumn")
+        page.fill("input[name='NewTerm.CreditWeekStart']", "2026-12-21")
+        page.fill("input[name='NewTerm.SessionStart']", "2027-01-11")
+        page.click("form[action*='Add'] button[type=submit]")
+        page.wait_for_load_state("networkidle")
+        page.screenshot(path=folder / "15-admin-calendar-added.png", full_page=True)
 
         # Прототип журнала (шаг 2.5): сценарии с htmx
         import time
