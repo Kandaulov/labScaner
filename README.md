@@ -49,6 +49,7 @@
 | [docs/design/CLAUDE_DESIGN_PROMPT.md](docs/design/CLAUDE_DESIGN_PROMPT.md) | Промт для макетов интерфейса |
 | [docs/design/DESIGN_REVIEW.md](docs/design/DESIGN_REVIEW.md) | Ревью макетов |
 | [docs/passport/](docs/passport/) | Технический паспорт системы (DOCX, PDF, исходник) |
+| [docs/DEPLOY.md](docs/DEPLOY.md) | Развёртывание на сервере — пошагово, для первого запуска |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Как вести работу: ветки, коммиты, PR |
 | [.claude/agents/](.claude/agents/) | Роли ИИ-агентов: архитектор, разработчик, тестировщик |
 
@@ -58,6 +59,16 @@
 Прогресс — в [ROADMAP](docs/ROADMAP.md).
 
 ## Быстрый старт
+
+Система целиком (приложение, БД, HTTPS) — одной командой, см. [deploy/README.md](deploy/README.md):
+
+```bash
+cd deploy && cp .env.example .env   # заполнить пароли
+docker compose up -d
+```
+
+Для разработки:
+
 
 Нужен .NET SDK 10.0.100 или новее (`dotnet --version`).
 

@@ -1,0 +1,13 @@
+**/bin/
+**/obj/
+**/TestResults/
+.git/
+.github/
+.vs/
+.vscode/
+.idea/
+docs/
+tests/
+deploy/.env
+**/*.user
+dataprotection-keys/
