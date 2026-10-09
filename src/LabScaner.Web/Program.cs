@@ -41,6 +41,7 @@ app.UseRouting();
 app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseMiddleware<MustChangePasswordMiddleware>();
 
 app.MapHealthChecks("/health").AllowAnonymous();
 app.MapRazorPages();

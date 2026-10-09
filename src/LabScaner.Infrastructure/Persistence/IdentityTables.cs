@@ -13,6 +13,7 @@ internal static class IdentityTables
         {
             user.ToTable("users");
             user.Property(u => u.DisplayName).HasMaxLength(200).IsRequired();
+            user.Ignore(u => u.IsBlocked);
         });
         builder.Entity<IdentityRole<int>>().ToTable("roles");
         builder.Entity<IdentityUserRole<int>>().ToTable("user_roles");
