@@ -33,7 +33,9 @@ public sealed class GroupsPageTests(PostgresFixture postgres)
 
         var student = await PostAsync(client, $"/Groups?handler=AddStudent&group={groupId}", new() { ["fullName"] = "петров пётр петрович" });
         Assert.Contains("Добавлен студент Петров Пётр Петрович", student, StringComparison.Ordinal);
-        var studentId = System.Text.RegularExpressions.Regex.Match(student, "handler=AddEmail&amp;id=(\\d+)").Groups[1].Value;
+        var action = System.Text.RegularExpressions.Regex.Match(student, "action=\"([^\"]*handler=AddEmail[^\"]*)\"").Groups[1].Value;
+        var studentId = System.Text.RegularExpressions.Regex.Match(action, "[?&;]id=(\\d+)").Groups[1].Value;
+        Assert.NotEmpty(studentId);
 
         var email = await PostAsync(client, $"/Groups?handler=AddEmail&id={studentId}&group={groupId}", new() { ["email"] = "Petrov@Mail.ru" });
         Assert.Contains("petrov@mail.ru", email, StringComparison.Ordinal);
