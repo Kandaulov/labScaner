@@ -1,0 +1,533 @@
+fail: Microsoft.EntityFrameworkCore.Database.Command[20102]
+      Failed executing DbCommand (22ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "MigrationId", "ProductVersion"
+      FROM "__EFMigrationsHistory"
+      ORDER BY "MigrationId";
+info: LabScaner.Infrastructure.Persistence.DatabaseMigration[1335799732]
+      Применение миграций БД: 20261004192026_AddDirectories, 20261005063141_AddIdentityAndSubjects, 20261009142854_AddMustChangePassword
+fail: Microsoft.EntityFrameworkCore.Database.Command[20102]
+      Failed executing DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "MigrationId", "ProductVersion"
+      FROM "__EFMigrationsHistory"
+      ORDER BY "MigrationId";
+info: Microsoft.EntityFrameworkCore.Migrations[20402]
+      Applying migration '20261004192026_AddDirectories'.
+info: Microsoft.EntityFrameworkCore.Migrations[20402]
+      Applying migration '20261005063141_AddIdentityAndSubjects'.
+info: Microsoft.EntityFrameworkCore.Migrations[20402]
+      Applying migration '20261009142854_AddMustChangePassword'.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (30ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+      FROM roles AS r
+      WHERE r.normalized_name = @normalizedName
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+      FROM roles AS r
+      WHERE r.normalized_name = @normalizedName
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@p0='?', @p1='?', @p2='?'], CommandType='Text', CommandTimeout='30']
+      INSERT INTO roles (concurrency_stamp, name, normalized_name)
+      VALUES (@p0, @p1, @p2)
+      RETURNING id;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+      FROM roles AS r
+      WHERE r.normalized_name = @normalizedName
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+      FROM roles AS r
+      WHERE r.normalized_name = @normalizedName
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p0='?', @p1='?', @p2='?'], CommandType='Text', CommandTimeout='30']
+      INSERT INTO roles (concurrency_stamp, name, normalized_name)
+      VALUES (@p0, @p1, @p2)
+      RETURNING id;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+      FROM roles AS r
+      WHERE r.normalized_name = @normalizedRoleName
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@role_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT u0.id, u0.access_failed_count, u0.concurrency_stamp, u0.display_name, u0.email, u0.email_confirmed, u0.lockout_enabled, u0.lockout_end, u0.must_change_password, u0.normalized_email, u0.normalized_user_name, u0.password_hash, u0.phone_number, u0.phone_number_confirmed, u0.security_stamp, u0.two_factor_enabled, u0.user_name
+      FROM user_roles AS u
+      INNER JOIN users AS u0 ON u.user_id = u0.id
+      WHERE u.role_id = @role_Id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedUserName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u.id, u.access_failed_count, u.concurrency_stamp, u.display_name, u.email, u.email_confirmed, u.lockout_enabled, u.lockout_end, u.must_change_password, u.normalized_email, u.normalized_user_name, u.password_hash, u.phone_number, u.phone_number_confirmed, u.security_stamp, u.two_factor_enabled, u.user_name
+      FROM users AS u
+      WHERE u.normalized_user_name = @normalizedUserName
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?', @p2='?', @p3='?', @p4='?' (DbType = Boolean), @p5='?' (DbType = Boolean), @p6='?' (DbType = DateTime), @p7='?' (DbType = Boolean), @p8='?', @p9='?', @p10='?', @p11='?', @p12='?' (DbType = Boolean), @p13='?', @p14='?' (DbType = Boolean), @p15='?'], CommandType='Text', CommandTimeout='30']
+      INSERT INTO users (access_failed_count, concurrency_stamp, display_name, email, email_confirmed, lockout_enabled, lockout_end, must_change_password, normalized_email, normalized_user_name, password_hash, phone_number, phone_number_confirmed, security_stamp, two_factor_enabled, user_name)
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15)
+      RETURNING id;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+      FROM roles AS r
+      WHERE r.normalized_name = @normalizedRoleName
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT u.user_id, u.role_id
+      FROM user_roles AS u
+      WHERE u.user_id = @p AND u.role_id = @p1
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+      FROM roles AS r
+      WHERE r.normalized_name = @normalizedRoleName
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+      FROM roles AS r
+      WHERE r.normalized_name = @normalizedRoleName
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p='?' (DbType = Int32), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT u.user_id, u.role_id
+      FROM user_roles AS u
+      WHERE u.user_id = @p AND u.role_id = @p1
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+      FROM roles AS r
+      WHERE r.normalized_name = @normalizedRoleName
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedUserName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u.id, u.access_failed_count, u.concurrency_stamp, u.display_name, u.email, u.email_confirmed, u.lockout_enabled, u.lockout_end, u.must_change_password, u.normalized_email, u.normalized_user_name, u.password_hash, u.phone_number, u.phone_number_confirmed, u.security_stamp, u.two_factor_enabled, u.user_name
+      FROM users AS u
+      WHERE u.normalized_user_name = @normalizedUserName
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p20='?' (DbType = Int32), @p4='?' (DbType = Int32), @p5='?', @p21='?', @p6='?', @p7='?', @p8='?' (DbType = Boolean), @p9='?' (DbType = Boolean), @p10='?' (DbType = DateTime), @p11='?' (DbType = Boolean), @p12='?', @p13='?', @p14='?', @p15='?', @p16='?' (DbType = Boolean), @p17='?', @p18='?' (DbType = Boolean), @p19='?'], CommandType='Text', CommandTimeout='30']
+      INSERT INTO user_roles (role_id, user_id)
+      VALUES (@p0, @p1);
+      INSERT INTO user_roles (role_id, user_id)
+      VALUES (@p2, @p3);
+      UPDATE users SET access_failed_count = @p4, concurrency_stamp = @p5, display_name = @p6, email = @p7, email_confirmed = @p8, lockout_enabled = @p9, lockout_end = @p10, must_change_password = @p11, normalized_email = @p12, normalized_user_name = @p13, password_hash = @p14, phone_number = @p15, phone_number_confirmed = @p16, security_stamp = @p17, two_factor_enabled = @p18, user_name = @p19
+      WHERE id = @p20 AND concurrency_stamp = @p21;
+info: LabScaner.Infrastructure.Identity.IdentitySeeder[2037226992]
+      Создан первый администратор admin.
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {279db15d-7cc9-4eed-a60b-28ec56aae37e} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://127.0.0.1:5080
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Production
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/labScaner/labScaner/publish
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedUserName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u.id, u.access_failed_count, u.concurrency_stamp, u.display_name, u.email, u.email_confirmed, u.lockout_enabled, u.lockout_end, u.must_change_password, u.normalized_email, u.normalized_user_name, u.password_hash, u.phone_number, u.phone_number_confirmed, u.security_stamp, u.two_factor_enabled, u.user_name
+      FROM users AS u
+      WHERE u.normalized_user_name = @normalizedUserName
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedUserName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u.id, u.access_failed_count, u.concurrency_stamp, u.display_name, u.email, u.email_confirmed, u.lockout_enabled, u.lockout_end, u.must_change_password, u.normalized_email, u.normalized_user_name, u.password_hash, u.phone_number, u.phone_number_confirmed, u.security_stamp, u.two_factor_enabled, u.user_name
+      FROM users AS u
+      WHERE u.normalized_user_name = @normalizedUserName
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p16='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?', @p17='?', @p2='?', @p3='?', @p4='?' (DbType = Boolean), @p5='?' (DbType = Boolean), @p6='?' (DbType = DateTime), @p7='?' (DbType = Boolean), @p8='?', @p9='?', @p10='?', @p11='?', @p12='?' (DbType = Boolean), @p13='?', @p14='?' (DbType = Boolean), @p15='?'], CommandType='Text', CommandTimeout='30']
+      UPDATE users SET access_failed_count = @p0, concurrency_stamp = @p1, display_name = @p2, email = @p3, email_confirmed = @p4, lockout_enabled = @p5, lockout_end = @p6, must_change_password = @p7, normalized_email = @p8, normalized_user_name = @p9, password_hash = @p10, phone_number = @p11, phone_number_confirmed = @p12, security_stamp = @p13, two_factor_enabled = @p14, user_name = @p15
+      WHERE id = @p16 AND concurrency_stamp = @p17;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedUserName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u.id, u.access_failed_count, u.concurrency_stamp, u.display_name, u.email, u.email_confirmed, u.lockout_enabled, u.lockout_end, u.must_change_password, u.normalized_email, u.normalized_user_name, u.password_hash, u.phone_number, u.phone_number_confirmed, u.security_stamp, u.two_factor_enabled, u.user_name
+      FROM users AS u
+      WHERE u.normalized_user_name = @normalizedUserName
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedUserName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u.id, u.access_failed_count, u.concurrency_stamp, u.display_name, u.email, u.email_confirmed, u.lockout_enabled, u.lockout_end, u.must_change_password, u.normalized_email, u.normalized_user_name, u.password_hash, u.phone_number, u.phone_number_confirmed, u.security_stamp, u.two_factor_enabled, u.user_name
+      FROM users AS u
+      WHERE u.normalized_user_name = @normalizedUserName
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p16='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?', @p17='?', @p2='?', @p3='?', @p4='?' (DbType = Boolean), @p5='?' (DbType = Boolean), @p6='?' (DbType = DateTime), @p7='?' (DbType = Boolean), @p8='?', @p9='?', @p10='?', @p11='?', @p12='?' (DbType = Boolean), @p13='?', @p14='?' (DbType = Boolean), @p15='?'], CommandType='Text', CommandTimeout='30']
+      UPDATE users SET access_failed_count = @p0, concurrency_stamp = @p1, display_name = @p2, email = @p3, email_confirmed = @p4, lockout_enabled = @p5, lockout_end = @p6, must_change_password = @p7, normalized_email = @p8, normalized_user_name = @p9, password_hash = @p10, phone_number = @p11, phone_number_confirmed = @p12, security_stamp = @p13, two_factor_enabled = @p14, user_name = @p15
+      WHERE id = @p16 AND concurrency_stamp = @p17;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@user_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT u.id, u.claim_type, u.claim_value, u.user_id
+      FROM user_claims AS u
+      WHERE u.user_id = @user_Id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT r.name
+      FROM user_roles AS u
+      INNER JOIN roles AS r ON u.role_id = r.id
+      WHERE u.user_id = @userId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+      FROM roles AS r
+      WHERE r.normalized_name = @normalizedName
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@role_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT r.claim_type, r.claim_value
+      FROM role_claims AS r
+      WHERE r.role_id = @role_Id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+      FROM roles AS r
+      WHERE r.normalized_name = @normalizedName
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@role_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT r.claim_type, r.claim_value
+      FROM role_claims AS r
+      WHERE r.role_id = @role_Id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.academic_year, t.credit_week_start, t.season, t.session_start
+      FROM terms AS t
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+      FROM roles AS r
+      WHERE r.normalized_name = @normalizedRoleName
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@role_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT u0.id, u0.access_failed_count, u0.concurrency_stamp, u0.display_name, u0.email, u0.email_confirmed, u0.lockout_enabled, u0.lockout_end, u0.must_change_password, u0.normalized_email, u0.normalized_user_name, u0.password_hash, u0.phone_number, u0.phone_number_confirmed, u0.security_stamp, u0.two_factor_enabled, u0.user_name
+      FROM user_roles AS u
+      INNER JOIN users AS u0 ON u.user_id = u0.id
+      WHERE u.role_id = @role_Id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT s.teacher_id AS "TeacherId", s.code AS "Code"
+      FROM subjects AS s
+      WHERE s.is_active
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT u.id, u.access_failed_count, u.concurrency_stamp, u.display_name, u.email, u.email_confirmed, u.lockout_enabled, u.lockout_end, u.must_change_password, u.normalized_email, u.normalized_user_name, u.password_hash, u.phone_number, u.phone_number_confirmed, u.security_stamp, u.two_factor_enabled, u.user_name
+      FROM users AS u
+      ORDER BY u.display_name
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.academic_year, t.credit_week_start, t.season, t.session_start
+      FROM terms AS t
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+      FROM roles AS r
+      WHERE r.normalized_name = @normalizedRoleName
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@role_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT u0.id, u0.access_failed_count, u0.concurrency_stamp, u0.display_name, u0.email, u0.email_confirmed, u0.lockout_enabled, u0.lockout_end, u0.must_change_password, u0.normalized_email, u0.normalized_user_name, u0.password_hash, u0.phone_number, u0.phone_number_confirmed, u0.security_stamp, u0.two_factor_enabled, u0.user_name
+      FROM user_roles AS u
+      INNER JOIN users AS u0 ON u.user_id = u0.id
+      WHERE u.role_id = @role_Id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT s.teacher_id AS "TeacherId", s.code AS "Code"
+      FROM subjects AS s
+      WHERE s.is_active
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT u.id, u.access_failed_count, u.concurrency_stamp, u.display_name, u.email, u.email_confirmed, u.lockout_enabled, u.lockout_end, u.must_change_password, u.normalized_email, u.normalized_user_name, u.password_hash, u.phone_number, u.phone_number_confirmed, u.security_stamp, u.two_factor_enabled, u.user_name
+      FROM users AS u
+      ORDER BY u.display_name
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedUserName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u.id, u.access_failed_count, u.concurrency_stamp, u.display_name, u.email, u.email_confirmed, u.lockout_enabled, u.lockout_end, u.must_change_password, u.normalized_email, u.normalized_user_name, u.password_hash, u.phone_number, u.phone_number_confirmed, u.security_stamp, u.two_factor_enabled, u.user_name
+      FROM users AS u
+      WHERE u.normalized_user_name = @normalizedUserName
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?', @p2='?', @p3='?', @p4='?' (DbType = Boolean), @p5='?' (DbType = Boolean), @p6='?' (DbType = DateTime), @p7='?' (DbType = Boolean), @p8='?', @p9='?', @p10='?', @p11='?', @p12='?' (DbType = Boolean), @p13='?', @p14='?' (DbType = Boolean), @p15='?'], CommandType='Text', CommandTimeout='30']
+      INSERT INTO users (access_failed_count, concurrency_stamp, display_name, email, email_confirmed, lockout_enabled, lockout_end, must_change_password, normalized_email, normalized_user_name, password_hash, phone_number, phone_number_confirmed, security_stamp, two_factor_enabled, user_name)
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15)
+      RETURNING id;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+      FROM roles AS r
+      WHERE r.normalized_name = @normalizedRoleName
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p='?' (DbType = Int32), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT u.user_id, u.role_id
+      FROM user_roles AS u
+      WHERE u.user_id = @p AND u.role_id = @p1
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+      FROM roles AS r
+      WHERE r.normalized_name = @normalizedRoleName
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedUserName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u.id, u.access_failed_count, u.concurrency_stamp, u.display_name, u.email, u.email_confirmed, u.lockout_enabled, u.lockout_end, u.must_change_password, u.normalized_email, u.normalized_user_name, u.password_hash, u.phone_number, u.phone_number_confirmed, u.security_stamp, u.two_factor_enabled, u.user_name
+      FROM users AS u
+      WHERE u.normalized_user_name = @normalizedUserName
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p18='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?', @p19='?', @p4='?', @p5='?', @p6='?' (DbType = Boolean), @p7='?' (DbType = Boolean), @p8='?' (DbType = DateTime), @p9='?' (DbType = Boolean), @p10='?', @p11='?', @p12='?', @p13='?', @p14='?' (DbType = Boolean), @p15='?', @p16='?' (DbType = Boolean), @p17='?'], CommandType='Text', CommandTimeout='30']
+      INSERT INTO user_roles (role_id, user_id)
+      VALUES (@p0, @p1);
+      UPDATE users SET access_failed_count = @p2, concurrency_stamp = @p3, display_name = @p4, email = @p5, email_confirmed = @p6, lockout_enabled = @p7, lockout_end = @p8, must_change_password = @p9, normalized_email = @p10, normalized_user_name = @p11, password_hash = @p12, phone_number = @p13, phone_number_confirmed = @p14, security_stamp = @p15, two_factor_enabled = @p16, user_name = @p17
+      WHERE id = @p18 AND concurrency_stamp = @p19;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+      FROM roles AS r
+      WHERE r.normalized_name = @normalizedRoleName
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@role_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT u0.id, u0.access_failed_count, u0.concurrency_stamp, u0.display_name, u0.email, u0.email_confirmed, u0.lockout_enabled, u0.lockout_end, u0.must_change_password, u0.normalized_email, u0.normalized_user_name, u0.password_hash, u0.phone_number, u0.phone_number_confirmed, u0.security_stamp, u0.two_factor_enabled, u0.user_name
+      FROM user_roles AS u
+      INNER JOIN users AS u0 ON u.user_id = u0.id
+      WHERE u.role_id = @role_Id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT s.teacher_id AS "TeacherId", s.code AS "Code"
+      FROM subjects AS s
+      WHERE s.is_active
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT u.id, u.access_failed_count, u.concurrency_stamp, u.display_name, u.email, u.email_confirmed, u.lockout_enabled, u.lockout_end, u.must_change_password, u.normalized_email, u.normalized_user_name, u.password_hash, u.phone_number, u.phone_number_confirmed, u.security_stamp, u.two_factor_enabled, u.user_name
+      FROM users AS u
+      ORDER BY u.display_name
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.academic_year, t.credit_week_start, t.season, t.session_start
+      FROM terms AS t
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@term_AcademicYear='?', @term_Season='?'], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM terms AS t
+          WHERE t.academic_year = @term_AcademicYear AND t.season = @term_Season)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@p0='?', @p1='?' (DbType = Date), @p2='?', @p3='?' (DbType = Date)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO terms (academic_year, credit_week_start, season, session_start)
+      VALUES (@p0, @p1, @p2, @p3)
+      RETURNING id;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.academic_year, t.credit_week_start, t.season, t.session_start
+      FROM terms AS t
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedUserName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u.id, u.access_failed_count, u.concurrency_stamp, u.display_name, u.email, u.email_confirmed, u.lockout_enabled, u.lockout_end, u.must_change_password, u.normalized_email, u.normalized_user_name, u.password_hash, u.phone_number, u.phone_number_confirmed, u.security_stamp, u.two_factor_enabled, u.user_name
+      FROM users AS u
+      WHERE u.normalized_user_name = @normalizedUserName
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedUserName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u.id, u.access_failed_count, u.concurrency_stamp, u.display_name, u.email, u.email_confirmed, u.lockout_enabled, u.lockout_end, u.must_change_password, u.normalized_email, u.normalized_user_name, u.password_hash, u.phone_number, u.phone_number_confirmed, u.security_stamp, u.two_factor_enabled, u.user_name
+      FROM users AS u
+      WHERE u.normalized_user_name = @normalizedUserName
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p16='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?', @p17='?', @p2='?', @p3='?', @p4='?' (DbType = Boolean), @p5='?' (DbType = Boolean), @p6='?' (DbType = DateTime), @p7='?' (DbType = Boolean), @p8='?', @p9='?', @p10='?', @p11='?', @p12='?' (DbType = Boolean), @p13='?', @p14='?' (DbType = Boolean), @p15='?'], CommandType='Text', CommandTimeout='30']
+      UPDATE users SET access_failed_count = @p0, concurrency_stamp = @p1, display_name = @p2, email = @p3, email_confirmed = @p4, lockout_enabled = @p5, lockout_end = @p6, must_change_password = @p7, normalized_email = @p8, normalized_user_name = @p9, password_hash = @p10, phone_number = @p11, phone_number_confirmed = @p12, security_stamp = @p13, two_factor_enabled = @p14, user_name = @p15
+      WHERE id = @p16 AND concurrency_stamp = @p17;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedUserName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u.id, u.access_failed_count, u.concurrency_stamp, u.display_name, u.email, u.email_confirmed, u.lockout_enabled, u.lockout_end, u.must_change_password, u.normalized_email, u.normalized_user_name, u.password_hash, u.phone_number, u.phone_number_confirmed, u.security_stamp, u.two_factor_enabled, u.user_name
+      FROM users AS u
+      WHERE u.normalized_user_name = @normalizedUserName
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedUserName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u.id, u.access_failed_count, u.concurrency_stamp, u.display_name, u.email, u.email_confirmed, u.lockout_enabled, u.lockout_end, u.must_change_password, u.normalized_email, u.normalized_user_name, u.password_hash, u.phone_number, u.phone_number_confirmed, u.security_stamp, u.two_factor_enabled, u.user_name
+      FROM users AS u
+      WHERE u.normalized_user_name = @normalizedUserName
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p16='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?', @p17='?', @p2='?', @p3='?', @p4='?' (DbType = Boolean), @p5='?' (DbType = Boolean), @p6='?' (DbType = DateTime), @p7='?' (DbType = Boolean), @p8='?', @p9='?', @p10='?', @p11='?', @p12='?' (DbType = Boolean), @p13='?', @p14='?' (DbType = Boolean), @p15='?'], CommandType='Text', CommandTimeout='30']
+      UPDATE users SET access_failed_count = @p0, concurrency_stamp = @p1, display_name = @p2, email = @p3, email_confirmed = @p4, lockout_enabled = @p5, lockout_end = @p6, must_change_password = @p7, normalized_email = @p8, normalized_user_name = @p9, password_hash = @p10, phone_number = @p11, phone_number_confirmed = @p12, security_stamp = @p13, two_factor_enabled = @p14, user_name = @p15
+      WHERE id = @p16 AND concurrency_stamp = @p17;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@user_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT u.id, u.claim_type, u.claim_value, u.user_id
+      FROM user_claims AS u
+      WHERE u.user_id = @user_Id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT r.name
+      FROM user_roles AS u
+      INNER JOIN roles AS r ON u.role_id = r.id
+      WHERE u.user_id = @userId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+      FROM roles AS r
+      WHERE r.normalized_name = @normalizedName
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@role_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT r.claim_type, r.claim_value
+      FROM role_claims AS r
+      WHERE r.role_id = @role_Id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+      FROM roles AS r
+      WHERE r.normalized_name = @normalizedName
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@role_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT r.claim_type, r.claim_value
+      FROM role_claims AS r
+      WHERE r.role_id = @role_Id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.academic_year, t.credit_week_start, t.season, t.session_start
+      FROM terms AS t
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+      FROM roles AS r
+      WHERE r.normalized_name = @normalizedRoleName
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@role_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT u0.id, u0.access_failed_count, u0.concurrency_stamp, u0.display_name, u0.email, u0.email_confirmed, u0.lockout_enabled, u0.lockout_end, u0.must_change_password, u0.normalized_email, u0.normalized_user_name, u0.password_hash, u0.phone_number, u0.phone_number_confirmed, u0.security_stamp, u0.two_factor_enabled, u0.user_name
+      FROM user_roles AS u
+      INNER JOIN users AS u0 ON u.user_id = u0.id
+      WHERE u.role_id = @role_Id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT s.teacher_id AS "TeacherId", s.code AS "Code"
+      FROM subjects AS s
+      WHERE s.is_active
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT u.id, u.access_failed_count, u.concurrency_stamp, u.display_name, u.email, u.email_confirmed, u.lockout_enabled, u.lockout_end, u.must_change_password, u.normalized_email, u.normalized_user_name, u.password_hash, u.phone_number, u.phone_number_confirmed, u.security_stamp, u.two_factor_enabled, u.user_name
+      FROM users AS u
+      ORDER BY u.display_name
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.academic_year, t.credit_week_start, t.season, t.session_start
+      FROM terms AS t
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+      FROM roles AS r
+      WHERE r.normalized_name = @normalizedRoleName
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@role_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT u0.id, u0.access_failed_count, u0.concurrency_stamp, u0.display_name, u0.email, u0.email_confirmed, u0.lockout_enabled, u0.lockout_end, u0.must_change_password, u0.normalized_email, u0.normalized_user_name, u0.password_hash, u0.phone_number, u0.phone_number_confirmed, u0.security_stamp, u0.two_factor_enabled, u0.user_name
+      FROM user_roles AS u
+      INNER JOIN users AS u0 ON u.user_id = u0.id
+      WHERE u.role_id = @role_Id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT s.teacher_id AS "TeacherId", s.code AS "Code"
+      FROM subjects AS s
+      WHERE s.is_active
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT u.id, u.access_failed_count, u.concurrency_stamp, u.display_name, u.email, u.email_confirmed, u.lockout_enabled, u.lockout_end, u.must_change_password, u.normalized_email, u.normalized_user_name, u.password_hash, u.phone_number, u.phone_number_confirmed, u.security_stamp, u.two_factor_enabled, u.user_name
+      FROM users AS u
+      ORDER BY u.display_name
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedUserName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u.id, u.access_failed_count, u.concurrency_stamp, u.display_name, u.email, u.email_confirmed, u.lockout_enabled, u.lockout_end, u.must_change_password, u.normalized_email, u.normalized_user_name, u.password_hash, u.phone_number, u.phone_number_confirmed, u.security_stamp, u.two_factor_enabled, u.user_name
+      FROM users AS u
+      WHERE u.normalized_user_name = @normalizedUserName
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?', @p2='?', @p3='?', @p4='?' (DbType = Boolean), @p5='?' (DbType = Boolean), @p6='?' (DbType = DateTime), @p7='?' (DbType = Boolean), @p8='?', @p9='?', @p10='?', @p11='?', @p12='?' (DbType = Boolean), @p13='?', @p14='?' (DbType = Boolean), @p15='?'], CommandType='Text', CommandTimeout='30']
+      INSERT INTO users (access_failed_count, concurrency_stamp, display_name, email, email_confirmed, lockout_enabled, lockout_end, must_change_password, normalized_email, normalized_user_name, password_hash, phone_number, phone_number_confirmed, security_stamp, two_factor_enabled, user_name)
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15)
+      RETURNING id;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+      FROM roles AS r
+      WHERE r.normalized_name = @normalizedRoleName
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT u.user_id, u.role_id
+      FROM user_roles AS u
+      WHERE u.user_id = @p AND u.role_id = @p1
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+      FROM roles AS r
+      WHERE r.normalized_name = @normalizedRoleName
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedUserName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u.id, u.access_failed_count, u.concurrency_stamp, u.display_name, u.email, u.email_confirmed, u.lockout_enabled, u.lockout_end, u.must_change_password, u.normalized_email, u.normalized_user_name, u.password_hash, u.phone_number, u.phone_number_confirmed, u.security_stamp, u.two_factor_enabled, u.user_name
+      FROM users AS u
+      WHERE u.normalized_user_name = @normalizedUserName
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p18='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?', @p19='?', @p4='?', @p5='?', @p6='?' (DbType = Boolean), @p7='?' (DbType = Boolean), @p8='?' (DbType = DateTime), @p9='?' (DbType = Boolean), @p10='?', @p11='?', @p12='?', @p13='?', @p14='?' (DbType = Boolean), @p15='?', @p16='?' (DbType = Boolean), @p17='?'], CommandType='Text', CommandTimeout='30']
+      INSERT INTO user_roles (role_id, user_id)
+      VALUES (@p0, @p1);
+      UPDATE users SET access_failed_count = @p2, concurrency_stamp = @p3, display_name = @p4, email = @p5, email_confirmed = @p6, lockout_enabled = @p7, lockout_end = @p8, must_change_password = @p9, normalized_email = @p10, normalized_user_name = @p11, password_hash = @p12, phone_number = @p13, phone_number_confirmed = @p14, security_stamp = @p15, two_factor_enabled = @p16, user_name = @p17
+      WHERE id = @p18 AND concurrency_stamp = @p19;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+      FROM roles AS r
+      WHERE r.normalized_name = @normalizedRoleName
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@role_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT u0.id, u0.access_failed_count, u0.concurrency_stamp, u0.display_name, u0.email, u0.email_confirmed, u0.lockout_enabled, u0.lockout_end, u0.must_change_password, u0.normalized_email, u0.normalized_user_name, u0.password_hash, u0.phone_number, u0.phone_number_confirmed, u0.security_stamp, u0.two_factor_enabled, u0.user_name
+      FROM user_roles AS u
+      INNER JOIN users AS u0 ON u.user_id = u0.id
+      WHERE u.role_id = @role_Id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT s.teacher_id AS "TeacherId", s.code AS "Code"
+      FROM subjects AS s
+      WHERE s.is_active
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT u.id, u.access_failed_count, u.concurrency_stamp, u.display_name, u.email, u.email_confirmed, u.lockout_enabled, u.lockout_end, u.must_change_password, u.normalized_email, u.normalized_user_name, u.password_hash, u.phone_number, u.phone_number_confirmed, u.security_stamp, u.two_factor_enabled, u.user_name
+      FROM users AS u
+      ORDER BY u.display_name
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.academic_year, t.credit_week_start, t.season, t.session_start
+      FROM terms AS t
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@term_AcademicYear='?', @term_Season='?'], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM terms AS t
+          WHERE t.academic_year = @term_AcademicYear AND t.season = @term_Season)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.academic_year, t.credit_week_start, t.season, t.session_start
+      FROM terms AS t
