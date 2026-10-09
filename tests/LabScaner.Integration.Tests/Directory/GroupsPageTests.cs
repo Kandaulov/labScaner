@@ -61,11 +61,11 @@ public sealed class GroupsPageTests(PostgresFixture postgres)
         var created = await PostAsync(client, "/Groups?handler=AddGroup", new() { ["name"] = "ИСТ-44" });
         var groupId = System.Text.RegularExpressions.Regex.Match(created, "href=\"\\?group=(\\d+)\">ИСТ-44").Groups[1].Value;
         await PostAsync(client, $"/Groups?handler=AddStudent&group={groupId}", new() { ["fullName"] = "Журавлёв Семён Павлович" });
-        await PostAsync(client, $"/Groups?handler=AddStudent&group={groupId}", new() { ["fullName"] = "Иванов Иван" });
+        await PostAsync(client, $"/Groups?handler=AddStudent&group={groupId}", new() { ["fullName"] = "Сидоров Олег" });
 
         var found = await client.GetStringAsync(new Uri($"/Groups?group={groupId}&q=журавлев", UriKind.Relative));
 
         Assert.Contains("Журавлёв Семён Павлович", found, StringComparison.Ordinal);
-        Assert.DoesNotContain("Иванов Иван", found, StringComparison.Ordinal);
+        Assert.DoesNotContain("Сидоров Олег", found, StringComparison.Ordinal);
     }
 }

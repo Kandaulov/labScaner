@@ -11,7 +11,8 @@ public sealed class GroupNameTests
     [InlineData("ИСТ—41", "ИСТ-41")]
     [InlineData("ИСТ_41", "ИСТ-41")]
     [InlineData("  ИСТ-41 ", "ИСТ-41")]
-    [InlineData("ИСТбд-41", "ИСТбд-41")]     // регистр сохраняется
+    [InlineData("ИСТбд-41", "ИСТбд-41")]     // смешанный регистр сохраняется
+    [InlineData("ист41", "ИСТ-41")]          // набрано строчными — к прописным
     public void Normalize_ReturnsCanonicalName(string raw, string expected) =>
         Assert.Equal(expected, GroupName.Normalize(raw));
 

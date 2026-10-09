@@ -38,6 +38,13 @@ public static class GroupName
 
         var prefix = value[..firstDigit].TrimEnd('-');
         var suffix = value[firstDigit..];
+
+        // «ист-41», набранное строчными, — это «ИСТ-41»; смешанный регистр («ИСТбд») сохраняется.
+        if (prefix.All(ch => !char.IsLetter(ch) || char.IsLower(ch)))
+        {
+            prefix = prefix.ToUpperInvariant();
+        }
+
         return $"{prefix}-{suffix}";
     }
 

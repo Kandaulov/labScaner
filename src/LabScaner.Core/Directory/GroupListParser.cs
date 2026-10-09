@@ -20,6 +20,9 @@ public static class GroupListParser
     private static readonly string[] _topicHeaders = ["ТЕМА"];
     private static readonly string[] _emailHeaders = ["E-MAIL", "EMAIL", "ПОЧТА", "ЭЛ. ПОЧТА", "ЭЛЕКТРОННАЯ ПОЧТА"];
 
+    /// <summary>Стандартные имена листов («Лист1», «Sheet1») — это не группы.</summary>
+    private static readonly string[] _defaultSheetNames = ["ЛИСТ", "SHEET", "LIST", "ТАБЛИЦА", "TABLE", "СТРАНИЦА", "PAGE"];
+
     /// <param name="rows">Строки листа: индекс строки — номер строки в файле минус 1, ячейки — по столбцам A, B, C…</param>
     public static GroupListSheet Parse(string sheetName, IReadOnlyList<IReadOnlyList<string?>> rows)
     {
@@ -108,6 +111,11 @@ public static class GroupListParser
 
         var letters = normalized[..dash];
         var number = normalized[(dash + 1)..];
+        if (_defaultSheetNames.Contains(letters.ToUpperInvariant(), StringComparer.Ordinal))
+        {
+            return null;
+        }
+
         return letters.All(char.IsLetter) && number.All(char.IsLetterOrDigit) && char.IsDigit(number[0]) ? normalized : null;
     }
 
