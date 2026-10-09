@@ -53,10 +53,11 @@
                                         break;
                                 }
                             </td>
-                            <td class="table__actions">
+                            <td><div class="table__actions">
                                 <form id="f-@formId" method="post" asp-page-handler="Save" asp-route-id="@t.Id">
                                     <button type="submit" class="button button--small">Сохранить</button>
                                 </form>
+                            </div>
                             </td>
                         </tr>
                     }

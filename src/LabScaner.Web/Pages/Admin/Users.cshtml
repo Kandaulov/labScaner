@@ -60,7 +60,7 @@
                                 <span class="tag tag--ok">активен</span>
                             }
                         </td>
-                        <td class="table__actions">
+                        <td><div class="table__actions">
                             <form method="post" asp-page-handler="Reset" asp-route-id="@u.Id">
                                 <button type="submit" class="button button--small">Сбросить пароль</button>
                             </form>
@@ -70,6 +70,7 @@
                                     <button type="submit" class="button button--small @(u.IsBlocked ? null : "button--danger")">@(u.IsBlocked ? "Разблокировать" : "Заблокировать")</button>
                                 </form>
                             }
+                            </div>
                         </td>
                     </tr>
                 }
@@ -82,8 +83,7 @@
     <div class="card__header"><h2 id="new-h">Добавить преподавателя</h2></div>
     <form method="post" asp-page-handler="Create" class="form form--inline">
         <label class="field">Логин
-            <input asp-for="NewUser.Login" autocomplete="off" placeholder="ivanov" required />
-            <span class="field__hint">Латиница, цифры, точка, дефис</span>
+            <input asp-for="NewUser.Login" autocomplete="off" placeholder="ivanov" title="Латиница, цифры, точка, дефис" required />
         </label>
         <label class="field">Имя в системе
             <input asp-for="NewUser.DisplayName" autocomplete="off" placeholder="Иванов И. И." required />
@@ -91,5 +91,5 @@
         <label class="check"><input asp-for="NewUser.IsAdmin" type="checkbox" /> Администратор</label>
         <button type="submit" class="button button--primary">Добавить</button>
     </form>
-    <p class="muted card__note">Система выдаст временный пароль; при первом входе преподаватель сменит его на свой.</p>
+    <p class="muted card__note">Логин — латиница, цифры, точка, дефис. Система выдаст временный пароль; при первом входе преподаватель сменит его на свой.</p>
 </section>
