@@ -6,6 +6,8 @@ on:
   push:
     branches: [main]
     tags: ["v*"]
+  pull_request:
+    paths: ["deploy/Dockerfile", ".github/workflows/docker-publish.yml"]
   workflow_dispatch:
 
 permissions:
@@ -37,13 +39,19 @@ jobs:
             type=semver,pattern={{version}}
             type=raw,value=latest,enable=${{ startsWith(github.ref, 'refs/tags/v') }}
 
-      - uses: docker/build-push-action@v7
-        with:
-          context: .
-          file: deploy/Dockerfile
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          build-args: VERSION=${{ github.ref_name }}-${{ github.sha }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+      # Сборка обычной командой, чтобы ошибки компиляции попадали в аннотации (run.sh).
+      - name: Сборка и публикация
+        env:
+          TAGS: ${{ steps.meta.outputs.tags }}
+          LABELS: ${{ steps.meta.outputs.labels }}
+          PUSH: ${{ github.event_name != 'pull_request' }}
+        run: |
+          args=()
+          while IFS= read -r t; do [ -n "$t" ] && args+=(--tag "$t"); done <<< "$TAGS"
+          while IFS= read -r l; do [ -n "$l" ] && args+=(--label "$l"); done <<< "$LABELS"
+          [ "$PUSH" = "true" ] && args+=(--push)
+          # Версия должна быть корректной SemVer: v1.2.3 → 1.2.3, иначе 0.0.0-<ветка>.<коммит>
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then version="${GITHUB_REF_NAME#v}"
+          else version="0.0.0-$(echo "$GITHUB_REF_NAME" | tr -c 'A-Za-z0-9\n' '-').${GITHUB_SHA::7}"; fi
+          .github/scripts/run.sh docker buildx build --progress=plain -f deploy/Dockerfile \
+            --build-arg "VERSION=$version" "${args[@]}" .
