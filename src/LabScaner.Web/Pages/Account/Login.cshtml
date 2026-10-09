@@ -17,7 +17,7 @@
 
         @if (Model.IsLockedOut)
         {
-            <div class="alert alert--warn" role="alert">@LoginModel.LockedOut</div>
+            <div class="alert alert--warn" role="alert">@Model.ErrorMessage</div>
         }
         else if (Model.ErrorMessage is not null)
         {

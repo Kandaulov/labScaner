@@ -12,6 +12,7 @@ public sealed class LoginModel(SignInManager<AppUser> signInManager) : PageModel
 {
     public const string WrongCredentials = "Неверный логин или пароль.";
     public const string LockedOut = "Слишком много неудачных попыток. Вход временно заблокирован — попробуйте через 15 минут или обратитесь к администратору.";
+    public const string Blocked = "Учётная запись заблокирована администратором.";
 
     [BindProperty]
     public LoginInput Input { get; set; } = new();
@@ -40,7 +41,13 @@ public sealed class LoginModel(SignInManager<AppUser> signInManager) : PageModel
         }
 
         IsLockedOut = result.IsLockedOut;
-        ErrorMessage = result.IsLockedOut ? LockedOut : WrongCredentials;
+        ErrorMessage = WrongCredentials;
+        if (result.IsLockedOut)
+        {
+            var user = await signInManager.UserManager.FindByNameAsync(Input.Login.Trim());
+            ErrorMessage = user?.IsBlocked == true ? Blocked : LockedOut;
+        }
+
         return Page();
     }
 

@@ -8,6 +8,9 @@ public static class AppClaims
 {
     /// <summary>Отображаемое имя в cookie входа — чтобы не читать пользователя из БД на каждой странице.</summary>
     public const string DisplayName = "labscaner:display_name";
+
+    /// <summary>Есть у пользователя, которому администратор выдал временный пароль.</summary>
+    public const string MustChangePassword = "labscaner:must_change_password";
 }
 
 internal sealed class AppClaimsPrincipalFactory(
@@ -20,6 +23,11 @@ internal sealed class AppClaimsPrincipalFactory(
     {
         var identity = await base.GenerateClaimsAsync(user);
         identity.AddClaim(new Claim(AppClaims.DisplayName, string.IsNullOrWhiteSpace(user.DisplayName) ? user.UserName ?? string.Empty : user.DisplayName));
+        if (user.MustChangePassword)
+        {
+            identity.AddClaim(new Claim(AppClaims.MustChangePassword, "true"));
+        }
+
         return identity;
     }
 }

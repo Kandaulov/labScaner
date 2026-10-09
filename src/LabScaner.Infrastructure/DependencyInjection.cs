@@ -49,6 +49,9 @@ public static class DependencyInjection
             .AddErrorDescriber<RussianIdentityErrorDescriber>()
             .AddClaimsPrincipalFactory<AppClaimsPrincipalFactory>();
 
+        services.AddScoped<UserAdministration>();
+        services.Configure<SecurityStampValidatorOptions>(o => o.ValidationInterval = TimeSpan.FromMinutes(1));
+
         services.AddSingleton<IClock, SystemClock>();
 
         return services;

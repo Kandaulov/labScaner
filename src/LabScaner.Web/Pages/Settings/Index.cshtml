@@ -1,18 +1,39 @@
 @page
+@model LabScaner.Web.Pages.Settings.IndexModel
 @{
     ViewData["Title"] = "Настройки";
     ViewData[NavMenu.ActiveKey] = NavMenu.Settings;
     var isAdmin = User.IsInRole(Roles.Admin);
+    var ru = System.Globalization.CultureInfo.GetCultureInfo("ru-RU");
 }
 <partial name="_PageHeader" model='@("Настройки")' />
 
 <section class="card" aria-labelledby="my-h">
     <div class="card__header"><h2 id="my-h">Мои настройки</h2></div>
     <div class="settings-list">
-        <div class="settings-item"><span class="settings-item__title">Почта</span><span class="settings-item__text">IMAP — приём работ, SMTP — отправка уведомлений, интервал автопроверки</span></div>
-        <div class="settings-item"><span class="settings-item__title">Яндекс Диск</span><span class="settings-item__text">Подключение к Диску, куда раскладываются работы</span></div>
-        <div class="settings-item"><span class="settings-item__title">Шаблоны писем</span><span class="settings-item__text">Текст уведомлений студентам с переменными</span></div>
-        <div class="settings-item"><span class="settings-item__title">Смена пароля</span><span class="settings-item__text">Пароль — не короче 10 символов</span></div>
+        <div class="settings-item"><span class="settings-item__title">Почта</span><span class="settings-item__text">IMAP — приём работ, SMTP — отправка уведомлений, интервал автопроверки · шаг 3.6</span></div>
+        <div class="settings-item"><span class="settings-item__title">Яндекс Диск</span><span class="settings-item__text">Подключение к Диску, куда раскладываются работы · шаг 3.6</span></div>
+        <div class="settings-item"><span class="settings-item__title">Шаблоны писем</span><span class="settings-item__text">Текст уведомлений студентам с переменными · этап 7</span></div>
+        <a class="settings-item settings-item--link" href="/Settings/Password"><span class="settings-item__title">Смена пароля</span><span class="settings-item__text">Пароль — не короче 10 символов</span></a>
+    </div>
+</section>
+
+<section class="card" aria-labelledby="common-h">
+    <div class="card__header"><h2 id="common-h">Общие настройки системы</h2></div>
+    <div class="settings-list">
+        <div class="settings-item">
+            <span class="settings-item__text">Текущий семестр</span>
+            @if (Model.CurrentTerm is { } t)
+            {
+                <span class="settings-item__title">@t.Title</span>
+                <span class="settings-item__text">зачётная неделя с @t.CreditWeekStart.ToString("dd.MM", ru) · сессия с @t.SessionStart.ToString("dd.MM.yyyy", ru)</span>
+            }
+            else
+            {
+                <span class="settings-item__title">не задан</span>
+                <span class="settings-item__text">@(isAdmin ? "Добавьте его в учебном календаре" : "Его заводит администратор")</span>
+            }
+        </div>
     </div>
 </section>
 
@@ -21,11 +42,10 @@
     <section class="card" aria-labelledby="admin-h">
         <div class="card__header"><h2 id="admin-h">Администрирование</h2><a href="/Admin">Открыть</a></div>
         <div class="settings-list">
-            <div class="settings-item"><span class="settings-item__title">Пользователи</span><span class="settings-item__text">Преподаватели: добавить, заблокировать, сбросить пароль</span></div>
-            <div class="settings-item"><span class="settings-item__title">Учебный календарь</span><span class="settings-item__text">Семестры, зачётная неделя, сессия</span></div>
-            <div class="settings-item"><span class="settings-item__title">ИИ</span><span class="settings-item__text">Провайдер, модель, лимиты; обезличивание всегда включено</span></div>
-            <div class="settings-item"><span class="settings-item__title">Группы и студенты</span><span class="settings-item__text">Общий справочник для всех преподавателей</span></div>
+            <a class="settings-item settings-item--link" href="/Admin/Users"><span class="settings-item__title">Пользователи</span><span class="settings-item__text">Преподаватели: добавить, заблокировать, сбросить пароль</span></a>
+            <a class="settings-item settings-item--link" href="/Admin/Calendar"><span class="settings-item__title">Учебный календарь</span><span class="settings-item__text">Семестры, зачётная неделя, сессия</span></a>
+            <div class="settings-item"><span class="settings-item__title">ИИ</span><span class="settings-item__text">Провайдер, модель, лимиты; обезличивание всегда включено · шаг 3.6</span></div>
+            <div class="settings-item"><span class="settings-item__title">Группы и студенты</span><span class="settings-item__text">Общий справочник для всех преподавателей · шаг 3.2</span></div>
         </div>
     </section>
 }
-<p class="muted">Разделы настроек заработают на этапе 3.</p>

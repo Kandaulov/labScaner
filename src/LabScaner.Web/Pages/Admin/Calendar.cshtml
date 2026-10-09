@@ -1,0 +1,94 @@
+@page
+@model CalendarModel
+@using LabScaner.Core.Directory
+@{
+    ViewData["Title"] = "Учебный календарь";
+    ViewData[NavMenu.ActiveKey] = NavMenu.Settings;
+}
+<partial name="_PageHeader" model='@("Учебный календарь")' />
+<nav class="breadcrumbs"><a href="/Settings">Настройки</a> / <a href="/Admin">Администрирование</a> / Учебный календарь</nav>
+
+<p class="muted">От этих дат считаются дедлайны: лабораторные — начало зачётной недели, курсовая — начало сессии. У отдельной работы дедлайн можно переопределить.</p>
+
+@if (Model.Message is not null)
+{
+    <div class="notice notice--ok" role="status">@Model.Message</div>
+}
+@if (Model.Error is not null)
+{
+    <div class="notice notice--error" role="alert">@Model.Error</div>
+}
+
+<section class="card">
+    <div class="card__header"><h2>Семестры</h2></div>
+    @if (Model.Terms.Count == 0)
+    {
+        <partial name="_Empty" model='@(new EmptyState("Семестров пока нет", "Добавьте текущий семестр — без него нельзя завести предмет в семестре."))' />
+    }
+    else
+    {
+        <div class="table-wrap">
+            <table class="table">
+                <thead><tr><th>Семестр</th><th>Начало зачётной недели</th><th>Начало сессии</th><th>Состояние</th><th></th></tr></thead>
+                <tbody>
+                    @foreach (var t in Model.Terms)
+                    {
+                        var state = t.StateOn(Model.Today);
+                        var formId = $"term-{t.Id}";
+                        <tr id="@formId" class="@(Model.ErrorTermId == t.Id ? "table__row--error" : null)">
+                            <td><b>@t.Title</b></td>
+                            <td><input form="f-@formId" type="date" name="creditWeekStart" value="@t.CreditWeekStart.ToString("yyyy-MM-dd")" min="@t.PeriodStart.ToString("yyyy-MM-dd")" max="@t.PeriodEnd.ToString("yyyy-MM-dd")" aria-label="Начало зачётной недели" required /></td>
+                            <td><input form="f-@formId" type="date" name="sessionStart" value="@t.SessionStart.ToString("yyyy-MM-dd")" min="@t.PeriodStart.ToString("yyyy-MM-dd")" max="@t.PeriodEnd.ToString("yyyy-MM-dd")" aria-label="Начало сессии" required /></td>
+                            <td>
+                                @switch (state)
+                                {
+                                    case TermState.Current:
+                                        <span class="tag tag--ok">текущий</span>
+                                        break;
+                                    case TermState.Future:
+                                        <span class="tag">будущий</span>
+                                        break;
+                                    default:
+                                        <span class="tag tag--muted">прошедший</span>
+                                        break;
+                                }
+                            </td>
+                            <td class="table__actions">
+                                <form id="f-@formId" method="post" asp-page-handler="Save" asp-route-id="@t.Id">
+                                    <button type="submit" class="button button--small">Сохранить</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>
+
+<section class="card form-card" aria-labelledby="add-h">
+    <div class="card__header"><h2 id="add-h">Добавить семестр</h2></div>
+    <form method="post" asp-page-handler="Add" class="form form--inline">
+        <label class="field">Учебный год
+            <select asp-for="NewTerm.StartYear">
+                @for (var y = Model.Today.Year - 1; y <= Model.Today.Year + 2; y++)
+                {
+                    <option value="@y" selected="@(y == Model.NewTerm.StartYear)">@y-@(y + 1)</option>
+                }
+            </select>
+        </label>
+        <label class="field">Семестр
+            <select asp-for="NewTerm.Season">
+                <option value="@TermSeason.Autumn" selected="@(Model.NewTerm.Season == TermSeason.Autumn)">осенний (сентябрь — январь)</option>
+                <option value="@TermSeason.Spring" selected="@(Model.NewTerm.Season == TermSeason.Spring)">весенний (февраль — август)</option>
+            </select>
+        </label>
+        <label class="field">Начало зачётной недели
+            <input asp-for="NewTerm.CreditWeekStart" type="date" required />
+        </label>
+        <label class="field">Начало сессии
+            <input asp-for="NewTerm.SessionStart" type="date" required />
+        </label>
+        <button type="submit" class="button button--primary">Добавить</button>
+    </form>
+</section>

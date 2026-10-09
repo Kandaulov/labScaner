@@ -1,0 +1,95 @@
+@page
+@model UsersModel
+@{
+    ViewData["Title"] = "Пользователи";
+    ViewData[NavMenu.ActiveKey] = NavMenu.Settings;
+    var ru = System.Globalization.CultureInfo.GetCultureInfo("ru-RU");
+}
+<partial name="_PageHeader" model='@("Пользователи")' />
+<nav class="breadcrumbs"><a href="/Settings">Настройки</a> / <a href="/Admin">Администрирование</a> / Пользователи</nav>
+
+@if (Model.Result is { } r)
+{
+    <div class="notice @(r.Succeeded ? "notice--ok" : "notice--error")" role="status">
+        <b>@Model.ResultTitle</b>
+        @if (r.Error is not null)
+        {
+            <span>@r.Error</span>
+        }
+        @if (r.TemporaryPassword is not null)
+        {
+            <div class="secret">
+                <span>Логин: <code>@r.Login</code></span>
+                <span>Временный пароль: <code class="secret__value">@r.TemporaryPassword</code></span>
+            </div>
+            <span class="muted">Передайте логин и пароль преподавателю. Пароль показан один раз; при первом входе система попросит сменить его.</span>
+        }
+    </div>
+}
+
+<section class="card">
+    <div class="card__header"><h2>Преподаватели</h2><span class="muted">@Model.Users.Count</span></div>
+    <div class="table-wrap">
+        <table class="table">
+            <thead>
+                <tr><th>Имя</th><th>Логин</th><th>Роль</th><th>Предметы</th><th>Состояние</th><th></th></tr>
+            </thead>
+            <tbody>
+                @foreach (var u in Model.Users)
+                {
+                    <tr id="user-@u.Id">
+                        <td><b>@u.DisplayName</b>@(u.Id == Model.CurrentUserId ? " (вы)" : "")</td>
+                        <td class="mono">@u.Login</td>
+                        <td><span class="tag @(u.IsAdmin ? "tag--dark" : null)">@(u.IsAdmin ? "администратор" : "преподаватель")</span></td>
+                        <td>@(u.Subjects.Count > 0 ? string.Join(", ", u.Subjects) : "нет предметов")</td>
+                        <td>
+                            @if (u.IsBlocked)
+                            {
+                                <span class="tag tag--danger">заблокирован</span>
+                            }
+                            else if (u.LockedOutUntil is { } until)
+                            {
+                                <span class="tag tag--warn">вход закрыт до @until.ToLocalTime().ToString("HH:mm", ru)</span>
+                            }
+                            else if (u.MustChangePassword)
+                            {
+                                <span class="tag tag--warn">временный пароль</span>
+                            }
+                            else
+                            {
+                                <span class="tag tag--ok">активен</span>
+                            }
+                        </td>
+                        <td class="table__actions">
+                            <form method="post" asp-page-handler="Reset" asp-route-id="@u.Id">
+                                <button type="submit" class="button button--small">Сбросить пароль</button>
+                            </form>
+                            @if (u.Id != Model.CurrentUserId)
+                            {
+                                <form method="post" asp-page-handler="Block" asp-route-id="@u.Id" asp-route-blocked="@(!u.IsBlocked)">
+                                    <button type="submit" class="button button--small @(u.IsBlocked ? null : "button--danger")">@(u.IsBlocked ? "Разблокировать" : "Заблокировать")</button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="card form-card" aria-labelledby="new-h">
+    <div class="card__header"><h2 id="new-h">Добавить преподавателя</h2></div>
+    <form method="post" asp-page-handler="Create" class="form form--inline">
+        <label class="field">Логин
+            <input asp-for="NewUser.Login" autocomplete="off" placeholder="ivanov" required />
+            <span class="field__hint">Латиница, цифры, точка, дефис</span>
+        </label>
+        <label class="field">Имя в системе
+            <input asp-for="NewUser.DisplayName" autocomplete="off" placeholder="Иванов И. И." required />
+        </label>
+        <label class="check"><input asp-for="NewUser.IsAdmin" type="checkbox" /> Администратор</label>
+        <button type="submit" class="button button--primary">Добавить</button>
+    </form>
+    <p class="muted card__note">Система выдаст временный пароль; при первом входе преподаватель сменит его на свой.</p>
+</section>

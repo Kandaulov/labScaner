@@ -4,6 +4,13 @@
     ViewData[NavMenu.ActiveKey] = NavMenu.Settings;
 }
 <partial name="_PageHeader" model='@("Администрирование")' />
+<nav class="breadcrumbs"><a href="/Settings">Настройки</a> / Администрирование</nav>
+<p class="muted">Видно только администратору. Действует для всех преподавателей.</p>
 <section class="card">
-    <partial name="_Empty" model='@(new EmptyState("Раздел в разработке", "Пользователи, учебный календарь и настройки ИИ появятся на этапе 3.", "К настройкам", "/Settings"))' />
+    <div class="settings-list">
+        <a class="settings-item settings-item--link" href="/Admin/Users"><span class="settings-item__title">Пользователи</span><span class="settings-item__text">Преподаватели: добавить, заблокировать, сбросить пароль</span></a>
+        <a class="settings-item settings-item--link" href="/Admin/Calendar"><span class="settings-item__title">Учебный календарь</span><span class="settings-item__text">Семестры, зачётная неделя, сессия</span></a>
+        <div class="settings-item"><span class="settings-item__title">ИИ</span><span class="settings-item__text">Провайдер, модель, лимиты — шаг 3.6</span></div>
+        <div class="settings-item"><span class="settings-item__title">Группы и студенты</span><span class="settings-item__text">Общий справочник — шаг 3.2</span></div>
+    </div>
 </section>
