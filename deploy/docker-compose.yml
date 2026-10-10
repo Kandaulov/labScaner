@@ -34,6 +34,8 @@ services:
       Bootstrap__AdminLogin: ${ADMIN_LOGIN:-admin}
       Bootstrap__AdminPassword: ${ADMIN_PASSWORD:?Задайте ADMIN_PASSWORD в .env}
       Bootstrap__AdminDisplayName: ${ADMIN_DISPLAY_NAME:-Администратор}
+      Yandex__ClientId: ${YANDEX_CLIENT_ID:-}
+      Yandex__ClientSecret: ${YANDEX_CLIENT_SECRET:-}
       TZ: Europe/Ulyanovsk
     volumes:
       - keys:/app/keys

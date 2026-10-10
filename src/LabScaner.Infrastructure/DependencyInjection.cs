@@ -59,6 +59,11 @@ public static class DependencyInjection
         services.AddSingleton<ISecretProtector, Security.DataProtectionSecretProtector>();
         services.TryAddSingleton<IMailProbe, Mail.MailKitProbe>();
 
+        services.Configure<Disk.YandexOptions>(configuration.GetSection(Disk.YandexOptions.Section));
+        services.AddHttpClient<IYandexOAuth, Disk.YandexOAuth>(c => c.Timeout = TimeSpan.FromSeconds(30));
+        services.AddHttpClient<IYandexDisk, Disk.YandexDiskClient>(c => c.Timeout = TimeSpan.FromSeconds(30));
+        services.AddScoped<Disk.DiskConnectionService>();
+
         return services;
     }
 }

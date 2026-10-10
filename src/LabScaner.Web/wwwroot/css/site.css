@@ -1414,3 +1414,55 @@ fieldset.field legend {
 .check-list__fail {
   color: #a33a12;
 }
+
+/* Яндекс Диск */
+.disk-account {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.disk-account > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 14px;
+}
+
+.disk-account .muted {
+  font-size: 12px;
+}
+
+.steps {
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  font-size: 14px;
+}
+
+.steps li > div,
+.steps li > form {
+  margin-top: 8px;
+}
+
+.code-input {
+  font: inherit;
+  font-family: var(--mono);
+  font-size: 14px;
+  min-height: 36px;
+  min-width: 220px;
+  border: 1px solid #c9cfd8;
+  border-radius: 6px;
+  padding: 0 10px;
+}
+
+.disk-path {
+  font-size: 12px;
+  word-break: break-word;
+}
+
+.ok-text {
+  color: #1f6b3a;
+}

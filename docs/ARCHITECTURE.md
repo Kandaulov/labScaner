@@ -69,9 +69,13 @@
 
 ```
 User(id, login, password_hash, display_name, roles: Teacher|Admin)   -- ASP.NET Core Identity
-TeacherConnection(teacher_id, imap_*, smtp_*, yandex_token_encrypted, mail_poll_interval,
-                  mail_poll_enabled,
-                  imap_uid_validity, imap_last_uid, mail_since) -- ADR-024: ящик не изменяется
+MailConnection(teacher_id UNIQUE, address, login, password_protected,   -- ADR-030
+               imap_host, imap_port, imap_security, smtp_host, smtp_port, smtp_security,
+               read_since, poll_enabled, poll_interval_minutes,
+               imap_uid_validity, imap_last_uid,                      -- ADR-024: ящик не изменяется
+               last_check_at, last_check_ok, last_check_message)
+DiskConnection(teacher_id UNIQUE, access_token_protected, refresh_token_protected, expires_at,  -- ADR-031
+               login, display_name, total_space, used_space, last_check_*)
 
 -- Общее для системы: Group, Student, StudentEmail, Term, настройки LLM
 -- Принадлежит преподавателю (teacher_id): Subject и всё под ним, InboxMessage, Notification,
