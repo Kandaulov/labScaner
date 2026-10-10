@@ -1,0 +1,113 @@
+@page
+@model LabScaner.Web.Pages.Subjects.TasksModel
+@using LabScaner.Web.Pages.Subjects
+@{
+    var st = Model.SubjectTerm;
+    ViewData["Title"] = "Деление заданий";
+    ViewData[NavMenu.ActiveKey] = NavMenu.Subjects;
+    var split = Model.Split;
+    var current = st.Labs.ToDictionary(l => l.Number);
+    var max = split.Labs.Count == 0 ? 0 : split.Labs.Max(l => l.Number);
+    var added = Enumerable.Range(1, max).Where(n => !current.ContainsKey(n)).ToList();
+}
+<partial name="_PageHeader" model='@("Задания из документа")' />
+<nav class="breadcrumbs"><a href="/Subjects?id=@st.SubjectId">Предметы</a> / <a href="/Subjects/Term?id=@st.Id">@st.Subject!.Code · @st.Term!.Title</a> / @Model.Document.FileName</nav>
+
+@if (Model.Error is not null)
+{
+    <div class="notice notice--error" role="alert">@Model.Error</div>
+}
+
+<section class="card" aria-labelledby="split-h">
+    <div class="card__header">
+        <h2 id="split-h">Найдено лабораторных: @split.Labs.Count</h2>
+        <span class="muted">проверьте деление и названия — до подтверждения ничего не меняется</span>
+    </div>
+    @if (split.Warnings.Count > 0)
+    {
+        <div class="subject-form__body">
+            <ul class="warnings">
+                @foreach (var w in split.Warnings)
+                {
+                    <li>@w</li>
+                }
+            </ul>
+        </div>
+    }
+
+    @if (split.Labs.Count > 0)
+    {
+        <form method="post" asp-page-handler="Apply" asp-route-id="@st.Id" asp-route-doc="@Model.Document.Id">
+            <div class="table-wrap">
+                <table class="table task-table">
+                    <thead><tr><th>Работа</th><th>Название</th><th>Начало задания</th><th>Чек-лист</th></tr></thead>
+                    <tbody>
+                        @foreach (var lab in split.Labs)
+                        {
+                            var existing = current.GetValueOrDefault(lab.Number);
+                            <tr>
+                                <td class="nowrap"><b>Лаб №@lab.Number</b><div class="field__hint">@(existing is null ? "новая" : existing.HasTask ? "задание заменится" : "есть в семестре")</div></td>
+                                <td>
+                                    <input name="titles[@lab.Number]" value="@lab.Title" maxlength="300" placeholder="@(existing?.Title is { Length: > 0 } t ? t : "Впишите название")" aria-label="Название Лаб №@lab.Number" />
+                                    @if (existing is { Title.Length: > 0 } && existing.Title != lab.Title)
+                                    {
+                                        <div class="field__hint">сейчас: @existing.Title</div>
+                                    }
+                                </td>
+                                <td class="task-excerpt">@TasksModel.Excerpt(lab.Text) <span class="nowrap">(@lab.Text.Length зн.)</span></td>
+                                <td>
+                                    @if (lab.Checklist.Count == 0)
+                                    {
+                                        <span class="warn-text">пусто</span>
+                                    }
+                                    else
+                                    {
+                                        <details>
+                                            <summary>@lab.Checklist.Count п.</summary>
+                                            <ul>
+                                                @foreach (var item in lab.Checklist)
+                                                {
+                                                    <li>@item</li>
+                                                }
+                                            </ul>
+                                        </details>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="subject-form__body">
+                @if (added.Count > 0)
+                {
+                    <p class="muted">Будут добавлены: @string.Join(", ", added.Select(n => $"Лаб №{n}")) — дедлайн из календаря, проверка ИИ включена.</p>
+                }
+                @if (Model.Extra.Count > 0)
+                {
+                    <label class="check"><input type="checkbox" name="removeMissing" value="true" checked /> Удалить @string.Join(", ", Model.Extra.Select(l => l.ShortName)) — их нет в документе</label>
+                }
+                @if (split.Preamble.Length > 0)
+                {
+                    <label class="check"><input type="checkbox" name="replaceRequirements" value="true" checked /> Взять общие требования из начала документа (@split.Preamble.Length зн.)@(st.GeneralRequirements.Length > 0 ? " — заменят текущие" : "")</label>
+                    <details>
+                        <summary class="muted">Показать общие требования</summary>
+                        <pre class="pre-text">@split.Preamble</pre>
+                    </details>
+                }
+                <p class="muted">Тексты заданий и чек-листы можно будет поправить у каждой работы.</p>
+                <div class="form__actions">
+                    <button type="submit" class="button button--primary">Применить задания</button>
+                    <a class="button" href="/Subjects/Term?id=@st.Id">Отмена</a>
+                </div>
+            </div>
+        </form>
+    }
+    else
+    {
+        <div class="subject-form__body">
+            <p>Разделить документ не получилось. Заголовки лабораторных должны начинаться словами «Лабораторная работа №N» — лучше стилем «Заголовок 1», можно жирным отдельным абзацем.</p>
+            <div class="form__actions"><a class="button" href="/Subjects/Term?id=@st.Id">Назад к семестру</a></div>
+        </div>
+    }
+</section>

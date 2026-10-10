@@ -16,9 +16,12 @@ public sealed class SubjectTerm : ITeacherOwned
     private readonly List<Assignment> _assignments = [];
     private readonly List<CourseworkTopic> _topics = [];
 
+    public const int MaxGeneralRequirementsLength = 20_000;
+
     private SubjectTerm()
     {
         DiskRootPath = string.Empty;
+        GeneralRequirements = string.Empty;
     }
 
     public SubjectTerm(Subject subject, Term term, int studySemester, string diskRootPath)
@@ -49,6 +52,12 @@ public sealed class SubjectTerm : ITeacherOwned
 
     /// <summary>Корневая папка на Диске: «30 Политех/03 КорпИС/…/2026-2027 КорпИС ИСТ - 7 сем».</summary>
     public string DiskRootPath { get; private set; }
+
+    /// <summary>
+    /// Общие требования ко всем работам («Требования по оформлению и сдаче работ» из начала DOCX, ADR-029):
+    /// уходят в каждую проверку ИИ вместе с заданием.
+    /// </summary>
+    public string GeneralRequirements { get; private set; }
 
     public IReadOnlyCollection<Group> Groups => _groups;
 
@@ -159,6 +168,92 @@ public sealed class SubjectTerm : ITeacherOwned
         {
             _assignments.Remove(existing);
         }
+    }
+
+    public void SetGeneralRequirements(string? text)
+    {
+        var clean = (text ?? string.Empty).Replace("\r\n", "\n", StringComparison.Ordinal).Trim();
+        if (clean.Length > MaxGeneralRequirementsLength)
+        {
+            throw new ArgumentException($"Общие требования — не длиннее {MaxGeneralRequirementsLength} символов.", nameof(text));
+        }
+
+        GeneralRequirements = clean;
+    }
+
+    /// <summary>
+    /// Задания лабораторных из разделённого DOCX: недостающие лабы добавляются, у найденных — название
+    /// (если его не поправили в предпросмотре — из документа; пустое не затирает прежнее), текст и чек-лист.
+    /// Лабы с номерами больше последнего в документе удаляются, если <paramref name="removeMissing"/>.
+    /// </summary>
+    public void ApplyLabTasks(IReadOnlyList<LabTask> tasks, IReadOnlyDictionary<int, string>? titles, bool removeMissing)
+    {
+        ArgumentNullException.ThrowIfNull(tasks);
+        if (tasks.Count == 0)
+        {
+            throw new ArgumentException("В документе нет лабораторных.", nameof(tasks));
+        }
+
+        var max = tasks.Max(t => t.Number);
+        if (max > MaxLabs)
+        {
+            throw new ArgumentException($"В документе лабораторная №{max} — больше {MaxLabs} лабораторных не бывает.", nameof(tasks));
+        }
+
+        EnsureLabs(max);
+        foreach (var task in tasks)
+        {
+            var lab = Labs.First(l => l.Number == task.Number);
+            var title = titles is not null && titles.TryGetValue(task.Number, out var edited) ? edited : task.Title;
+            lab.Update(string.IsNullOrWhiteSpace(title) ? lab.Title : title, lab.DeadlineOverride, lab.AiCheckEnabled);
+            lab.SetTask(task.Text, task.Checklist);
+        }
+
+        while (removeMissing && Labs.Count() > max)
+        {
+            RemoveLastLab();
+        }
+    }
+
+    /// <summary>Задание на курсовую; курсовая включается, если её не было.</summary>
+    public void ApplyCourseworkTask(CourseworkTask task)
+    {
+        ArgumentNullException.ThrowIfNull(task);
+        SetCoursework(true);
+        Coursework!.SetTask(task.Text, task.Checklist);
+    }
+
+    /// <summary>
+    /// «Скопировать из прошлого семестра» (ADR-012): столько же лаб с теми же названиями, заданиями, чек-листами
+    /// и проверкой ИИ, курсовая — если была, общие требования. Свои дедлайны, группы и темы не трогаются.
+    /// </summary>
+    public void CopyWorksFrom(SubjectTerm source)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        if (ReferenceEquals(source, this) || (source.Id != 0 && source.Id == Id))
+        {
+            throw new ArgumentException("Нельзя скопировать семестр сам в себя.", nameof(source));
+        }
+
+        var labs = source.Labs.ToList();
+        EnsureLabs(labs.Count);
+        while (Labs.Count() > labs.Count)
+        {
+            RemoveLastLab();
+        }
+
+        foreach (var (target, from) in Labs.Zip(labs))
+        {
+            target.CopyFrom(from);
+        }
+
+        SetCoursework(source.Coursework is not null);
+        if (source.Coursework is not null)
+        {
+            Coursework!.CopyFrom(source.Coursework);
+        }
+
+        GeneralRequirements = source.GeneralRequirements;
     }
 
     /// <summary>Тема курсовой студента; пустая строка удаляет тему.</summary>

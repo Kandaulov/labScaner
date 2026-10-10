@@ -166,4 +166,97 @@ public sealed class SubjectTermTests
     [Fact]
     public void Title_ShowsSubjectTermAndSemester() =>
         Assert.Equal("КорпИС, 2026-2027, осенний · 7 сем", Create().Title);
+
+    private static LabTask LabTaskOf(int n, string title = "") =>
+        new(n, $"Лабораторная работа №{n}", title, $"Задание {n}", [$"Пункт {n}.1", $"Пункт {n}.2"]);
+
+    [Fact]
+    public void ApplyLabTasks_AddsLabs_SetsTasks_KeepsTitleWhenEmpty_RemovesMissing()
+    {
+        var st = Create(labs: 5);
+        st.Labs.First().Update("Старое название", new DateOnly(2026, 11, 1), aiCheckEnabled: false);
+
+        st.ApplyLabTasks([LabTaskOf(1), LabTaskOf(2, "ETL"), LabTaskOf(3, "RabbitMQ")], new Dictionary<int, string> { [3] = "Очереди RabbitMQ" }, removeMissing: true);
+
+        Assert.Equal([1, 2, 3], st.Labs.Select(l => l.Number));
+        var lab1 = st.Labs.First();
+        Assert.Equal("Старое название", lab1.Title);
+        Assert.Equal(new DateOnly(2026, 11, 1), lab1.DeadlineOverride);
+        Assert.False(lab1.AiCheckEnabled);
+        Assert.Equal("Задание 1", lab1.TaskText);
+        Assert.Equal(["Пункт 1.1", "Пункт 1.2"], lab1.Checklist);
+        Assert.Equal(["Старое название", "ETL", "Очереди RabbitMQ"], st.Labs.Select(l => l.Title));
+    }
+
+    [Fact]
+    public void ApplyLabTasks_KeepsExtraLabs_WhenAsked_AndAddsMissingOnes()
+    {
+        var st = Create(labs: 2);
+
+        st.ApplyLabTasks([LabTaskOf(4)], null, removeMissing: false);
+
+        Assert.Equal([1, 2, 3, 4], st.Labs.Select(l => l.Number));
+        Assert.False(st.Labs.First().HasTask);
+        Assert.True(st.Labs.Last().HasTask);
+    }
+
+    [Fact]
+    public void ApplyLabTasks_EmptyOrTooMany_Throws()
+    {
+        var st = Create();
+
+        Assert.Throws<ArgumentException>(() => st.ApplyLabTasks([], null, false));
+        Assert.Throws<ArgumentException>(() => st.ApplyLabTasks([LabTaskOf(SubjectTerm.MaxLabs + 1)], null, false));
+    }
+
+    [Fact]
+    public void SetTask_CleansChecklist_AndValidatesLength()
+    {
+        var lab = Create(labs: 1).Labs.First();
+
+        lab.SetTask(" Текст\r\nзадания ", ["- Первый", "", "  ", "• Второй", "первый"]);
+
+        Assert.Equal("Текст\nзадания", lab.TaskText);
+        Assert.Equal(["Первый", "Второй"], lab.Checklist);
+        Assert.Throws<ArgumentException>(() => lab.SetTask(new string('т', Assignment.MaxTaskTextLength + 1), []));
+        Assert.Throws<ArgumentException>(() => lab.SetTask("т", [new string('п', Assignment.MaxChecklistItemLength + 1)]));
+        Assert.Throws<ArgumentException>(() => lab.SetTask("т", Enumerable.Range(1, Assignment.MaxChecklistItems + 1).Select(i => $"Пункт {i}")));
+    }
+
+    [Fact]
+    public void CopyWorksFrom_CopiesLabsTasksCourseworkAndRequirements_KeepsOwnDeadlines()
+    {
+        var source = Create(labs: 3, coursework: true);
+        source.ApplyLabTasks([LabTaskOf(1, "IDEF0"), LabTaskOf(2, "ER"), LabTaskOf(3, "API")], null, removeMissing: true);
+        source.Labs.Last().Update("API", null, aiCheckEnabled: false);
+        source.ApplyCourseworkTask(new CourseworkTask("Курсовая: сети", ["Структура ПЗ"], []));
+        source.SetGeneralRequirements("Титульный лист обязателен.");
+
+        var target = new SubjectTerm(Korpis(), _autumn, 7, "КорпИС");
+        target.EnsureLabs(5);
+        target.Labs.First().Update(null, new DateOnly(2026, 12, 1), true);
+        target.CopyWorksFrom(source);
+
+        Assert.Equal(["IDEF0", "ER", "API"], target.Labs.Select(l => l.Title));
+        Assert.Equal(new DateOnly(2026, 12, 1), target.Labs.First().DeadlineOverride);
+        Assert.False(target.Labs.Last().AiCheckEnabled);
+        Assert.Equal("Задание 2", target.Labs.ElementAt(1).TaskText);
+        Assert.Equal("Курсовая: сети", target.Coursework!.TaskText);
+        Assert.Equal(["Структура ПЗ"], target.Coursework.Checklist);
+        Assert.Equal("Титульный лист обязателен.", target.GeneralRequirements);
+
+        Assert.Throws<ArgumentException>(() => target.CopyWorksFrom(target));
+    }
+
+    [Fact]
+    public void TaskDocument_HashesContentAndCleansName()
+    {
+        var doc = new TaskDocument(1, TaskDocumentKind.Labs, @"C:\Users\Препод\задания.docx", [1, 2, 3], DateTimeOffset.UnixEpoch);
+
+        Assert.Equal("задания.docx", doc.FileName);
+        Assert.Equal(3, doc.Size);
+        Assert.Equal("039058c6f2c0cb492c533b0a4d14ef77cc0f78abccced5287d84a1a2011cfb81", doc.Sha256);
+        Assert.Null(doc.AppliedAt);
+        Assert.Throws<ArgumentException>(() => new TaskDocument(1, TaskDocumentKind.Labs, "x.docx", [], DateTimeOffset.UnixEpoch));
+    }
 }

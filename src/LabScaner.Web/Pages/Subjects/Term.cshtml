@@ -88,6 +88,93 @@
     }
 </section>
 
+@{
+    var labsDoc = Model.Applied(TaskDocumentKind.Labs);
+    var courseworkDoc = Model.Applied(TaskDocumentKind.Coursework);
+}
+<section class="card" aria-labelledby="tasks-h">
+    <div class="card__header">
+        <h2 id="tasks-h">Задания</h2>
+        <span class="muted">текст задания и чек-лист уходят в проверку ИИ</span>
+    </div>
+    <div class="subject-form__body">
+        <div class="task-docs">
+            <form method="post" asp-page-handler="UploadLabs" asp-route-id="@st.Id" enctype="multipart/form-data" class="task-doc">
+                <h3>Задания на лабораторные</h3>
+                <p class="muted">
+                    @if (labsDoc is null)
+                    {
+                        <text>Один DOCX на все лабы: система разделит его по заголовкам «Лабораторная работа №N» и покажет результат перед применением.</text>
+                    }
+                    else
+                    {
+                        <text>Применён «@labsDoc.FileName» — @AppTime.Local(labsDoc.AppliedAt!.Value).ToString("dd.MM.yyyy HH:mm", ru).</text>
+                    }
+                </p>
+                <div class="task-doc__row">
+                    <input type="file" name="file" accept=".docx" required aria-label="DOCX с заданиями на лабораторные" />
+                    <button type="submit" class="button">@(labsDoc is null ? "Загрузить и разделить" : "Загрузить новую версию")</button>
+                </div>
+            </form>
+            @if (st.Coursework is not null)
+            {
+                <form method="post" asp-page-handler="UploadCoursework" asp-route-id="@st.Id" enctype="multipart/form-data" class="task-doc">
+                    <h3>Задание на курсовую</h3>
+                    <p class="muted">
+                        @if (courseworkDoc is null)
+                        {
+                            <text>Весь документ станет заданием; чек-лист — из раздела «Критерии оценки», если он есть.</text>
+                        }
+                        else
+                        {
+                            <text>Применён «@courseworkDoc.FileName» — @AppTime.Local(courseworkDoc.AppliedAt!.Value).ToString("dd.MM.yyyy HH:mm", ru).</text>
+                        }
+                    </p>
+                    <div class="task-doc__row">
+                        <input type="file" name="file" accept=".docx" required aria-label="DOCX с заданием на курсовую" />
+                        <button type="submit" class="button">Загрузить</button>
+                    </div>
+                </form>
+            }
+        </div>
+        @if (Model.CourseworkResult is { Warnings.Count: > 0 } cw)
+        {
+            <ul class="warnings">
+                @foreach (var w in cw.Warnings)
+                {
+                    <li>@w</li>
+                }
+            </ul>
+        }
+        @if (Model.CopySources.Count > 0)
+        {
+            <form method="post" asp-page-handler="Copy" asp-route-id="@st.Id" class="task-copy">
+                <label class="field">Скопировать из другого семестра
+                    <select name="sourceId">
+                        @foreach (var src in Model.CopySources)
+                        {
+                            <option value="@src.Id" selected="@(src.Id == Model.SuggestedSourceId)">@src.Term!.Title · @src.StudySemester сем — лаб @src.Assignments.Count(a => a.Kind == AssignmentKind.Lab)@(src.Assignments.Any(a => a.Kind == AssignmentKind.Coursework) ? " + курсовая" : "")</option>
+                        }
+                    </select>
+                    <span class="field__hint">Заменит число лабораторных, названия, задания, чек-листы и общие требования. Дедлайны, группы и темы останутся.</span>
+                </label>
+                <button type="submit" class="button">Скопировать</button>
+            </form>
+        }
+        <details class="requirements" open="@(st.GeneralRequirements.Length == 0 ? null : "open")">
+            <summary>Общие требования ко всем работам@(st.GeneralRequirements.Length == 0 ? " — не заданы" : $" — {st.GeneralRequirements.Length} знаков")</summary>
+            <form method="post" asp-page-handler="Requirements" asp-route-id="@st.Id" class="subject-form">
+                <label class="field field--wide">
+                    <textarea name="generalRequirements" rows="7" maxlength="@SubjectTerm.MaxGeneralRequirementsLength" aria-label="Общие требования"
+                              placeholder="Отчёт с титульным листом: предмет, номер работы, ФИО. Формат — PDF или DOCX. …">@st.GeneralRequirements</textarea>
+                    <span class="field__hint">Берутся из начала DOCX с заданиями («Требования по оформлению и сдаче работ») и уходят в каждую проверку ИИ.</span>
+                </label>
+                <div class="form__actions"><button type="submit" class="button">Сохранить требования</button></div>
+            </form>
+        </details>
+    </div>
+</section>
+
 <section class="card" aria-labelledby="works-h">
     <div class="card__header">
         <h2 id="works-h">Работы и дедлайны</h2>
@@ -98,7 +185,7 @@
         <form method="post" asp-page-handler="Works" asp-route-id="@st.Id">
             <div class="table-wrap">
                 <table class="table table--compact">
-                    <thead><tr><th>Работа</th><th>Название</th><th>Дедлайн</th><th>Проверка ИИ</th></tr></thead>
+                    <thead><tr><th>Работа</th><th>Название</th><th>Задание</th><th>Дедлайн</th><th>Проверка ИИ</th></tr></thead>
                     <tbody>
                         @for (var i = 0; i < works.Count; i++)
                         {
@@ -106,7 +193,17 @@
                             var deadline = w.Deadline(st.Term);
                             <tr>
                                 <td><b>@w.ShortName</b><input type="hidden" name="works[@i].Id" value="@w.Id" /></td>
-                                <td><input name="works[@i].Title" value="@w.Title" class="input-wide" maxlength="300" placeholder="Название — появится из DOCX с заданиями (шаг 3.5)" /></td>
+                                <td><input name="works[@i].Title" value="@w.Title" class="input-wide" maxlength="300" placeholder="Название — из DOCX с заданиями или вручную" /></td>
+                                <td class="nowrap">
+                                    @if (w.HasTask)
+                                    {
+                                        <a href="/Subjects/Assignment?id=@w.Id" title="Открыть задание и чек-лист">@w.TaskText.Length.ToString("N0", ru) зн. · @w.Checklist.Count п.</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="/Subjects/Assignment?id=@w.Id" class="warn-text">нет задания</a>
+                                    }
+                                </td>
                                 <td>
                                     <input type="date" name="works[@i].Deadline" value="@(w.DeadlineOverride?.ToString("yyyy-MM-dd"))" aria-label="Свой дедлайн" />
                                     <div class="field__hint">@(w.DeadlineOverride is null ? $"из календаря: {deadline.ToString("dd.MM.yyyy", ru)}" : "свой дедлайн")</div>

@@ -5,6 +5,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\fixtures\groups\*.xlsx" Link="fixtures\groups\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\fixtures\assignments\*.docx" Link="fixtures\assignments\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\LabScaner.Web\LabScaner.Web.csproj" />

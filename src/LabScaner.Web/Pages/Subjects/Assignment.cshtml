@@ -1,0 +1,68 @@
+@page
+@model LabScaner.Web.Pages.Subjects.AssignmentModel
+@using LabScaner.Core.Teaching
+@{
+    var w = Model.Work;
+    var st = Model.SubjectTerm;
+    ViewData["Title"] = $"{w.ShortName} · {st.Subject!.Code}";
+    ViewData[NavMenu.ActiveKey] = NavMenu.Subjects;
+    var works = st.Labs.Concat(st.Coursework is null ? [] : new[] { st.Coursework }).ToList();
+}
+<partial name="_PageHeader" model='@($"{w.ShortName} · {st.Subject.Code}")' />
+<nav class="breadcrumbs"><a href="/Subjects?id=@st.SubjectId">Предметы</a> / <a href="/Subjects/Term?id=@st.Id">@st.Subject.Code · @st.Term!.Title</a> / @w.ShortName</nav>
+
+@if (Model.Message is not null)
+{
+    <div class="notice notice--ok" role="status">@Model.Message</div>
+}
+@if (Model.Error is not null)
+{
+    <div class="notice notice--error" role="alert">@Model.Error</div>
+}
+
+<nav class="assignment-nav" aria-label="Работы семестра">
+    @foreach (var other in works)
+    {
+        <a class="button button--small" href="/Subjects/Assignment?id=@other.Id" aria-current="@(other.Id == w.Id ? "page" : null)">@other.ShortName@(other.HasTask ? "" : " · нет задания")</a>
+    }
+</nav>
+
+<section class="card" aria-labelledby="task-h">
+    <form method="post" asp-route-id="@w.Id" class="subject-form assignment-form">
+        <div class="card__header">
+            <h2 id="task-h">Задание и чек-лист</h2>
+            <button type="submit" class="button button--primary">Сохранить</button>
+        </div>
+        <div class="subject-form__body">
+            <label class="field field--wide">Название
+                <input name="title" value="@w.Title" maxlength="@Assignment.MaxTitleLength" placeholder="Например: Создание сервиса загрузки транспортных файлов" />
+            </label>
+            <label class="field field--wide">Текст задания
+                <textarea name="taskText" rows="18" maxlength="@Assignment.MaxTaskTextLength" placeholder="Цель, ожидаемый результат, что должно быть в отчёте…">@w.TaskText</textarea>
+                <span class="field__hint">@w.TaskText.Length знаков. Персональных данных здесь быть не должно — текст уходит во внешнюю модель.</span>
+            </label>
+            <label class="field field--wide">Чек-лист — по пункту в строке
+                <textarea name="checklist" rows="10" placeholder="Реализован конвейер Extract → Transform → Load&#10;В отчёте: код сервера, описание трансформаций">@string.Join("\n", w.Checklist)</textarea>
+                <span class="field__hint">ИИ отметит каждый пункт: выполнен, частично или нет. Не больше @Assignment.MaxChecklistItems пунктов по @Assignment.MaxChecklistItemLength символов.</span>
+            </label>
+            <label class="check"><input type="checkbox" name="ai" value="true" checked="@w.AiCheckEnabled" /> Проверять ИИ</label>
+        </div>
+    </form>
+</section>
+
+<section class="card" aria-labelledby="req-h">
+    <div class="card__header">
+        <h2 id="req-h">Общие требования</h2>
+        <a class="button button--small" href="/Subjects/Term?id=@st.Id#tasks-h">Изменить на странице семестра</a>
+    </div>
+    <div class="subject-form__body">
+        @if (st.GeneralRequirements.Length == 0)
+        {
+            <p class="muted">Не заданы. Они берутся из начала DOCX с заданиями и уходят в проверку вместе с заданием.</p>
+        }
+        else
+        {
+            <pre class="pre-text">@st.GeneralRequirements</pre>
+        }
+    </div>
+</section>

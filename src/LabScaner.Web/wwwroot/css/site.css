@@ -1240,3 +1240,146 @@ fieldset.field legend {
 .table-wrap + .card__note {
   padding-top: 14px;
 }
+
+/* Задания предмета в семестре (шаг 3.5) */
+.nowrap {
+  white-space: nowrap;
+}
+
+.task-docs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.task-doc {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.task-doc h3 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.task-doc p {
+  margin: 0;
+  font-size: 13px;
+}
+
+.task-doc__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  font-size: 13px;
+}
+
+.task-copy {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.task-copy .field {
+  flex: 1 1 320px;
+}
+
+.task-copy select,
+.task-table input {
+  font: inherit;
+  font-size: 13px;
+  min-height: 34px;
+  border: 1px solid #c9cfd8;
+  border-radius: 6px;
+  padding: 0 8px;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.requirements summary {
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.requirements .subject-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.requirements textarea,
+.assignment-form textarea {
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.5;
+  border: 1px solid #c9cfd8;
+  border-radius: 6px;
+  padding: 8px 10px;
+  resize: vertical;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.warnings {
+  margin: 0;
+  padding: 10px 14px 10px 32px;
+  background: var(--warn-bg);
+  color: var(--warn-text);
+  border-radius: 8px;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.task-table td {
+  vertical-align: top;
+}
+
+.task-table .task-excerpt {
+  font-size: 12px;
+  color: var(--muted);
+  max-width: 420px;
+}
+
+.task-table details summary {
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.task-table details ul {
+  margin: 6px 0 0;
+  padding-left: 18px;
+  font-size: 12px;
+}
+
+.task-table input {
+  width: 100%;
+  min-width: 220px;
+}
+
+.pre-text {
+  white-space: pre-wrap;
+  font-size: 12px;
+  line-height: 1.5;
+  background: #f7f8fa;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin: 0;
+  max-height: 320px;
+  overflow: auto;
+}
+
+.assignment-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
