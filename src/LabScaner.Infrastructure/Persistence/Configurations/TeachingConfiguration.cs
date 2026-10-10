@@ -12,6 +12,7 @@ internal sealed class SubjectTermConfiguration : IEntityTypeConfiguration<Subjec
     {
         builder.HasKey(s => s.Id);
         builder.Property(s => s.DiskRootPath).HasMaxLength(500).IsRequired();
+        builder.Property(s => s.GeneralRequirements).HasMaxLength(SubjectTerm.MaxGeneralRequirementsLength).IsRequired();
         builder.Ignore(s => s.Labs);
         builder.Ignore(s => s.Coursework);
         builder.Ignore(s => s.Title);
@@ -42,8 +43,14 @@ internal sealed class AssignmentConfiguration : IEntityTypeConfiguration<Assignm
     {
         builder.HasKey(a => a.Id);
         builder.Property(a => a.Kind).HasConversion<string>().HasMaxLength(16);
-        builder.Property(a => a.Title).HasMaxLength(300).IsRequired();
+        builder.Property(a => a.Title).HasMaxLength(Assignment.MaxTitleLength).IsRequired();
+        builder.Property(a => a.TaskText).HasMaxLength(Assignment.MaxTaskTextLength).IsRequired();
         builder.Ignore(a => a.ShortName);
+        builder.Ignore(a => a.HasTask);
+
+        // Чек-лист — массив text[] в PostgreSQL.
+        builder.Ignore(a => a.Checklist);
+        builder.Property<List<string>>("_checklist").HasColumnName("checklist").IsRequired();
         builder.HasIndex(a => new { a.SubjectTermId, a.Kind, a.Number }).IsUnique();
     }
 }
@@ -56,5 +63,19 @@ internal sealed class CourseworkTopicConfiguration : IEntityTypeConfiguration<Co
         builder.Property(t => t.Topic).HasMaxLength(300).IsRequired();
         builder.HasIndex(t => new { t.SubjectTermId, t.StudentId }).IsUnique();
         builder.HasOne<Student>().WithMany().HasForeignKey(t => t.StudentId).OnDelete(DeleteBehavior.Restrict);
+    }
+}
+
+internal sealed class TaskDocumentConfiguration : IEntityTypeConfiguration<TaskDocument>
+{
+    public void Configure(EntityTypeBuilder<TaskDocument> builder)
+    {
+        builder.HasKey(d => d.Id);
+        builder.Property(d => d.Kind).HasConversion<string>().HasMaxLength(16);
+        builder.Property(d => d.FileName).HasMaxLength(255).IsRequired();
+        builder.Property(d => d.Sha256).HasMaxLength(64).IsRequired();
+        builder.Property(d => d.Content).IsRequired();
+        builder.HasIndex(d => new { d.SubjectTermId, d.Kind });
+        builder.HasOne<SubjectTerm>().WithMany().HasForeignKey(d => d.SubjectTermId).OnDelete(DeleteBehavior.Cascade);
     }
 }

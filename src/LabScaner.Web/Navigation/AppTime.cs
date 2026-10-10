@@ -5,6 +5,9 @@ public static class AppTime
 {
     public static TimeZoneInfo Zone { get; } = Resolve();
 
+    /// <summary>Момент времени в часовом поясе интерфейса.</summary>
+    public static DateTimeOffset Local(DateTimeOffset moment) => TimeZoneInfo.ConvertTime(moment, Zone);
+
     private static TimeZoneInfo Resolve()
     {
         foreach (var id in new[] { "Europe/Ulyanovsk", "Ulyanovsk Standard Time" })

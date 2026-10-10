@@ -132,6 +132,23 @@ with sync_playwright() as p:
             page.wait_for_load_state("networkidle")
             page.screenshot(path=folder / "21-subject-term-topics.png", full_page=True)
 
+            # Шаг 3.5: задания из DOCX — предпросмотр деления, применение, задание лабы, курсовая
+            term_url = page.url
+            page.set_input_files("form[action*='UploadLabs'] input[type=file]", os.environ["SHOT_LABS_DOCX"])
+            page.click("form[action*='UploadLabs'] button[type=submit]")
+            page.wait_for_load_state("networkidle")
+            page.screenshot(path=folder / "26-tasks-preview.png", full_page=True)
+            page.click("form[action*='Apply'] button[type=submit]")
+            page.wait_for_load_state("networkidle")
+            page.set_input_files("form[action*='UploadCoursework'] input[type=file]", os.environ["SHOT_COURSEWORK_DOCX"])
+            page.click("form[action*='UploadCoursework'] button[type=submit]")
+            page.wait_for_load_state("networkidle")
+            page.screenshot(path=folder / "27-term-tasks.png", full_page=True)
+            page.click("a[href^='/Subjects/Assignment'] >> nth=3")
+            page.wait_for_load_state("networkidle")
+            page.screenshot(path=folder / "28-assignment.png", full_page=True)
+            page.goto(term_url)
+
             page.goto(f"{BASE}/Subjects")
             page.wait_for_load_state("networkidle")
             page.screenshot(path=folder / "22-subjects-terms.png", full_page=True)

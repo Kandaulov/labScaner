@@ -52,6 +52,7 @@ public static class DependencyInjection
         services.AddScoped<UserAdministration>();
         services.AddScoped<Import.GroupImportService>();
         services.AddScoped<Import.TopicImportService>();
+        services.AddScoped<Import.TaskImportService>();
         services.Configure<SecurityStampValidatorOptions>(o => o.ValidationInterval = TimeSpan.FromMinutes(1));
 
         services.AddSingleton<IClock, SystemClock>();

@@ -86,7 +86,9 @@ Term(id, academic_year, season: Autumn|Spring,                -- 2026-2027, ос
      credit_week_start, session_start)                        -- календарь → дедлайны
 SubjectTerm(id, subject_id, term_id, study_semester,          -- «КорпИС, 2026-2027, 7 сем»
             disk_root_path,                                   -- существующая папка на Диске
-            labs_task_file_path, coursework_task_file_path)   -- два DOCX с заданиями
+            general_requirements)                             -- ADR-029: начало DOCX, уходит в каждую проверку
+TaskDocument(id, subject_term_id, kind: Labs|Coursework,      -- загруженные DOCX с заданиями (ADR-029)
+             file_name, size, sha256, content, uploaded_at, applied_at NULL)
 SubjectTermGroup(subject_term_id, group_id)
 Student(id, group_id, last_name, first_name, middle_name, is_active)
 StudentEmail(id, student_id, email, source: Import|Auto|Manual, created_at)  -- адреса копятся по письмам (ADR-024)
@@ -94,7 +96,7 @@ CourseworkTopic(subject_term_id, student_id, topic)           -- ADR-025: тем
 
 Assignment(id, subject_term_id, kind: Lab|Coursework, number, title,
            task_text,                                         -- фрагмент общего DOCX по заголовку
-           checklist_json, ai_check_enabled,
+           checklist text[], ai_check_enabled,                -- черновик чек-листа из DOCX, правится вручную
            deadline_override NULL)                            -- иначе: Lab → credit_week_start,
                                                               --        Coursework → session_start
 

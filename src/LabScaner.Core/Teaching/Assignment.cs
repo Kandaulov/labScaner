@@ -11,13 +11,21 @@ public enum AssignmentKind
 
 /// <summary>
 /// Работа предмета в семестре: лабораторная №N или курсовая (ADR-012). Текст задания и чек-лист
-/// появятся при загрузке DOCX (шаг 3.5).
+/// берутся из DOCX с заданиями (ADR-029) и правятся вручную; вместе они уходят в проверку ИИ.
 /// </summary>
 public sealed class Assignment : ITeacherOwned
 {
+    public const int MaxTitleLength = 300;
+    public const int MaxTaskTextLength = 30_000;
+    public const int MaxChecklistItems = 30;
+    public const int MaxChecklistItemLength = 300;
+
+    private List<string> _checklist = [];
+
     private Assignment()
     {
         Title = string.Empty;
+        TaskText = string.Empty;
     }
 
     internal Assignment(SubjectTerm subjectTerm, AssignmentKind kind, int number, string? title)
@@ -26,6 +34,7 @@ public sealed class Assignment : ITeacherOwned
         Kind = kind;
         Number = kind == AssignmentKind.Coursework ? 0 : number;
         Title = string.IsNullOrWhiteSpace(title) ? string.Empty : title.Trim();
+        TaskText = string.Empty;
         AiCheckEnabled = true;
     }
 
@@ -46,6 +55,14 @@ public sealed class Assignment : ITeacherOwned
 
     public bool AiCheckEnabled { get; private set; }
 
+    /// <summary>Текст задания — фрагмент DOCX по заголовку или весь DOCX курсовой.</summary>
+    public string TaskText { get; private set; }
+
+    /// <summary>Пункты, по которым ИИ проверяет работу.</summary>
+    public IReadOnlyList<string> Checklist => _checklist;
+
+    public bool HasTask => TaskText.Length > 0;
+
     /// <summary>Свой дедлайн работы; иначе — из календаря семестра (ADR-013).</summary>
     public DateOnly? DeadlineOverride { get; private set; }
 
@@ -58,8 +75,6 @@ public sealed class Assignment : ITeacherOwned
         return DeadlineOverride ?? (Kind == AssignmentKind.Coursework ? term.SessionStart : term.CreditWeekStart);
     }
 
-    public const int MaxTitleLength = 300;
-
     public void Update(string? title, DateOnly? deadlineOverride, bool aiCheckEnabled)
     {
         var trimmed = string.IsNullOrWhiteSpace(title) ? string.Empty : title.Trim();
@@ -71,6 +86,43 @@ public sealed class Assignment : ITeacherOwned
         Title = trimmed;
         DeadlineOverride = deadlineOverride;
         AiCheckEnabled = aiCheckEnabled;
+    }
+
+    /// <summary>Задание и чек-лист: пустые пункты отбрасываются, повторы — тоже.</summary>
+    public void SetTask(string? text, IEnumerable<string>? checklist)
+    {
+        var cleanText = (text ?? string.Empty).Replace("\r\n", "\n", StringComparison.Ordinal).Trim();
+        if (cleanText.Length > MaxTaskTextLength)
+        {
+            throw new ArgumentException($"Текст задания — не длиннее {MaxTaskTextLength} символов.", nameof(text));
+        }
+
+        var items = (checklist ?? [])
+            .Select(i => i.Trim().TrimStart('-', '•', '*', ' ').Trim())
+            .Where(i => i.Length > 0)
+            .Distinct(StringComparer.CurrentCultureIgnoreCase)
+            .ToList();
+        if (items.Count > MaxChecklistItems)
+        {
+            throw new ArgumentException($"В чек-листе — не больше {MaxChecklistItems} пунктов.", nameof(checklist));
+        }
+
+        if (items.Find(i => i.Length > MaxChecklistItemLength) is { } longItem)
+        {
+            throw new ArgumentException($"Пункт чек-листа длиннее {MaxChecklistItemLength} символов: «{longItem[..40]}…».", nameof(checklist));
+        }
+
+        TaskText = cleanText;
+        _checklist = items;
+    }
+
+    /// <summary>Название, задание, чек-лист и проверка ИИ — из такой же работы другого семестра; дедлайн свой.</summary>
+    internal void CopyFrom(Assignment source)
+    {
+        Title = source.Title;
+        AiCheckEnabled = source.AiCheckEnabled;
+        TaskText = source.TaskText;
+        _checklist = [.. source._checklist];
     }
 
     public void AssignTeacher(int teacherId)
