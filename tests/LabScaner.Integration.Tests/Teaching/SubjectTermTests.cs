@@ -6,6 +6,7 @@ using LabScaner.Infrastructure.Import;
 using LabScaner.Integration.Tests.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Group = LabScaner.Core.Directory.Group;
 
 namespace LabScaner.Integration.Tests.Teaching;
 
