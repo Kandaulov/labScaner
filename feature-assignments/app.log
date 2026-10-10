@@ -1,5 +1,5 @@
 fail: Microsoft.EntityFrameworkCore.Database.Command[20102]
-      Failed executing DbCommand (21ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      Failed executing DbCommand (20ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
       SELECT "MigrationId", "ProductVersion"
       FROM "__EFMigrationsHistory"
       ORDER BY "MigrationId";
@@ -23,7 +23,7 @@ info: Microsoft.EntityFrameworkCore.Migrations[20402]
 info: Microsoft.EntityFrameworkCore.Migrations[20402]
       Applying migration '20261010090653_AddAssignmentTasks'.
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (31ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (29ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
       SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
       FROM roles AS r
       WHERE r.normalized_name = @normalizedName
@@ -40,7 +40,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       VALUES (@p0, @p1, @p2)
       RETURNING id;
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (2ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (1ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
       SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
       FROM roles AS r
       WHERE r.normalized_name = @normalizedName
@@ -75,7 +75,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       WHERE u.normalized_user_name = @normalizedUserName
       LIMIT 1
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (6ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?', @p2='?', @p3='?', @p4='?' (DbType = Boolean), @p5='?' (DbType = Boolean), @p6='?' (DbType = DateTime), @p7='?' (DbType = Boolean), @p8='?', @p9='?', @p10='?', @p11='?', @p12='?' (DbType = Boolean), @p13='?', @p14='?' (DbType = Boolean), @p15='?'], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (5ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?', @p2='?', @p3='?', @p4='?' (DbType = Boolean), @p5='?' (DbType = Boolean), @p6='?' (DbType = DateTime), @p7='?' (DbType = Boolean), @p8='?', @p9='?', @p10='?', @p11='?', @p12='?' (DbType = Boolean), @p13='?', @p14='?' (DbType = Boolean), @p15='?'], CommandType='Text', CommandTimeout='30']
       INSERT INTO users (access_failed_count, concurrency_stamp, display_name, email, email_confirmed, lockout_enabled, lockout_end, must_change_password, normalized_email, normalized_user_name, password_hash, phone_number, phone_number_confirmed, security_stamp, two_factor_enabled, user_name)
       VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15)
       RETURNING id;
@@ -132,7 +132,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
 info: LabScaner.Infrastructure.Identity.IdentitySeeder[2037226992]
       Создан первый администратор admin.
 warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
-      No XML encryptor configured. Key {5c8c2776-04f9-437b-bc6e-7ac8bbe3607a} may be persisted to storage in unencrypted form.
+      No XML encryptor configured. Key {e8ef175d-40ee-4423-857d-e3a42dae9e15} may be persisted to storage in unencrypted form.
 info: Microsoft.Hosting.Lifetime[14]
       Now listening on: http://127.0.0.1:5080
 info: Microsoft.Hosting.Lifetime[0]
@@ -142,7 +142,7 @@ info: Microsoft.Hosting.Lifetime[0]
 info: Microsoft.Hosting.Lifetime[0]
       Content root path: /home/runner/work/labScaner/labScaner/publish
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
       SELECT 1
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       Executed DbCommand (1ms) [Parameters=[@normalizedUserName='?'], CommandType='Text', CommandTimeout='30']
@@ -151,7 +151,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       WHERE u.normalized_user_name = @normalizedUserName
       LIMIT 1
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (2ms) [Parameters=[@normalizedUserName='?'], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (1ms) [Parameters=[@normalizedUserName='?'], CommandType='Text', CommandTimeout='30']
       SELECT u.id, u.access_failed_count, u.concurrency_stamp, u.display_name, u.email, u.email_confirmed, u.lockout_enabled, u.lockout_end, u.must_change_password, u.normalized_email, u.normalized_user_name, u.password_hash, u.phone_number, u.phone_number_confirmed, u.security_stamp, u.two_factor_enabled, u.user_name
       FROM users AS u
       WHERE u.normalized_user_name = @normalizedUserName
@@ -173,11 +173,11 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       WHERE u.normalized_user_name = @normalizedUserName
       LIMIT 1
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (2ms) [Parameters=[@p16='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?', @p17='?', @p2='?', @p3='?', @p4='?' (DbType = Boolean), @p5='?' (DbType = Boolean), @p6='?' (DbType = DateTime), @p7='?' (DbType = Boolean), @p8='?', @p9='?', @p10='?', @p11='?', @p12='?' (DbType = Boolean), @p13='?', @p14='?' (DbType = Boolean), @p15='?'], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (1ms) [Parameters=[@p16='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?', @p17='?', @p2='?', @p3='?', @p4='?' (DbType = Boolean), @p5='?' (DbType = Boolean), @p6='?' (DbType = DateTime), @p7='?' (DbType = Boolean), @p8='?', @p9='?', @p10='?', @p11='?', @p12='?' (DbType = Boolean), @p13='?', @p14='?' (DbType = Boolean), @p15='?'], CommandType='Text', CommandTimeout='30']
       UPDATE users SET access_failed_count = @p0, concurrency_stamp = @p1, display_name = @p2, email = @p3, email_confirmed = @p4, lockout_enabled = @p5, lockout_end = @p6, must_change_password = @p7, normalized_email = @p8, normalized_user_name = @p9, password_hash = @p10, phone_number = @p11, phone_number_confirmed = @p12, security_stamp = @p13, two_factor_enabled = @p14, user_name = @p15
       WHERE id = @p16 AND concurrency_stamp = @p17;
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (2ms) [Parameters=[@user_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (1ms) [Parameters=[@user_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       SELECT u.id, u.claim_type, u.claim_value, u.user_id
       FROM user_claims AS u
       WHERE u.user_id = @user_Id
@@ -210,7 +210,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       FROM role_claims AS r
       WHERE r.role_id = @role_Id
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (3ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (4ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       SELECT s.id, s.disk_root_path, s.general_requirements, s.study_semester, s.subject_id, s.teacher_id, s.term_id, s1.id, s1.ai_reference_text, s1.code, s1.disk_path_template, s1.final_assessment, s1.is_active, s1.name, s1.teacher_id, s1.aliases, t.id, t.academic_year, t.credit_week_start, t.season, t.session_start
       FROM subject_terms AS s
       INNER JOIN (
@@ -303,13 +303,13 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       WHERE r.normalized_name = @normalizedRoleName
       LIMIT 2
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (0ms) [Parameters=[@p='?' (DbType = Int32), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       SELECT u.user_id, u.role_id
       FROM user_roles AS u
       WHERE u.user_id = @p AND u.role_id = @p1
       LIMIT 1
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (1ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (0ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
       SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
       FROM roles AS r
       WHERE r.normalized_name = @normalizedRoleName
@@ -327,7 +327,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       UPDATE users SET access_failed_count = @p2, concurrency_stamp = @p3, display_name = @p4, email = @p5, email_confirmed = @p6, lockout_enabled = @p7, lockout_end = @p8, must_change_password = @p9, normalized_email = @p10, normalized_user_name = @p11, password_hash = @p12, phone_number = @p13, phone_number_confirmed = @p14, security_stamp = @p15, two_factor_enabled = @p16, user_name = @p17
       WHERE id = @p18 AND concurrency_stamp = @p19;
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (1ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (0ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
       SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
       FROM roles AS r
       WHERE r.normalized_name = @normalizedRoleName
@@ -359,18 +359,18 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
           FROM terms AS t
           WHERE t.academic_year = @term_AcademicYear AND t.season = @term_Season)
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (2ms) [Parameters=[@p0='?', @p1='?' (DbType = Date), @p2='?', @p3='?' (DbType = Date)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (1ms) [Parameters=[@p0='?', @p1='?' (DbType = Date), @p2='?', @p3='?' (DbType = Date)], CommandType='Text', CommandTimeout='30']
       INSERT INTO terms (academic_year, credit_week_start, season, session_start)
       VALUES (@p0, @p1, @p2, @p3)
       RETURNING id;
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
       SELECT t.id, t.academic_year, t.credit_week_start, t.season, t.session_start
       FROM terms AS t
 warn: Microsoft.EntityFrameworkCore.Query[20504]
       Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
       SELECT g.id, g.admission_year, g.direction, g.name, g.name_key, s1.id, s1.first_name, s1.group_id, s1.is_active, s1.last_name, s1.middle_name, s1.id0, s1.created_at, s1.email, s1.source, s1.student_id
       FROM groups AS g
       LEFT JOIN (
@@ -420,7 +420,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       VALUES (@p4, @p5, @p6, @p7)
       RETURNING id;
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (6ms) [Parameters=[@p8='?', @p9='?' (DbType = Int32), @p10='?' (DbType = Boolean), @p11='?', @p12='?', @p13='?', @p14='?' (DbType = Int32), @p15='?' (DbType = Boolean), @p16='?', @p17='?', @p18='?', @p19='?' (DbType = Int32), @p20='?' (DbType = Boolean), @p21='?', @p22='?', @p23='?', @p24='?' (DbType = Int32), @p25='?' (DbType = Boolean), @p26='?', @p27='?', @p28='?', @p29='?' (DbType = Int32), @p30='?' (DbType = Boolean), @p31='?', @p32='?', @p33='?', @p34='?' (DbType = Int32), @p35='?' (DbType = Boolean), @p36='?', @p37='?', @p38='?', @p39='?' (DbType = Int32), @p40='?' (DbType = Boolean), @p41='?', @p42='?', @p43='?', @p44='?' (DbType = Int32), @p45='?' (DbType = Boolean), @p46='?', @p47='?', @p48='?', @p49='?' (DbType = Int32), @p50='?' (DbType = Boolean), @p51='?', @p52='?', @p53='?', @p54='?' (DbType = Int32), @p55='?' (DbType = Boolean), @p56='?', @p57='?', @p58='?', @p59='?' (DbType = Int32), @p60='?' (DbType = Boolean), @p61='?', @p62='?', @p63='?', @p64='?' (DbType = Int32), @p65='?' (DbType = Boolean), @p66='?', @p67='?', @p68='?', @p69='?' (DbType = Int32), @p70='?' (DbType = Boolean), @p71='?', @p72='?', @p73='?', @p74='?' (DbType = Int32), @p75='?' (DbType = Boolean), @p76='?', @p77='?', @p78='?', @p79='?' (DbType = Int32), @p80='?' (DbType = Boolean), @p81='?', @p82='?', @p83='?', @p84='?' (DbType = Int32), @p85='?' (DbType = Boolean), @p86='?', @p87='?', @p88='?', @p89='?' (DbType = Int32), @p90='?' (DbType = Boolean), @p91='?', @p92='?', @p93='?', @p94='?' (DbType = Int32), @p95='?' (DbType = Boolean), @p96='?', @p97='?', @p98='?', @p99='?' (DbType = Int32), @p100='?' (DbType = Boolean), @p101='?', @p102='?', @p103='?', @p104='?' (DbType = Int32), @p105='?' (DbType = Boolean), @p106='?', @p107='?', @p108='?', @p109='?' (DbType = Int32), @p110='?' (DbType = Boolean), @p111='?', @p112='?', @p113='?', @p114='?' (DbType = Int32), @p115='?' (DbType = Boolean), @p116='?', @p117='?', @p118='?', @p119='?' (DbType = Int32), @p120='?' (DbType = Boolean), @p121='?', @p122='?', @p123='?', @p124='?' (DbType = Int32), @p125='?' (DbType = Boolean), @p126='?', @p127='?', @p128='?', @p129='?' (DbType = Int32), @p130='?' (DbType = Boolean), @p131='?', @p132='?', @p133='?', @p134='?' (DbType = Int32), @p135='?' (DbType = Boolean), @p136='?', @p137='?', @p138='?', @p139='?' (DbType = Int32), @p140='?' (DbType = Boolean), @p141='?', @p142='?', @p143='?', @p144='?' (DbType = Int32), @p145='?' (DbType = Boolean), @p146='?', @p147='?', @p148='?', @p149='?' (DbType = Int32), @p150='?' (DbType = Boolean), @p151='?', @p152='?', @p153='?', @p154='?' (DbType = Int32), @p155='?' (DbType = Boolean), @p156='?', @p157='?', @p158='?', @p159='?' (DbType = Int32), @p160='?' (DbType = Boolean), @p161='?', @p162='?', @p163='?', @p164='?' (DbType = Int32), @p165='?' (DbType = Boolean), @p166='?', @p167='?', @p168='?', @p169='?' (DbType = Int32), @p170='?' (DbType = Boolean), @p171='?', @p172='?', @p173='?', @p174='?' (DbType = Int32), @p175='?' (DbType = Boolean), @p176='?', @p177='?', @p178='?', @p179='?' (DbType = Int32), @p180='?' (DbType = Boolean), @p181='?', @p182='?', @p183='?', @p184='?' (DbType = Int32), @p185='?' (DbType = Boolean), @p186='?', @p187='?', @p188='?', @p189='?' (DbType = Int32), @p190='?' (DbType = Boolean), @p191='?', @p192='?', @p193='?', @p194='?' (DbType = Int32), @p195='?' (DbType = Boolean), @p196='?', @p197='?', @p198='?', @p199='?' (DbType = Int32), @p200='?' (DbType = Boolean), @p201='?', @p202='?', @p203='?', @p204='?' (DbType = Int32), @p205='?' (DbType = Boolean), @p206='?', @p207='?', @p208='?', @p209='?' (DbType = Int32), @p210='?' (DbType = Boolean), @p211='?', @p212='?'], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (5ms) [Parameters=[@p8='?', @p9='?' (DbType = Int32), @p10='?' (DbType = Boolean), @p11='?', @p12='?', @p13='?', @p14='?' (DbType = Int32), @p15='?' (DbType = Boolean), @p16='?', @p17='?', @p18='?', @p19='?' (DbType = Int32), @p20='?' (DbType = Boolean), @p21='?', @p22='?', @p23='?', @p24='?' (DbType = Int32), @p25='?' (DbType = Boolean), @p26='?', @p27='?', @p28='?', @p29='?' (DbType = Int32), @p30='?' (DbType = Boolean), @p31='?', @p32='?', @p33='?', @p34='?' (DbType = Int32), @p35='?' (DbType = Boolean), @p36='?', @p37='?', @p38='?', @p39='?' (DbType = Int32), @p40='?' (DbType = Boolean), @p41='?', @p42='?', @p43='?', @p44='?' (DbType = Int32), @p45='?' (DbType = Boolean), @p46='?', @p47='?', @p48='?', @p49='?' (DbType = Int32), @p50='?' (DbType = Boolean), @p51='?', @p52='?', @p53='?', @p54='?' (DbType = Int32), @p55='?' (DbType = Boolean), @p56='?', @p57='?', @p58='?', @p59='?' (DbType = Int32), @p60='?' (DbType = Boolean), @p61='?', @p62='?', @p63='?', @p64='?' (DbType = Int32), @p65='?' (DbType = Boolean), @p66='?', @p67='?', @p68='?', @p69='?' (DbType = Int32), @p70='?' (DbType = Boolean), @p71='?', @p72='?', @p73='?', @p74='?' (DbType = Int32), @p75='?' (DbType = Boolean), @p76='?', @p77='?', @p78='?', @p79='?' (DbType = Int32), @p80='?' (DbType = Boolean), @p81='?', @p82='?', @p83='?', @p84='?' (DbType = Int32), @p85='?' (DbType = Boolean), @p86='?', @p87='?', @p88='?', @p89='?' (DbType = Int32), @p90='?' (DbType = Boolean), @p91='?', @p92='?', @p93='?', @p94='?' (DbType = Int32), @p95='?' (DbType = Boolean), @p96='?', @p97='?', @p98='?', @p99='?' (DbType = Int32), @p100='?' (DbType = Boolean), @p101='?', @p102='?', @p103='?', @p104='?' (DbType = Int32), @p105='?' (DbType = Boolean), @p106='?', @p107='?', @p108='?', @p109='?' (DbType = Int32), @p110='?' (DbType = Boolean), @p111='?', @p112='?', @p113='?', @p114='?' (DbType = Int32), @p115='?' (DbType = Boolean), @p116='?', @p117='?', @p118='?', @p119='?' (DbType = Int32), @p120='?' (DbType = Boolean), @p121='?', @p122='?', @p123='?', @p124='?' (DbType = Int32), @p125='?' (DbType = Boolean), @p126='?', @p127='?', @p128='?', @p129='?' (DbType = Int32), @p130='?' (DbType = Boolean), @p131='?', @p132='?', @p133='?', @p134='?' (DbType = Int32), @p135='?' (DbType = Boolean), @p136='?', @p137='?', @p138='?', @p139='?' (DbType = Int32), @p140='?' (DbType = Boolean), @p141='?', @p142='?', @p143='?', @p144='?' (DbType = Int32), @p145='?' (DbType = Boolean), @p146='?', @p147='?', @p148='?', @p149='?' (DbType = Int32), @p150='?' (DbType = Boolean), @p151='?', @p152='?', @p153='?', @p154='?' (DbType = Int32), @p155='?' (DbType = Boolean), @p156='?', @p157='?', @p158='?', @p159='?' (DbType = Int32), @p160='?' (DbType = Boolean), @p161='?', @p162='?', @p163='?', @p164='?' (DbType = Int32), @p165='?' (DbType = Boolean), @p166='?', @p167='?', @p168='?', @p169='?' (DbType = Int32), @p170='?' (DbType = Boolean), @p171='?', @p172='?', @p173='?', @p174='?' (DbType = Int32), @p175='?' (DbType = Boolean), @p176='?', @p177='?', @p178='?', @p179='?' (DbType = Int32), @p180='?' (DbType = Boolean), @p181='?', @p182='?', @p183='?', @p184='?' (DbType = Int32), @p185='?' (DbType = Boolean), @p186='?', @p187='?', @p188='?', @p189='?' (DbType = Int32), @p190='?' (DbType = Boolean), @p191='?', @p192='?', @p193='?', @p194='?' (DbType = Int32), @p195='?' (DbType = Boolean), @p196='?', @p197='?', @p198='?', @p199='?' (DbType = Int32), @p200='?' (DbType = Boolean), @p201='?', @p202='?', @p203='?', @p204='?' (DbType = Int32), @p205='?' (DbType = Boolean), @p206='?', @p207='?', @p208='?', @p209='?' (DbType = Int32), @p210='?' (DbType = Boolean), @p211='?', @p212='?'], CommandType='Text', CommandTimeout='30']
       INSERT INTO students (first_name, group_id, is_active, last_name, middle_name)
       VALUES (@p8, @p9, @p10, @p11, @p12)
       RETURNING id;
@@ -575,12 +575,12 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       FROM subjects AS s
       WHERE s.teacher_id = @ef_filter__CurrentTeacherId
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (9ms) [Parameters=[@p0='?', @p1='?', @p2='?', @p3='?', @p4='?' (DbType = Boolean), @p5='?', @p6='?' (DbType = Int32), @p7='?' (DbType = Object)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (8ms) [Parameters=[@p0='?', @p1='?', @p2='?', @p3='?', @p4='?' (DbType = Boolean), @p5='?', @p6='?' (DbType = Int32), @p7='?' (DbType = Object)], CommandType='Text', CommandTimeout='30']
       INSERT INTO subjects (ai_reference_text, code, disk_path_template, final_assessment, is_active, name, teacher_id, aliases)
       VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
       RETURNING id;
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (1ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (0ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       SELECT s.id, s.ai_reference_text, s.code, s.disk_path_template, s.final_assessment, s.is_active, s.name, s.teacher_id, s.aliases
       FROM subjects AS s
       WHERE s.teacher_id = @ef_filter__CurrentTeacherId
@@ -660,14 +660,14 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       FROM subjects AS s
       WHERE s.teacher_id = @ef_filter__CurrentTeacherId
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (2ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32), @Current_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (1ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32), @Current_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       SELECT s.id, s.disk_root_path, s.general_requirements, s.study_semester, s.subject_id, s.teacher_id, s.term_id, t.id, t.academic_year, t.credit_week_start, t.season, t.session_start
       FROM subject_terms AS s
       INNER JOIN terms AS t ON s.term_id = t.id
       WHERE s.teacher_id = @ef_filter__CurrentTeacherId AND s.subject_id = @Current_Id
       ORDER BY s.id, t.id
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
       SELECT t.id, t.academic_year, t.credit_week_start, t.season, t.session_start
       FROM terms AS t
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
@@ -681,13 +681,13 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       WHERE s.teacher_id = @ef_filter__CurrentTeacherId AND s.id = @Id
       LIMIT 2
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (1ms) [Parameters=[@NewTerm_TermId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (0ms) [Parameters=[@NewTerm_TermId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       SELECT t.id, t.academic_year, t.credit_week_start, t.season, t.session_start
       FROM terms AS t
       WHERE t.id = @NewTerm_TermId
       LIMIT 2
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (2ms) [Parameters=[@groupIds='?' (DbType = Object)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (1ms) [Parameters=[@groupIds='?' (DbType = Object)], CommandType='Text', CommandTimeout='30']
       SELECT g.id, g.admission_year, g.direction, g.name, g.name_key
       FROM groups AS g
       WHERE g.id = ANY (@groupIds)
@@ -703,7 +703,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
       RETURNING id;
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (4ms) [Parameters=[@p6='?' (DbType = Boolean), @p7='?' (DbType = Date), @p8='?', @p9='?' (DbType = Int32), @p10='?' (DbType = Int32), @p11='?', @p12='?' (DbType = Int32), @p13='?', @p14='?' (DbType = Object), @p15='?' (DbType = Boolean), @p16='?' (DbType = Date), @p17='?', @p18='?' (DbType = Int32), @p19='?' (DbType = Int32), @p20='?', @p21='?' (DbType = Int32), @p22='?', @p23='?' (DbType = Object), @p24='?' (DbType = Boolean), @p25='?' (DbType = Date), @p26='?', @p27='?' (DbType = Int32), @p28='?' (DbType = Int32), @p29='?', @p30='?' (DbType = Int32), @p31='?', @p32='?' (DbType = Object), @p33='?' (DbType = Boolean), @p34='?' (DbType = Date), @p35='?', @p36='?' (DbType = Int32), @p37='?' (DbType = Int32), @p38='?', @p39='?' (DbType = Int32), @p40='?', @p41='?' (DbType = Object), @p42='?' (DbType = Boolean), @p43='?' (DbType = Date), @p44='?', @p45='?' (DbType = Int32), @p46='?' (DbType = Int32), @p47='?', @p48='?' (DbType = Int32), @p49='?', @p50='?' (DbType = Object), @p51='?' (DbType = Boolean), @p52='?' (DbType = Date), @p53='?', @p54='?' (DbType = Int32), @p55='?' (DbType = Int32), @p56='?', @p57='?' (DbType = Int32), @p58='?', @p59='?' (DbType = Object), @p60='?' (DbType = Boolean), @p61='?' (DbType = Date), @p62='?', @p63='?' (DbType = Int32), @p64='?' (DbType = Int32), @p65='?', @p66='?' (DbType = Int32), @p67='?', @p68='?' (DbType = Object), @p69='?' (DbType = Boolean), @p70='?' (DbType = Date), @p71='?', @p72='?' (DbType = Int32), @p73='?' (DbType = Int32), @p74='?', @p75='?' (DbType = Int32), @p76='?', @p77='?' (DbType = Object), @p78='?' (DbType = Boolean), @p79='?' (DbType = Date), @p80='?', @p81='?' (DbType = Int32), @p82='?' (DbType = Int32), @p83='?', @p84='?' (DbType = Int32), @p85='?', @p86='?' (DbType = Object), @p87='?' (DbType = Int32), @p88='?' (DbType = Int32), @p89='?' (DbType = Int32), @p90='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (3ms) [Parameters=[@p6='?' (DbType = Boolean), @p7='?' (DbType = Date), @p8='?', @p9='?' (DbType = Int32), @p10='?' (DbType = Int32), @p11='?', @p12='?' (DbType = Int32), @p13='?', @p14='?' (DbType = Object), @p15='?' (DbType = Boolean), @p16='?' (DbType = Date), @p17='?', @p18='?' (DbType = Int32), @p19='?' (DbType = Int32), @p20='?', @p21='?' (DbType = Int32), @p22='?', @p23='?' (DbType = Object), @p24='?' (DbType = Boolean), @p25='?' (DbType = Date), @p26='?', @p27='?' (DbType = Int32), @p28='?' (DbType = Int32), @p29='?', @p30='?' (DbType = Int32), @p31='?', @p32='?' (DbType = Object), @p33='?' (DbType = Boolean), @p34='?' (DbType = Date), @p35='?', @p36='?' (DbType = Int32), @p37='?' (DbType = Int32), @p38='?', @p39='?' (DbType = Int32), @p40='?', @p41='?' (DbType = Object), @p42='?' (DbType = Boolean), @p43='?' (DbType = Date), @p44='?', @p45='?' (DbType = Int32), @p46='?' (DbType = Int32), @p47='?', @p48='?' (DbType = Int32), @p49='?', @p50='?' (DbType = Object), @p51='?' (DbType = Boolean), @p52='?' (DbType = Date), @p53='?', @p54='?' (DbType = Int32), @p55='?' (DbType = Int32), @p56='?', @p57='?' (DbType = Int32), @p58='?', @p59='?' (DbType = Object), @p60='?' (DbType = Boolean), @p61='?' (DbType = Date), @p62='?', @p63='?' (DbType = Int32), @p64='?' (DbType = Int32), @p65='?', @p66='?' (DbType = Int32), @p67='?', @p68='?' (DbType = Object), @p69='?' (DbType = Boolean), @p70='?' (DbType = Date), @p71='?', @p72='?' (DbType = Int32), @p73='?' (DbType = Int32), @p74='?', @p75='?' (DbType = Int32), @p76='?', @p77='?' (DbType = Object), @p78='?' (DbType = Boolean), @p79='?' (DbType = Date), @p80='?', @p81='?' (DbType = Int32), @p82='?' (DbType = Int32), @p83='?', @p84='?' (DbType = Int32), @p85='?', @p86='?' (DbType = Object), @p87='?' (DbType = Int32), @p88='?' (DbType = Int32), @p89='?' (DbType = Int32), @p90='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       INSERT INTO assignments (ai_check_enabled, deadline_override, kind, number, subject_term_id, task_text, teacher_id, title, checklist)
       VALUES (@p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14)
       RETURNING id;
@@ -749,7 +749,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       ORDER BY s.id, s1.id, t.id
       LIMIT 2
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (2ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32), @Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (1ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32), @Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       SELECT s5.group_id, s5.subject_term_id, s5.id, s5.admission_year, s5.direction, s5.name, s5.name_key, s4.id, s4.id0, s4.id1
       FROM (
           SELECT s.id, s1.id AS id0, t.id AS id1
@@ -892,7 +892,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       ) AS s5 ON s4.id = s5.subject_term_id
       ORDER BY s4.id, s4.id0, s4.id1, s5.group_id, s5.subject_term_id, s5.id
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (1ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32), @Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (2ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32), @Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       SELECT s3.id, s3.first_name, s3.group_id, s3.is_active, s3.last_name, s3.middle_name, s4.id, s4.id0, s4.id1, s5.group_id, s5.subject_term_id, s5.id
       FROM (
           SELECT s.id, s1.id AS id0, t.id AS id1
@@ -1001,7 +1001,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       ) AS c0 ON s2.id = c0.subject_term_id
       ORDER BY s2.id, s3.group_id, s3.subject_term_id, s3.id, s3.id0
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (7ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?', @p4='?' (DbType = Int32), @p5='?' (DbType = Int32), @p6='?' (DbType = Int32), @p7='?', @p8='?' (DbType = Int32), @p9='?' (DbType = Int32), @p10='?' (DbType = Int32), @p11='?', @p12='?' (DbType = Int32), @p13='?' (DbType = Int32), @p14='?' (DbType = Int32), @p15='?', @p16='?' (DbType = Int32), @p17='?' (DbType = Int32), @p18='?' (DbType = Int32), @p19='?', @p20='?' (DbType = Int32), @p21='?' (DbType = Int32), @p22='?' (DbType = Int32), @p23='?', @p24='?' (DbType = Int32), @p25='?' (DbType = Int32), @p26='?' (DbType = Int32), @p27='?', @p28='?' (DbType = Int32), @p29='?' (DbType = Int32), @p30='?' (DbType = Int32), @p31='?', @p32='?' (DbType = Int32), @p33='?' (DbType = Int32), @p34='?' (DbType = Int32), @p35='?', @p36='?' (DbType = Int32), @p37='?' (DbType = Int32), @p38='?' (DbType = Int32), @p39='?', @p40='?' (DbType = Int32), @p41='?' (DbType = Int32), @p42='?' (DbType = Int32), @p43='?', @p44='?' (DbType = Int32), @p45='?' (DbType = Int32), @p46='?' (DbType = Int32), @p47='?', @p48='?' (DbType = Int32), @p49='?' (DbType = Int32), @p50='?' (DbType = Int32), @p51='?', @p52='?' (DbType = Int32), @p53='?' (DbType = Int32), @p54='?' (DbType = Int32), @p55='?', @p56='?' (DbType = Int32), @p57='?' (DbType = Int32), @p58='?' (DbType = Int32), @p59='?', @p60='?' (DbType = Int32), @p61='?' (DbType = Int32), @p62='?' (DbType = Int32), @p63='?', @p64='?' (DbType = Int32), @p65='?' (DbType = Int32), @p66='?' (DbType = Int32), @p67='?', @p68='?' (DbType = Int32), @p69='?' (DbType = Int32), @p70='?' (DbType = Int32), @p71='?', @p72='?' (DbType = Int32), @p73='?' (DbType = Int32), @p74='?' (DbType = Int32), @p75='?', @p76='?' (DbType = Int32), @p77='?' (DbType = Int32), @p78='?' (DbType = Int32), @p79='?', @p80='?' (DbType = Int32), @p81='?' (DbType = Int32), @p82='?' (DbType = Int32), @p83='?', @p84='?' (DbType = Int32), @p85='?' (DbType = Int32), @p86='?' (DbType = Int32), @p87='?', @p88='?' (DbType = Int32), @p89='?' (DbType = Int32), @p90='?' (DbType = Int32), @p91='?', @p92='?' (DbType = Int32), @p93='?' (DbType = Int32), @p94='?' (DbType = Int32), @p95='?', @p96='?' (DbType = Int32), @p97='?' (DbType = Int32), @p98='?' (DbType = Int32), @p99='?', @p100='?' (DbType = Int32), @p101='?' (DbType = Int32), @p102='?' (DbType = Int32), @p103='?', @p104='?' (DbType = Int32), @p105='?' (DbType = Int32), @p106='?' (DbType = Int32), @p107='?', @p108='?' (DbType = Int32), @p109='?' (DbType = Int32), @p110='?' (DbType = Int32), @p111='?', @p112='?' (DbType = Int32), @p113='?' (DbType = Int32), @p114='?' (DbType = Int32), @p115='?', @p116='?' (DbType = Int32), @p117='?' (DbType = Int32), @p118='?' (DbType = Int32), @p119='?', @p120='?' (DbType = Int32), @p121='?' (DbType = Int32), @p122='?' (DbType = Int32), @p123='?', @p124='?' (DbType = Int32), @p125='?' (DbType = Int32), @p126='?' (DbType = Int32), @p127='?', @p128='?' (DbType = Int32), @p129='?' (DbType = Int32), @p130='?' (DbType = Int32), @p131='?', @p132='?' (DbType = Int32), @p133='?' (DbType = Int32), @p134='?' (DbType = Int32), @p135='?'], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (5ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?', @p4='?' (DbType = Int32), @p5='?' (DbType = Int32), @p6='?' (DbType = Int32), @p7='?', @p8='?' (DbType = Int32), @p9='?' (DbType = Int32), @p10='?' (DbType = Int32), @p11='?', @p12='?' (DbType = Int32), @p13='?' (DbType = Int32), @p14='?' (DbType = Int32), @p15='?', @p16='?' (DbType = Int32), @p17='?' (DbType = Int32), @p18='?' (DbType = Int32), @p19='?', @p20='?' (DbType = Int32), @p21='?' (DbType = Int32), @p22='?' (DbType = Int32), @p23='?', @p24='?' (DbType = Int32), @p25='?' (DbType = Int32), @p26='?' (DbType = Int32), @p27='?', @p28='?' (DbType = Int32), @p29='?' (DbType = Int32), @p30='?' (DbType = Int32), @p31='?', @p32='?' (DbType = Int32), @p33='?' (DbType = Int32), @p34='?' (DbType = Int32), @p35='?', @p36='?' (DbType = Int32), @p37='?' (DbType = Int32), @p38='?' (DbType = Int32), @p39='?', @p40='?' (DbType = Int32), @p41='?' (DbType = Int32), @p42='?' (DbType = Int32), @p43='?', @p44='?' (DbType = Int32), @p45='?' (DbType = Int32), @p46='?' (DbType = Int32), @p47='?', @p48='?' (DbType = Int32), @p49='?' (DbType = Int32), @p50='?' (DbType = Int32), @p51='?', @p52='?' (DbType = Int32), @p53='?' (DbType = Int32), @p54='?' (DbType = Int32), @p55='?', @p56='?' (DbType = Int32), @p57='?' (DbType = Int32), @p58='?' (DbType = Int32), @p59='?', @p60='?' (DbType = Int32), @p61='?' (DbType = Int32), @p62='?' (DbType = Int32), @p63='?', @p64='?' (DbType = Int32), @p65='?' (DbType = Int32), @p66='?' (DbType = Int32), @p67='?', @p68='?' (DbType = Int32), @p69='?' (DbType = Int32), @p70='?' (DbType = Int32), @p71='?', @p72='?' (DbType = Int32), @p73='?' (DbType = Int32), @p74='?' (DbType = Int32), @p75='?', @p76='?' (DbType = Int32), @p77='?' (DbType = Int32), @p78='?' (DbType = Int32), @p79='?', @p80='?' (DbType = Int32), @p81='?' (DbType = Int32), @p82='?' (DbType = Int32), @p83='?', @p84='?' (DbType = Int32), @p85='?' (DbType = Int32), @p86='?' (DbType = Int32), @p87='?', @p88='?' (DbType = Int32), @p89='?' (DbType = Int32), @p90='?' (DbType = Int32), @p91='?', @p92='?' (DbType = Int32), @p93='?' (DbType = Int32), @p94='?' (DbType = Int32), @p95='?', @p96='?' (DbType = Int32), @p97='?' (DbType = Int32), @p98='?' (DbType = Int32), @p99='?', @p100='?' (DbType = Int32), @p101='?' (DbType = Int32), @p102='?' (DbType = Int32), @p103='?', @p104='?' (DbType = Int32), @p105='?' (DbType = Int32), @p106='?' (DbType = Int32), @p107='?', @p108='?' (DbType = Int32), @p109='?' (DbType = Int32), @p110='?' (DbType = Int32), @p111='?', @p112='?' (DbType = Int32), @p113='?' (DbType = Int32), @p114='?' (DbType = Int32), @p115='?', @p116='?' (DbType = Int32), @p117='?' (DbType = Int32), @p118='?' (DbType = Int32), @p119='?', @p120='?' (DbType = Int32), @p121='?' (DbType = Int32), @p122='?' (DbType = Int32), @p123='?', @p124='?' (DbType = Int32), @p125='?' (DbType = Int32), @p126='?' (DbType = Int32), @p127='?', @p128='?' (DbType = Int32), @p129='?' (DbType = Int32), @p130='?' (DbType = Int32), @p131='?', @p132='?' (DbType = Int32), @p133='?' (DbType = Int32), @p134='?' (DbType = Int32), @p135='?'], CommandType='Text', CommandTimeout='30']
       INSERT INTO coursework_topics (student_id, subject_term_id, teacher_id, topic)
       VALUES (@p0, @p1, @p2, @p3)
       RETURNING id;
@@ -1261,7 +1261,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       ) AS s5 ON s4.id = s5.subject_term_id
       ORDER BY s4.id, s4.id0, s4.id1, s5.group_id, s5.subject_term_id, s5.id
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (2ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32), @Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (1ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32), @Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       SELECT s3.id, s3.first_name, s3.group_id, s3.is_active, s3.last_name, s3.middle_name, s4.id, s4.id0, s4.id1, s5.group_id, s5.subject_term_id, s5.id
       FROM (
           SELECT s.id, s1.id AS id0, t.id AS id1
@@ -1725,7 +1725,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8)
       RETURNING id;
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (2ms) [Parameters=[@p2='?' (DbType = Int32), @p0='?', @p1='?' (DbType = Object), @p4='?' (DbType = Int32), @p3='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (1ms) [Parameters=[@p2='?' (DbType = Int32), @p0='?', @p1='?' (DbType = Object), @p4='?' (DbType = Int32), @p3='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
       UPDATE assignments SET task_text = @p0, checklist = @p1
       WHERE id = @p2;
       UPDATE task_documents SET applied_at = @p3
@@ -1893,7 +1893,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       ) AS a0 ON s2.id = a0.subject_term_id
       ORDER BY s2.id, s2.id0, s2.id1
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (2ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32), @Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (1ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32), @Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       SELECT s.id, s.disk_root_path, s.general_requirements, s.study_semester, s.subject_id, s.teacher_id, s.term_id, s1.id, s1.ai_reference_text, s1.code, s1.disk_path_template, s1.final_assessment, s1.is_active, s1.name, s1.teacher_id, s1.aliases, t.id, t.academic_year, t.credit_week_start, t.season, t.session_start
       FROM subject_terms AS s
       INNER JOIN (
@@ -1906,7 +1906,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       ORDER BY s.id, s1.id, t.id
       LIMIT 2
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (2ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32), @Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (1ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32), @Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       SELECT s5.group_id, s5.subject_term_id, s5.id, s5.admission_year, s5.direction, s5.name, s5.name_key, s4.id, s4.id0, s4.id1
       FROM (
           SELECT s.id, s1.id AS id0, t.id AS id1
@@ -2007,7 +2007,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       WHERE t.teacher_id = @ef_filter__CurrentTeacherId AND t.subject_term_id = @subjectTermId
       ORDER BY t.uploaded_at DESC
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (1ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32), @subjectTerm_SubjectId='?' (DbType = Int32), @subjectTerm_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (2ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32), @subjectTerm_SubjectId='?' (DbType = Int32), @subjectTerm_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       SELECT s.id, s.disk_root_path, s.general_requirements, s.study_semester, s.subject_id, s.teacher_id, s.term_id, t.id, t.academic_year, t.credit_week_start, t.season, t.session_start
       FROM subject_terms AS s
       INNER JOIN terms AS t ON s.term_id = t.id
@@ -2026,7 +2026,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       WHERE s.teacher_id = @ef_filter__CurrentTeacherId AND s.subject_id = @Current_Id
       ORDER BY s.id, t.id
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (2ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32), @Current_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (1ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32), @Current_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       SELECT s1.id, s1.admission_year, s1.direction, s1.name, s1.name_key, s.id, t.id
       FROM subject_terms AS s
       INNER JOIN terms AS t ON s.term_id = t.id
@@ -2038,7 +2038,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       WHERE s.teacher_id = @ef_filter__CurrentTeacherId AND s.subject_id = @Current_Id
       ORDER BY s.id, t.id
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (3ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32), @Current_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (2ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32), @Current_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       SELECT a0.id, a0.ai_check_enabled, a0.deadline_override, a0.kind, a0.number, a0.subject_term_id, a0.task_text, a0.teacher_id, a0.title, a0.checklist, s.id, t.id
       FROM subject_terms AS s
       INNER JOIN terms AS t ON s.term_id = t.id
@@ -2050,11 +2050,11 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       WHERE s.teacher_id = @ef_filter__CurrentTeacherId AND s.subject_id = @Current_Id
       ORDER BY s.id, t.id
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
       SELECT t.id, t.academic_year, t.credit_week_start, t.season, t.session_start
       FROM terms AS t
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
       SELECT g.id, g.admission_year, g.direction, g.name, g.name_key
       FROM groups AS g
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
@@ -2183,7 +2183,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       WHERE s.teacher_id = @ef_filter__CurrentTeacherId
       ORDER BY s.id, s1.id, t.id
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (1ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (2ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       SELECT s3.id, s3.admission_year, s3.direction, s3.name, s3.name_key, s.id, s1.id, t.id
       FROM subject_terms AS s
       INNER JOIN (
@@ -2213,7 +2213,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       ORDER BY s.id, s1.id, t.id
       LIMIT 2
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (1ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32), @picked_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (2ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32), @picked_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       SELECT s4.id, s4.admission_year, s4.direction, s4.name, s4.name_key, s3.id, s3.id0, s3.id1
       FROM (
           SELECT s.id, s1.id AS id0, t.id AS id1
@@ -2235,7 +2235,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       ) AS s4 ON s3.id = s4.subject_term_id
       ORDER BY s3.id, s3.id0, s3.id1
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (1ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32), @picked_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (2ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32), @picked_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       SELECT a0.id, a0.ai_check_enabled, a0.deadline_override, a0.kind, a0.number, a0.subject_term_id, a0.task_text, a0.teacher_id, a0.title, a0.checklist, s5.id, s5.id0, s5.id1
       FROM (
           SELECT s.id, s1.id AS id0, t.id AS id1
@@ -2257,7 +2257,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       ) AS a0 ON s5.id = a0.subject_term_id
       ORDER BY s5.id, s5.id0, s5.id1
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (1ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32), @picked_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (2ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32), @picked_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       SELECT c0.id, c0.student_id, c0.subject_term_id, c0.teacher_id, c0.topic, s6.id, s6.id0, s6.id1
       FROM (
           SELECT s.id, s1.id AS id0, t.id AS id1
@@ -2279,7 +2279,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       ) AS c0 ON s6.id = c0.subject_term_id
       ORDER BY s6.id, s6.id0, s6.id1
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[@Group_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (1ms) [Parameters=[@Group_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       SELECT s.id, s.first_name, s.group_id, s.is_active, s.last_name, s.middle_name
       FROM students AS s
       WHERE s.group_id = @Group_Id AND s.is_active
@@ -2339,7 +2339,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       ) AS c0 ON s4.id = c0.subject_term_id
       ORDER BY s4.id
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (1ms) [Parameters=[@studentId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (0ms) [Parameters=[@studentId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       SELECT s.id, s.first_name, s.group_id, s.is_active, s.last_name, s.middle_name
       FROM students AS s
       WHERE s.id = @studentId
@@ -2639,7 +2639,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
           WHERE g.id = s.group_id AND s.is_active) AS "Active"
       FROM groups AS g
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (1ms) [Parameters=[@id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (0ms) [Parameters=[@id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       SELECT g.id, g.admission_year, g.direction, g.name, g.name_key
       FROM groups AS g
       WHERE g.id = @id
@@ -2715,7 +2715,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15)
       RETURNING id;
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (1ms) [Parameters=[@normalizedRoleName='?'], CommandType='Text', CommandTimeout='30']
       SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
       FROM roles AS r
       WHERE r.normalized_name = @normalizedRoleName
@@ -2733,7 +2733,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       WHERE r.normalized_name = @normalizedRoleName
       LIMIT 2
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (1ms) [Parameters=[@normalizedUserName='?'], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (0ms) [Parameters=[@normalizedUserName='?'], CommandType='Text', CommandTimeout='30']
       SELECT u.id, u.access_failed_count, u.concurrency_stamp, u.display_name, u.email, u.email_confirmed, u.lockout_enabled, u.lockout_end, u.must_change_password, u.normalized_email, u.normalized_user_name, u.password_hash, u.phone_number, u.phone_number_confirmed, u.security_stamp, u.two_factor_enabled, u.user_name
       FROM users AS u
       WHERE u.normalized_user_name = @normalizedUserName
@@ -2813,7 +2813,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       WHERE s.teacher_id = @ef_filter__CurrentTeacherId AND s.subject_id = @Current_Id
       ORDER BY s.id, t.id
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (2ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32), @Current_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (1ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32), @Current_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       SELECT s1.id, s1.admission_year, s1.direction, s1.name, s1.name_key, s.id, t.id
       FROM subject_terms AS s
       INNER JOIN terms AS t ON s.term_id = t.id
@@ -2953,19 +2953,19 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       ) AS c0 ON s6.id = c0.subject_term_id
       ORDER BY s6.id, s6.id0, s6.id1
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (1ms) [Parameters=[@Group_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (0ms) [Parameters=[@Group_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       SELECT s.id, s.first_name, s.group_id, s.is_active, s.last_name, s.middle_name
       FROM students AS s
       WHERE s.group_id = @Group_Id AND s.is_active
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (1ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32), @SubjectTermId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (2ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32), @SubjectTermId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       SELECT s.id, s.disk_root_path, s.general_requirements, s.study_semester, s.subject_id, s.teacher_id, s.term_id
       FROM subject_terms AS s
       WHERE s.teacher_id = @ef_filter__CurrentTeacherId AND s.id = @SubjectTermId
       ORDER BY s.id
       LIMIT 2
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (2ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32), @SubjectTermId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (1ms) [Parameters=[@ef_filter__CurrentTeacherId='?' (DbType = Int32), @SubjectTermId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       SELECT s2.group_id, s2.subject_term_id, s2.id, s2.admission_year, s2.direction, s2.name, s2.name_key, s1.id
       FROM (
           SELECT s.id
@@ -3013,7 +3013,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       ) AS c0 ON s4.id = c0.subject_term_id
       ORDER BY s4.id
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (1ms) [Parameters=[@studentId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (0ms) [Parameters=[@studentId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       SELECT s.id, s.first_name, s.group_id, s.is_active, s.last_name, s.middle_name
       FROM students AS s
       WHERE s.id = @studentId
