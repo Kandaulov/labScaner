@@ -237,7 +237,7 @@ public sealed partial class AssignmentTasksTests(PostgresFixture postgres)
         var nextPage = await client.GetStringAsync(new Uri($"/Subjects/Term?id={nextId}", UriKind.Relative));
         Assert.Contains("Скопировать из другого семестра", nextPage, StringComparison.Ordinal);
         var copied = await PostAsync(client, $"/Subjects/Term?id={nextId}", $"/Subjects/Term?handler=Copy&id={nextId}", new Dictionary<string, string> { ["sourceId"] = stId });
-        var copiedPage = await copied.Content.ReadAsStringAsync();
+        var copiedPage = WebUtility.HtmlDecode(await copied.Content.ReadAsStringAsync()); // «+» в разметке кодируется
         Assert.Contains("Скопировано из", copiedPage, StringComparison.Ordinal);
         Assert.Contains("value=\"Очереди RabbitMQ\"", copiedPage, StringComparison.Ordinal);
         Assert.Contains("лаб — 4 + курсовая", copiedPage, StringComparison.Ordinal);
