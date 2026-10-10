@@ -166,6 +166,16 @@ with sync_playwright() as p:
             page.wait_for_load_state("networkidle")
             page.screenshot(path=folder / "30-mail-error.png", full_page=True)
 
+        # Шаг 3.6б: Яндекс Диск — форма подключения и ошибка кода (настоящего Яндекса в CI нет)
+        page.goto(f"{BASE}/Settings/Disk")
+        page.wait_for_load_state("networkidle")
+        page.screenshot(path=folder / "31-disk-connect.png", full_page=True)
+        if name == "desktop":
+            page.fill("input[name='code']", "1234567")
+            page.click("form[action*='Connect'] button[type=submit]")
+            page.wait_for_load_state("networkidle")
+            page.screenshot(path=folder / "32-disk-bad-code.png", full_page=True)
+
         import time
         started = time.perf_counter()
         response = page.goto(f"{BASE}/Journal")

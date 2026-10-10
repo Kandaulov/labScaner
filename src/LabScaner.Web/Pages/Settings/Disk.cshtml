@@ -1,0 +1,165 @@
+@page
+@model LabScaner.Web.Pages.Settings.DiskModel
+@using LabScaner.Core.Connections
+@using LabScaner.Infrastructure.Disk
+@{
+    ViewData["Title"] = "Яндекс Диск";
+    ViewData[NavMenu.ActiveKey] = NavMenu.Settings;
+    var c = Model.Connection;
+    var ru = System.Globalization.CultureInfo.GetCultureInfo("ru-RU");
+    var showCodeForm = Model.Configured && (c is null || Model.Reconnect);
+    var reports = Model.Reports.ToDictionary(r => r.SubjectTermId);
+}
+<partial name="_PageHeader" model='@("Яндекс Диск")' />
+<nav class="breadcrumbs"><a href="/Settings">Настройки</a> / Яндекс Диск</nav>
+
+@if (Model.Message is not null)
+{
+    <div class="notice notice--ok" role="status">@Model.Message</div>
+}
+@if (Model.Error is not null)
+{
+    <div class="notice notice--error" role="alert">@Model.Error</div>
+}
+
+@if (!Model.Configured)
+{
+    <section class="card">
+        <partial name="_Empty" model='@(new EmptyState("Приложение Яндекса не настроено на сервере", "Администратор вписывает ClientID и секрет приложения в файл .env на сервере (YANDEX_CLIENT_ID и YANDEX_CLIENT_SECRET, DEPLOY.md, шаг 9) и перезапускает систему."))' />
+    </section>
+}
+
+@if (c is not null)
+{
+    <section class="card" aria-labelledby="disk-h">
+        <div class="card__header">
+            <h2 id="disk-h">Подключённый Диск</h2>
+            @if (c.LastCheckAt is { } at)
+            {
+                <span class="muted">проверено @AppTime.Local(at).ToString("dd.MM.yyyy HH:mm", ru)</span>
+            }
+        </div>
+        <div class="subject-form__body">
+            <div class="disk-account">
+                <div><span class="muted">Аккаунт</span><b>@(c.DisplayName ?? c.Login)</b>@if (c.DisplayName is not null) { <span class="muted"> · @c.Login</span> }</div>
+                @if (c.TotalSpace is { } total)
+                {
+                    <div><span class="muted">Место</span><b>занято @DiskConnectionService.Gb(c.UsedSpace ?? 0) из @DiskConnectionService.Gb(total)</b></div>
+                }
+                <div><span class="muted">Доступ действует до</span><b>@AppTime.Local(c.ExpiresAt).ToString("dd.MM.yyyy", ru)</b><span class="muted"> · продлевается сам</span></div>
+            </div>
+            @if (c.LastCheckOk == false)
+            {
+                <ul class="check-list"><li class="check-list__fail">✗ @c.LastCheckMessage</li></ul>
+            }
+            <div class="form__actions form__actions--wrap">
+                <form method="post" asp-page-handler="Check"><button type="submit" class="button">Проверить Диск и папки</button></form>
+                @if (Model.Configured && !Model.Reconnect)
+                {
+                    <a class="button" href="?reconnect=true">Подключить заново</a>
+                }
+            </div>
+            <p class="muted">Система только читает Диск и создаёт папки: ничего не удаляет, не переименовывает и не перезаписывает.</p>
+        </div>
+        <form method="post" asp-page-handler="Disconnect" class="subject-form__footer">
+            <span class="muted">Отключить Диск — токены удаляются. Файлы на Диске остаются как были.</span>
+            <button type="submit" class="button button--small button--danger">Отключить</button>
+        </form>
+    </section>
+}
+
+@if (showCodeForm)
+{
+    <section class="card" aria-labelledby="connect-h">
+        <div class="card__header"><h2 id="connect-h">@(c is null ? "Подключить Яндекс Диск" : "Подключить заново")</h2></div>
+        <div class="subject-form__body">
+            <ol class="steps">
+                <li>
+                    Откройте Яндекс под тем аккаунтом, на Диске которого лежат папки предметов, и нажмите «Разрешить».
+                    <div><a class="button button--primary" href="@Model.AuthorizeUrl" target="_blank" rel="noopener noreferrer">Открыть Яндекс</a></div>
+                </li>
+                <li>
+                    Яндекс покажет код подтверждения — скопируйте его сюда. Код действует 10 минут.
+                    <form method="post" asp-page-handler="Connect" class="task-doc__row">
+                        <input name="code" required maxlength="100" autocomplete="off" placeholder="Код подтверждения" class="code-input" aria-label="Код подтверждения" />
+                        <button type="submit" class="button button--primary">Подключить</button>
+                        @if (c is not null)
+                        {
+                            <a class="button" href="/Settings/Disk">Отмена</a>
+                        }
+                    </form>
+                </li>
+            </ol>
+            <p class="muted">Доступ нужен ко всему Диску: работы раскладываются в ваши существующие папки (например, «30 Политех/03 КорпИС/…»).</p>
+        </div>
+    </section>
+}
+
+@if (c is not null)
+{
+    <section class="card" aria-labelledby="folders-h">
+        <div class="card__header">
+            <h2 id="folders-h">Папки семестров</h2>
+            <span class="muted">текущие и будущие семестры</span>
+        </div>
+        @if (Model.SubjectTerms.Count == 0)
+        {
+            <partial name="_Empty" model='@(new EmptyState("Предметов в семестрах пока нет", "Заведите предмет в семестре — здесь появится его папка на Диске.", "К предметам", "/Subjects"))' />
+        }
+        else
+        {
+            <div class="table-wrap">
+                <table class="table">
+                    <thead><tr><th>Предмет и семестр</th><th>Папка на Диске</th><th>Состояние</th><th></th></tr></thead>
+                    <tbody>
+                        @foreach (var st in Model.SubjectTerms)
+                        {
+                            var r = reports.GetValueOrDefault(st.Id);
+                            <tr>
+                                <td><a href="/Subjects/Term?id=@st.Id">@st.Title</a></td>
+                                <td class="mono disk-path">@st.DiskRootPath</td>
+                                <td>
+                                    @if (r is null)
+                                    {
+                                        <span class="muted">не проверено</span>
+                                    }
+                                    else if (r.Error is not null)
+                                    {
+                                        <span class="error-text">@r.Error</span>
+                                    }
+                                    else if (r.Root == DiskFolderState.NotAFolder)
+                                    {
+                                        <span class="error-text">по этому пути лежит файл, а не папка</span>
+                                    }
+                                    else if (r.Root == DiskFolderState.Missing)
+                                    {
+                                        <span class="warn-text">папки нет — проверьте путь</span>
+                                    }
+                                    else if (r.MissingSubfolders.Count > 0)
+                                    {
+                                        <span class="warn-text">нет: @string.Join(", ", r.MissingSubfolders)</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="ok-text">✓ папка и подпапки на месте</span>
+                                    }
+                                </td>
+                                <td class="table__actions">
+                                    @if (r is { Error: null, Root: DiskFolderState.Exists, MissingSubfolders.Count: > 0 })
+                                    {
+                                        <form method="post" asp-page-handler="Create" asp-route-st="@st.Id"><button type="submit" class="button button--small">Создать подпапки</button></form>
+                                    }
+                                    else if (r is { Error: null, Root: DiskFolderState.Missing })
+                                    {
+                                        <form method="post" asp-page-handler="Create" asp-route-st="@st.Id" asp-route-root="true"><button type="submit" class="button button--small">Создать папку семестра</button></form>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <p class="card__note muted">Подпапки: «Группа - ЛР», «Группа - Кр» (если есть курсовая) и «Задания». Путь к папке семестра правится на странице предмета в семестре.</p>
+        }
+    </section>
+}

@@ -80,6 +80,23 @@ public sealed class SubjectTerm : ITeacherOwned
         return DiskPathTemplate.Render(subject.DiskPathTemplate, new DiskPathValues(subject.Code, term.AcademicYear, direction, studySemester));
     }
 
+    /// <summary>Папки внутри корневой (ADR-011): «ИСТ-41 - ЛР», «ИСТ-41 - Кр» (если есть курсовая), «Задания».</summary>
+    public IReadOnlyList<string> DiskSubfolders()
+    {
+        var names = new List<string>();
+        foreach (var group in _groups.OrderBy(g => g.Name, StringComparer.Ordinal))
+        {
+            names.Add($"{group.Name} - ЛР");
+            if (Coursework is not null)
+            {
+                names.Add($"{group.Name} - Кр");
+            }
+        }
+
+        names.Add("Задания");
+        return names;
+    }
+
     public void SetStudySemester(int studySemester)
     {
         if (studySemester is < 1 or > 12)

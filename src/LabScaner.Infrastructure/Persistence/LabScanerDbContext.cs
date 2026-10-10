@@ -37,6 +37,8 @@ public sealed class LabScanerDbContext(DbContextOptions<LabScanerDbContext> opti
 
     public DbSet<MailConnection> MailConnections => Set<MailConnection>();
 
+    public DbSet<DiskConnection> DiskConnections => Set<DiskConnection>();
+
     /// <summary>Подставляется в глобальный фильтр при каждом запросе (EF параметризует члены контекста).</summary>
     private int? CurrentTeacherId => currentTeacher.TeacherId;
 

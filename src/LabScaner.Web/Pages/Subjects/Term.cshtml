@@ -45,17 +45,12 @@
             <span class="field__hint">Внутри неё система создаст папки групп «ИСТ-41 - ЛР», «ИСТ-41 - Кр» и «Задания». По шаблону предмета: <code>@Model.SuggestedPath</code></span>
         </label>
         <div class="path-preview">
-            <span class="muted">Подпапки (создаются автоматически при подключённом Диске, шаг 3.6):</span>
+            <span class="muted">Подпапки — проверить и создать: <a href="/Settings/Disk">Настройки → Яндекс Диск</a></span>
             <nav class="path">
-                @foreach (var g in st.Groups.OrderBy(g => g.Name, StringComparer.Ordinal))
+                @foreach (var folder in st.DiskSubfolders())
                 {
-                    <span class="path__seg">@g.Name - ЛР</span>
-                    @if (st.Coursework is not null)
-                    {
-                        <span class="path__seg">@g.Name - Кр</span>
-                    }
+                    <span class="path__seg">@folder</span>
                 }
-                <span class="path__seg">Задания</span>
             </nav>
         </div>
         <div class="form__actions">

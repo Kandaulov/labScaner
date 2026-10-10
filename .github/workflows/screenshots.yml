@@ -42,6 +42,9 @@ jobs:
           DataProtection__KeysPath: /tmp/labscaner-keys
           ASPNETCORE_URLS: http://127.0.0.1:5080
           ASPNETCORE_ENVIRONMENT: Production
+          # Ненастоящее приложение Яндекса — только чтобы показать форму подключения Диска.
+          Yandex__ClientId: screenshots-client
+          Yandex__ClientSecret: screenshots-secret
         run: |
           export Bootstrap__AdminDisplayName="$(printf 'Кандаулов В. М.')"
           (cd publish && nohup dotnet LabScaner.Web.dll > ../app.log 2>&1 &)
