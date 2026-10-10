@@ -90,6 +90,29 @@ with sync_playwright() as p:
         page.wait_for_load_state("networkidle")
         page.screenshot(path=folder / "18-groups.png", full_page=True)
 
+        # Шаг 3.3: предмет
+        if name == "desktop":
+            page.goto(f"{BASE}/Subjects")
+            page.fill("input[name='Input.Name']", "Корпоративные информационные системы")
+            page.fill("input[name='Input.Code']", "КорпИС")
+            page.fill("input[name='Input.Aliases']", "КИС, КорпИнфСист")
+            page.fill("textarea[name='Input.AiReferenceText']", "Нотации: BPMN 2.0, IDEF0. Отчёт: титульный лист, цель, ход работы, выводы.")
+            page.fill("input[name='Input.DiskPathTemplate']", "30 Политех/03 {Код}/10 {Код} - Отчетные документы/{Учебный год} {Код} {Направление} - {N} сем")
+            page.wait_for_timeout(600)
+            page.click("form[action*='Save'] .card__header button[type=submit]")
+            page.wait_for_load_state("networkidle")
+            page.goto(f"{BASE}/Subjects?new=true")
+            page.fill("input[name='Input.Name']", "Операционные системы")
+            page.fill("input[name='Input.Code']", "ОС")
+            page.select_option("select[name='Input.FinalAssessment']", "Pass")
+            page.click("form[action*='Save'] .card__header button[type=submit]")
+            page.wait_for_load_state("networkidle")
+            page.goto(f"{BASE}/Subjects")
+        else:
+            page.goto(f"{BASE}/Subjects")
+        page.wait_for_load_state("networkidle")
+        page.screenshot(path=folder / "19-subjects.png", full_page=True)
+
         # Прототип журнала (шаг 2.5): сценарии с htmx
         import time
         started = time.perf_counter()
