@@ -84,15 +84,15 @@ public sealed class SubjectTerm : ITeacherOwned
     public void SetDiskRootPath(string path)
     {
         var normalized = DiskPathTemplate.Normalize(path ?? string.Empty);
+        if (normalized.IndexOfAny(['{', '}']) >= 0)
+        {
+            throw new ArgumentException("В пути остались подстановки в фигурных скобках — укажите настоящий путь.", nameof(path));
+        }
+
         var error = DiskPathTemplate.Validate(normalized);
         if (error is not null)
         {
             throw new ArgumentException(error.Replace("Шаблон пути", "Путь", StringComparison.Ordinal), nameof(path));
-        }
-
-        if (normalized.Contains('{', StringComparison.Ordinal))
-        {
-            throw new ArgumentException("В пути остались подстановки в фигурных скобках — укажите настоящий путь.", nameof(path));
         }
 
         DiskRootPath = normalized;
