@@ -1,8 +1,0 @@
-@model WorkRef
-@inject JournalPrototypeStore Store
-@* Ответ на отметку: сама ячейка + внеполосные обновления (htmx OOB) — итоги столбца и автомат. *@
-<partial name="_Cell" model="JournalView.Cell(Model.Student, Model.Lab)" />
-<template>
-    <td id="t@(Model.Lab)" hx-swap-oob="true" class="jt__total">@JournalView.Totals(Store.Students, Model.Lab)</td>
-    <partial name="_AutomatOob" model="Model.Student" />
-</template>

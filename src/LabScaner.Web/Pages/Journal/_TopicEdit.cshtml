@@ -1,0 +1,15 @@
+@model LabScaner.Web.Pages.Journal.TopicCell
+<td id="topic-@Model.StudentId" class="jt__topic">
+    <form class="topic-edit" hx-post="@Url.Page("/Journal/Index", "Topic", new { st = Model.SubjectTermId, student = Model.StudentId })"
+          hx-target="closest td" hx-swap="outerHTML">
+        <input name="topic" value="@Model.Topic" maxlength="300" autofocus aria-label="Тема курсовой: @Model.StudentName" placeholder="Тема курсовой" />
+        <button type="submit" class="button button--small button--primary">Сохранить</button>
+        <button type="button" class="button button--small"
+                hx-get="@Url.Page("/Journal/Index", "TopicCell", new { st = Model.SubjectTermId, student = Model.StudentId })"
+                hx-target="closest td" hx-swap="outerHTML">Отмена</button>
+        @if (Model.Error is not null)
+        {
+            <span class="error-text" role="alert">@Model.Error</span>
+        }
+    </form>
+</td>

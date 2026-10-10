@@ -1,6 +1,0 @@
-@model ProtoStudent
-<td id="e@(Model.Id)" class="jt__final">
-    <button type="button" class="final @(Model.Exam is null ? null : "final--set")" aria-label="Экзамен: @Model.ShortName"
-            hx-get="@Url.Page("/Prototype/Journal", "Final", new { s = Model.Id })" hx-target="next .pop" hx-swap="innerHTML">@JournalView.FinalText(Model)</button>
-    <div class="pop pop--right"></div>
-</td>

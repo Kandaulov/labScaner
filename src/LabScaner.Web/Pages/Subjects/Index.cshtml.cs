@@ -1,4 +1,7 @@
+using LabScaner.Core.Abstractions;
+using LabScaner.Core.Directory;
 using LabScaner.Core.Subjects;
+using LabScaner.Core.Teaching;
 using LabScaner.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -7,9 +10,22 @@ using Microsoft.EntityFrameworkCore;
 namespace LabScaner.Web.Pages.Subjects;
 
 /// <summary>Предметы преподавателя (ADR-010…012, ADR-016): видны и изменяются только свои.</summary>
-public sealed class IndexModel(LabScanerDbContext db) : PageModel
+public sealed class IndexModel(LabScanerDbContext db, IClock clock) : PageModel
 {
     public IReadOnlyList<Subject> Subjects { get; private set; } = [];
+
+    /// <summary>Семестры текущего предмета (ADR-011): новые сверху.</summary>
+    public IReadOnlyList<SubjectTerm> SubjectTerms { get; private set; } = [];
+
+    /// <summary>Семестры календаря, в которых предмета ещё нет.</summary>
+    public IReadOnlyList<Term> FreeTerms { get; private set; } = [];
+
+    public IReadOnlyList<Group> AllGroups { get; private set; } = [];
+
+    [BindProperty]
+    public TermInput NewTerm { get; set; } = new();
+
+    public DateOnly Today => DateOnly.FromDateTime(TimeZoneInfo.ConvertTime(clock.UtcNow, Navigation.AppTime.Zone).DateTime);
 
     public Subject? Current { get; private set; }
 
@@ -119,6 +135,58 @@ public sealed class IndexModel(LabScanerDbContext db) : PageModel
         return Page();
     }
 
+    /// <summary>Предмет в семестре: группы, работы, путь на Диске по шаблону — дальше правится на своей странице.</summary>
+    public async Task<IActionResult> OnPostAddTermAsync()
+    {
+        var subject = await db.Subjects.SingleOrDefaultAsync(s => s.Id == Id);
+        if (subject is null)
+        {
+            return NotFound();
+        }
+
+        var term = await db.Terms.SingleOrDefaultAsync(t => t.Id == NewTerm.TermId);
+        var groupIds = (NewTerm.GroupIds ?? []).ToHashSet();
+        var groups = (await db.Groups.Where(g => groupIds.Contains(g.Id)).ToListAsync()).OrderBy(g => g.Name, StringComparer.Ordinal).ToList();
+        try
+        {
+            if (term is null)
+            {
+                throw new ArgumentException("Выберите семестр из календаря.");
+            }
+
+            if (groups.Count == 0)
+            {
+                throw new ArgumentException("Выберите хотя бы одну группу.");
+            }
+
+            if (await db.SubjectTerms.AnyAsync(s => s.SubjectId == subject.Id && s.TermId == term.Id))
+            {
+                throw new ArgumentException($"«{subject.Code}» в семестре {term.Title} уже заведён.");
+            }
+
+            var path = SubjectTerm.SuggestPath(subject, term, NewTerm.StudySemester, groups[0].Direction);
+            var subjectTerm = new SubjectTerm(subject, term, NewTerm.StudySemester, path);
+            groups.ForEach(subjectTerm.AddGroup);
+            subjectTerm.EnsureLabs(NewTerm.Labs);
+            subjectTerm.SetCoursework(NewTerm.Coursework);
+            db.SubjectTerms.Add(subjectTerm);
+            await db.SaveChangesAsync();
+            return RedirectToPage("/Subjects/Term", new { id = subjectTerm.Id });
+        }
+        catch (ArgumentException ex)
+        {
+            Error = Clean(ex);
+        }
+
+        await LoadAsync();
+        if (Current is not null)
+        {
+            Input = SubjectInput.From(Current);
+        }
+
+        return Page();
+    }
+
     /// <summary>Предпросмотр пути на Диске по шаблону (htmx, при вводе).</summary>
     public PartialViewResult OnPostPathPreview() =>
         Partial("_PathPreview", new PathPreview(Input.DiskPathTemplate ?? string.Empty, Input.Code ?? string.Empty));
@@ -132,6 +200,34 @@ public sealed class IndexModel(LabScanerDbContext db) : PageModel
         if (Subjects.Count == 0)
         {
             New = true;
+        }
+
+        if (Current is null)
+        {
+            return;
+        }
+
+        var subjectTerms = await db.SubjectTerms.AsNoTracking()
+            .Include(s => s.Term).Include(s => s.Groups).Include(s => s.Assignments)
+            .Where(s => s.SubjectId == Current.Id)
+            .AsSplitQuery()
+            .ToListAsync();
+        SubjectTerms = [.. subjectTerms.OrderByDescending(s => s.Term!.PeriodStart)];
+        var used = subjectTerms.Select(s => s.TermId).ToHashSet();
+        var terms = await db.Terms.AsNoTracking().ToListAsync();
+        FreeTerms = [.. terms.Where(t => !used.Contains(t.Id) && t.StateOn(Today) != TermState.Past).OrderBy(t => t.PeriodStart)];
+        AllGroups = [.. (await db.Groups.AsNoTracking().ToListAsync()).OrderBy(g => g.Name, StringComparer.Ordinal)];
+
+        // Предложение по прошлому семестру предмета: столько же лаб, курсовая — если была.
+        var last = SubjectTerms.Count > 0 ? SubjectTerms[0] : null;
+        if (last is not null && NewTerm.TermId == 0)
+        {
+            NewTerm = new TermInput
+            {
+                StudySemester = last.StudySemester,
+                Labs = last.Assignments.Count(a => a.Kind == AssignmentKind.Lab),
+                Coursework = last.Assignments.Any(a => a.Kind == AssignmentKind.Coursework),
+            };
         }
     }
 
@@ -163,6 +259,19 @@ public sealed class IndexModel(LabScanerDbContext db) : PageModel
             DiskPathTemplate = s.DiskPathTemplate,
         };
     }
+}
+
+public sealed class TermInput
+{
+    public int TermId { get; set; }
+
+    public int StudySemester { get; set; } = 7;
+
+    public int[]? GroupIds { get; set; }
+
+    public int Labs { get; set; } = 8;
+
+    public bool Coursework { get; set; }
 }
 
 public sealed record PathPreview(string Template, string Code)

@@ -1,0 +1,160 @@
+@page
+@model LabScaner.Web.Pages.Subjects.TermModel
+@using LabScaner.Core.Teaching
+@{
+    var st = Model.SubjectTerm;
+    ViewData["Title"] = st.Title;
+    ViewData[NavMenu.ActiveKey] = NavMenu.Subjects;
+    var ru = System.Globalization.CultureInfo.GetCultureInfo("ru-RU");
+    var works = st.Labs.Concat(st.Coursework is null ? [] : new[] { st.Coursework }).ToList();
+    var studentCount = st.Groups.Sum(g => g.Students.Count(s => s.IsActive));
+}
+<partial name="_PageHeader" model='@(st.Subject!.Code + " · " + st.Term!.Title)' />
+<nav class="breadcrumbs"><a href="/Subjects?id=@st.SubjectId">Предметы</a> / @st.Subject.Code / @st.Term.Title</nav>
+
+@if (Model.Message is not null)
+{
+    <div class="notice notice--ok" role="status">@Model.Message</div>
+}
+@if (Model.Error is not null)
+{
+    <div class="notice notice--error" role="alert">@Model.Error</div>
+}
+
+<div class="term-summary">
+    <span class="chip">@st.StudySemester семестр обучения</span>
+    <span class="chip">@st.Subject.FinalAssessment.Title()</span>
+    <span class="chip chip--warn">Лабы до @st.Term.CreditWeekStart.ToString("dd.MM.yyyy", ru) · курсовая до @st.Term.SessionStart.ToString("dd.MM.yyyy", ru)</span>
+    @foreach (var g in st.Groups.OrderBy(g => g.Name, StringComparer.Ordinal))
+    {
+        <a class="button button--small" href="/Journal?st=@st.Id&group=@g.Id">Журнал @g.Name →</a>
+    }
+</div>
+
+<section class="card" aria-labelledby="main-h">
+    <div class="card__header"><h2 id="main-h">Папка на Яндекс Диске</h2></div>
+    <form method="post" asp-page-handler="Main" asp-route-id="@st.Id" class="subject-form subject-form__body">
+        <div class="form-row">
+            <label class="field">Семестр обучения
+                <input type="number" name="studySemester" value="@st.StudySemester" min="1" max="12" required />
+            </label>
+        </div>
+        <label class="field field--wide">Корневая папка семестра
+            <input name="diskRootPath" value="@st.DiskRootPath" class="mono" required maxlength="500" />
+            <span class="field__hint">Внутри неё система создаст папки групп «ИСТ-41 - ЛР», «ИСТ-41 - Кр» и «Задания». По шаблону предмета: <code>@Model.SuggestedPath</code></span>
+        </label>
+        <div class="path-preview">
+            <span class="muted">Подпапки (создаются автоматически при подключённом Диске, шаг 3.6):</span>
+            <nav class="path">
+                @foreach (var g in st.Groups.OrderBy(g => g.Name, StringComparer.Ordinal))
+                {
+                    <span class="path__seg">@g.Name - ЛР</span>
+                    @if (st.Coursework is not null)
+                    {
+                        <span class="path__seg">@g.Name - Кр</span>
+                    }
+                }
+                <span class="path__seg">Задания</span>
+            </nav>
+        </div>
+        <div class="form__actions">
+            <button type="submit" class="button button--primary">Сохранить</button>
+            @if (st.DiskRootPath != Model.SuggestedPath)
+            {
+                <button type="submit" name="useSuggested" value="true" class="button" formnovalidate>Взять путь по шаблону</button>
+            }
+        </div>
+    </form>
+</section>
+
+<section class="card" aria-labelledby="groups-h">
+    <div class="card__header"><h2 id="groups-h">Группы</h2><span class="muted">@st.Groups.Count · студентов @studentCount</span></div>
+    @if (Model.AllGroups.Count == 0)
+    {
+        <partial name="_Empty" model='@(new EmptyState("В справочнике нет групп", "Группы загружает администратор: «Группы и студенты» → «Импорт из Excel».", "К справочнику", "/Groups"))' />
+    }
+    else
+    {
+        <form method="post" asp-page-handler="Groups" asp-route-id="@st.Id" class="subject-form__body">
+            <div class="checks">
+                @foreach (var g in Model.AllGroups)
+                {
+                    <label class="check"><input type="checkbox" name="groupIds" value="@g.Id" checked="@st.Groups.Any(x => x.Id == g.Id)" /> @g.Name <span class="muted">· @g.Students.Count(s => s.IsActive)</span></label>
+                }
+            </div>
+            <div class="form__actions"><button type="submit" class="button">Сохранить группы</button></div>
+        </form>
+    }
+</section>
+
+<section class="card" aria-labelledby="works-h">
+    <div class="card__header">
+        <h2 id="works-h">Работы и дедлайны</h2>
+        <span class="muted">лаб — @st.Labs.Count()@(st.Coursework is null ? "" : " + курсовая")</span>
+    </div>
+    @if (works.Count > 0)
+    {
+        <form method="post" asp-page-handler="Works" asp-route-id="@st.Id">
+            <div class="table-wrap">
+                <table class="table table--compact">
+                    <thead><tr><th>Работа</th><th>Название</th><th>Дедлайн</th><th>Проверка ИИ</th></tr></thead>
+                    <tbody>
+                        @for (var i = 0; i < works.Count; i++)
+                        {
+                            var w = works[i];
+                            var deadline = w.Deadline(st.Term);
+                            <tr>
+                                <td><b>@w.ShortName</b><input type="hidden" name="works[@i].Id" value="@w.Id" /></td>
+                                <td><input name="works[@i].Title" value="@w.Title" class="input-wide" maxlength="300" placeholder="Название — появится из DOCX с заданиями (шаг 3.5)" /></td>
+                                <td>
+                                    <input type="date" name="works[@i].Deadline" value="@(w.DeadlineOverride?.ToString("yyyy-MM-dd"))" aria-label="Свой дедлайн" />
+                                    <div class="field__hint">@(w.DeadlineOverride is null ? $"из календаря: {deadline.ToString("dd.MM.yyyy", ru)}" : "свой дедлайн")</div>
+                                </td>
+                                <td><label class="check"><input type="checkbox" name="works[@i].Ai" value="true" checked="@w.AiCheckEnabled" /> вкл</label></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="form__actions card__footer-form"><button type="submit" class="button button--primary">Сохранить работы</button></div>
+        </form>
+    }
+    <div class="form__actions form__actions--wrap card__footer-form">
+        <form method="post" asp-page-handler="AddLab" asp-route-id="@st.Id"><button type="submit" class="button">+ Лабораторная</button></form>
+        @if (st.Labs.Any())
+        {
+            <form method="post" asp-page-handler="RemoveLab" asp-route-id="@st.Id"><button type="submit" class="button button--danger">Удалить последнюю лабораторную</button></form>
+        }
+        <form method="post" asp-page-handler="Coursework" asp-route-id="@st.Id" asp-route-enabled="@(st.Coursework is null)">
+            <button type="submit" class="button">@(st.Coursework is null ? "+ Курсовая" : "Убрать курсовую")</button>
+        </form>
+    </div>
+</section>
+
+@if (st.Coursework is not null)
+{
+    <section class="card" aria-labelledby="topics-h">
+        <div class="card__header"><h2 id="topics-h">Темы курсовых</h2><span class="muted">заполнено @st.Topics.Count из @studentCount</span></div>
+        @if (Model.TopicResult is { } r)
+        {
+            <div class="notice notice--ok sheet-error">
+                <b>Темы загружены: @r.Set@(r.Unchanged > 0 ? $", без изменений — {r.Unchanged}" : "").</b>
+                @if (r.NotFound.Count > 0)
+                {
+                    <span class="warn-text">Не найдены в группах предмета: @string.Join("; ", r.NotFound).</span>
+                }
+                @if (r.SkippedSheets.Count > 0)
+                {
+                    <span class="muted">Пропущены листы (группа не выбрана для предмета): @string.Join(", ", r.SkippedSheets).</span>
+                }
+            </div>
+        }
+        <form method="post" asp-page-handler="Topics" asp-route-id="@st.Id" enctype="multipart/form-data" class="form form--inline card__footer-form">
+            <label class="field">Список группы с колонкой «Тема КР» (.xlsx)
+                <input type="file" name="file" accept=".xlsx" required />
+            </label>
+            <button type="submit" class="button">Загрузить темы</button>
+        </form>
+        <p class="card__note muted">Темы видны и правятся в журнале группы. Пустая тема в файле ничего не стирает.</p>
+    </section>
+}
