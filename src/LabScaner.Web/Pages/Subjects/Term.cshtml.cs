@@ -205,7 +205,7 @@ public sealed class TermModel(LabScanerDbContext db, TopicImportService topics) 
         }
 
         SubjectTerm = subjectTerm;
-        AllGroups = [.. (await db.Groups.ToListAsync()).OrderBy(g => g.Name, StringComparer.Ordinal)];
+        AllGroups = [.. (await db.Groups.Include(g => g.Students).ToListAsync()).OrderBy(g => g.Name, StringComparer.Ordinal)];
         SuggestedPath = Suggest(subjectTerm);
         return true;
     }

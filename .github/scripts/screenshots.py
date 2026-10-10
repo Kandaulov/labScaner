@@ -156,7 +156,7 @@ with sync_playwright() as p:
             page.wait_for_selector(".topic-edit input")
             page.fill(".topic-edit input", "Учёт заявок в сервисном центре")
             page.click(".topic-edit button[type=submit]")
-            page.wait_for_selector(".topic:not(.topic--empty) >> nth=0")
+            page.wait_for_selector(".topic-edit", state="detached")
             page.screenshot(path=folder / "25-journal-topic.png")
 
         if name == "mobile":

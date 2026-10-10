@@ -1236,3 +1236,7 @@ fieldset.field legend {
   flex-wrap: wrap;
   align-items: center;
 }
+
+.table-wrap + .card__note {
+  padding-top: 14px;
+}
