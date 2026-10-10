@@ -6,13 +6,13 @@ namespace LabScaner.Core.Tests.Teaching;
 
 public sealed class SubjectTermTests
 {
-    private static readonly Term Autumn = new(2026, TermSeason.Autumn, new DateOnly(2026, 12, 21), new DateOnly(2027, 1, 11));
+    private static readonly Term _autumn = new(2026, TermSeason.Autumn, new DateOnly(2026, 12, 21), new DateOnly(2027, 1, 11));
 
     private static Subject Korpis() => new("Корпоративные информационные системы", "КорпИС");
 
     private static SubjectTerm Create(int labs = 0, bool coursework = false)
     {
-        var st = new SubjectTerm(Korpis(), Autumn, 7, "КорпИС/2026-2027 КорпИС ИСТ - 7 сем");
+        var st = new SubjectTerm(Korpis(), _autumn, 7, "КорпИС/2026-2027 КорпИС ИСТ - 7 сем");
         st.EnsureLabs(labs);
         st.SetCoursework(coursework);
         return st;
@@ -21,7 +21,7 @@ public sealed class SubjectTermTests
     [Fact]
     public void SuggestPath_RendersSubjectTemplate()
     {
-        var path = SubjectTerm.SuggestPath(Korpis(), Autumn, 7, "ИСТ");
+        var path = SubjectTerm.SuggestPath(Korpis(), _autumn, 7, "ИСТ");
 
         Assert.Equal("КорпИС/2026-2027 КорпИС ИСТ - 7 сем", path);
     }
@@ -30,13 +30,13 @@ public sealed class SubjectTermTests
     [InlineData(0)]
     [InlineData(13)]
     public void StudySemester_OutOfRange_Throws(int semester) =>
-        Assert.Throws<ArgumentOutOfRangeException>(() => new SubjectTerm(Korpis(), Autumn, semester, "КорпИС"));
+        Assert.Throws<ArgumentOutOfRangeException>(() => new SubjectTerm(Korpis(), _autumn, semester, "КорпИС"));
 
     [Theory]
     [InlineData("")]
     [InlineData("КорпИС/{Учебный год}")]
     public void DiskRootPath_EmptyOrWithPlaceholders_Throws(string path) =>
-        Assert.ThrowsAny<ArgumentException>(() => new SubjectTerm(Korpis(), Autumn, 7, path));
+        Assert.ThrowsAny<ArgumentException>(() => new SubjectTerm(Korpis(), _autumn, 7, path));
 
     [Fact]
     public void DiskRootPath_IsNormalized()
@@ -105,9 +105,9 @@ public sealed class SubjectTermTests
 
         lab2.Update("Своя", new DateOnly(2026, 11, 30), aiCheckEnabled: false);
 
-        Assert.Equal(new DateOnly(2026, 12, 21), lab1.Deadline(Autumn));
-        Assert.Equal(new DateOnly(2027, 1, 11), st.Coursework!.Deadline(Autumn));
-        Assert.Equal(new DateOnly(2026, 11, 30), lab2.Deadline(Autumn));
+        Assert.Equal(new DateOnly(2026, 12, 21), lab1.Deadline(_autumn));
+        Assert.Equal(new DateOnly(2027, 1, 11), st.Coursework!.Deadline(_autumn));
+        Assert.Equal(new DateOnly(2026, 11, 30), lab2.Deadline(_autumn));
         Assert.False(lab2.AiCheckEnabled);
         Assert.True(lab1.AiCheckEnabled);
     }
