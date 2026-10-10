@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace LabScaner.Web.Pages.Subjects;
 
 /// <summary>Предмет в семестре: группы, папка на Диске, работы и дедлайны, темы курсовых.</summary>
+[RequestSizeLimit(XlsxReader.MaxFileSize + (64 * 1024))]
 public sealed class TermModel(LabScanerDbContext db, TopicImportService topics) : PageModel
 {
     public SubjectTerm SubjectTerm { get; private set; } = null!;
@@ -158,7 +159,6 @@ public sealed class TermModel(LabScanerDbContext db, TopicImportService topics) 
         return Page();
     }
 
-    [RequestSizeLimit(XlsxReader.MaxFileSize + (64 * 1024))]
     public async Task<IActionResult> OnPostTopicsAsync(IFormFile? file)
     {
         if (!await LoadAsync())
