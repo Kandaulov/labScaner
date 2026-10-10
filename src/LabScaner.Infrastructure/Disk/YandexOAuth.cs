@@ -37,7 +37,7 @@ public sealed class YandexOAuth(HttpClient http, IOptions<YandexOptions> options
     {
         if (!IsConfigured)
         {
-            throw new DiskException("Приложение Яндекса не настроено на сервере (Yandex__ClientId и Yandex__ClientSecret).");
+            throw new DiskException("Приложение Яндекса не настроено на сервере (YANDEX_CLIENT_ID и YANDEX_CLIENT_SECRET в .env).");
         }
 
         form["client_id"] = _options.ClientId!;
@@ -72,7 +72,7 @@ public sealed class YandexOAuth(HttpClient http, IOptions<YandexOptions> options
                     new DiskException("Код не подошёл: он неверный, уже использован или устарел (живёт 10 минут). Получите новый код."),
                 "invalid_grant" => new DiskException("Доступ к Диску отозван — подключите Диск заново.", unauthorized: true),
                 "invalid_client" or "unauthorized_client" =>
-                    new DiskException("Яндекс не узнал приложение: проверьте Yandex__ClientId и Yandex__ClientSecret на сервере."),
+                    new DiskException("Яндекс не узнал приложение: администратору — проверить YANDEX_CLIENT_ID и YANDEX_CLIENT_SECRET в .env на сервере."),
                 _ => new DiskException($"Яндекс вернул ошибку {(int)response.StatusCode}{(error is null ? "" : $" ({error})")}."),
             };
         }
