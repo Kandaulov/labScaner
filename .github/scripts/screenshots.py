@@ -153,6 +153,19 @@ with sync_playwright() as p:
             page.wait_for_load_state("networkidle")
             page.screenshot(path=folder / "22-subjects-terms.png", full_page=True)
 
+        # Шаг 3.6а: почта — пустая форма и ошибка подключения (почтового сервера в CI нет)
+        page.goto(f"{BASE}/Settings/Mail")
+        page.wait_for_load_state("networkidle")
+        page.screenshot(path=folder / "29-mail-empty.png", full_page=True)
+        if name == "desktop":
+            page.fill("input[name='Input.Address']", "v.ivanov@ulstu.ru")
+            page.fill("input[name='Input.Password']", "app-password")
+            page.fill("input[name='Input.ImapHost']", "imap.example.invalid")
+            page.fill("input[name='Input.SmtpHost']", "smtp.example.invalid")
+            page.click("form[action*='Save'] .card__header button[type=submit]")
+            page.wait_for_load_state("networkidle")
+            page.screenshot(path=folder / "30-mail-error.png", full_page=True)
+
         import time
         started = time.perf_counter()
         response = page.goto(f"{BASE}/Journal")

@@ -1,6 +1,8 @@
 @page
 @model IndexModel
+@inject MailStatusQuery MailStatusQuery
 @{
+    var mail = await MailStatusQuery.GetAsync();
     ViewData["Title"] = "Сводка";
     ViewData[NavMenu.ActiveKey] = NavMenu.Summary;
 }
@@ -8,9 +10,9 @@
 
 <section class="mail-panel" aria-label="Приём почты">
     <div class="mail-panel__title"><partial name="_Icon" model='@("mail")' /> Приём почты</div>
-    <div class="muted">Почтовый ящик не подключён — письма студентов пока не забираются.</div>
+    <div class="muted">@(mail.Configured ? $"{mail.Text}." : "Почтовый ящик не подключён — письма студентов пока не забираются.")</div>
     <div class="mail-panel__spacer"></div>
-    <a class="button" href="/Settings">Подключить почту</a>
+    <a class="button" href="/Settings/Mail">@(mail.Configured ? "Настройки почты" : "Подключить почту")</a>
     <button type="button" class="button button--primary" disabled>Проверить почту сейчас</button>
 </section>
 

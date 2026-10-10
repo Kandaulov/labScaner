@@ -12,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddJobs();
 builder.Services.AddWebSecurity(builder.Configuration);
+builder.Services.AddScoped<LabScaner.Web.Navigation.MailStatusQuery>();
 builder.Services.AddRazorPages(options =>
 {
     options.Conventions.AuthorizeFolder("/Admin", SecurityServices.AdminPolicy);

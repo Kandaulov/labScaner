@@ -1,0 +1,130 @@
+@page
+@model LabScaner.Web.Pages.Settings.MailModel
+@using LabScaner.Core.Connections
+@{
+    ViewData["Title"] = "Почта";
+    ViewData[NavMenu.ActiveKey] = NavMenu.Settings;
+    var c = Model.Connection;
+    var ru = System.Globalization.CultureInfo.GetCultureInfo("ru-RU");
+    var securities = new (MailSecurity Value, string Title)[]
+    {
+        (MailSecurity.SslOnConnect, "SSL/TLS"),
+        (MailSecurity.StartTls, "STARTTLS"),
+        (MailSecurity.None, "без шифрования"),
+    };
+}
+<partial name="_PageHeader" model='@("Почта")' />
+<nav class="breadcrumbs"><a href="/Settings">Настройки</a> / Почта</nav>
+
+@if (Model.Message is not null)
+{
+    <div class="notice notice--ok" role="status">@Model.Message</div>
+}
+@if (Model.Error is not null)
+{
+    <div class="notice notice--error" role="alert">@Model.Error</div>
+}
+
+@if (Model.Results.Count > 0 || c?.LastCheckAt is not null)
+{
+    <section class="card" aria-labelledby="check-h">
+        <div class="card__header">
+            <h2 id="check-h">Проверка подключения</h2>
+            @if (c?.LastCheckAt is { } at)
+            {
+                <span class="muted">@AppTime.Local(at).ToString("dd.MM.yyyy HH:mm", ru)</span>
+            }
+        </div>
+        <ul class="check-list">
+            @if (Model.Results.Count > 0)
+            {
+                foreach (var r in Model.Results)
+                {
+                    <li class="@(r.Ok ? "check-list__ok" : "check-list__fail")">@(r.Ok ? "✓" : "✗") @r.Message</li>
+                }
+            }
+            else if (c is not null)
+            {
+                <li class="@(c.LastCheckOk == true ? "check-list__ok" : "check-list__fail")">@(c.LastCheckOk == true ? "✓" : "✗") @c.LastCheckMessage</li>
+            }
+        </ul>
+        @if (c is not null)
+        {
+            <div class="form__actions form__actions--wrap card__footer-form">
+                <form method="post" asp-page-handler="Check"><button type="submit" class="button">Проверить снова</button></form>
+                <form method="post" asp-page-handler="SendTest"><button type="submit" class="button">Отправить пробное письмо себе</button></form>
+                <span class="muted">Ящик открывается только на чтение: система не помечает, не перемещает и не удаляет письма.</span>
+            </div>
+        }
+    </section>
+}
+
+<section class="card" aria-labelledby="mail-h">
+    <form method="post" asp-page-handler="Save" class="subject-form">
+        <div class="card__header">
+            <h2 id="mail-h">@(c is null ? "Подключить почтовый ящик" : "Почтовый ящик")</h2>
+            <button type="submit" class="button button--primary">Сохранить и проверить</button>
+        </div>
+        <div class="subject-form__body">
+            <div class="form-row">
+                <label class="field">Адрес ящика
+                    <input asp-for="Input.Address" type="email" required maxlength="254" placeholder="v.ivanov@ulstu.ru" autocomplete="off" />
+                    <span class="field__hint">Сюда студенты присылают работы; с него же уйдут уведомления.</span>
+                </label>
+                <label class="field">Логин
+                    <input asp-for="Input.Login" maxlength="254" placeholder="как адрес" autocomplete="off" />
+                    <span class="field__hint">Если отличается от адреса.</span>
+                </label>
+                <label class="field">Пароль
+                    <input asp-for="Input.Password" type="password" maxlength="200" autocomplete="new-password"
+                           placeholder="@(c is { HasPassword: true } && !Model.PasswordLost ? "сохранён — оставьте пустым" : "")" />
+                    <span class="field__hint">Хранится зашифрованным. Для Яндекса, Mail.ru и Gmail — «пароль приложения» из настроек безопасности.</span>
+                </label>
+            </div>
+            <fieldset class="field field--wide">
+                <legend>Приём — IMAP</legend>
+                <div class="form-row">
+                    <label class="field">Сервер<input asp-for="Input.ImapHost" maxlength="253" placeholder="imap.yandex.ru" autocomplete="off" /></label>
+                    <label class="field">Порт<input asp-for="Input.ImapPort" type="number" min="1" max="65535" required /></label>
+                    <label class="field">Шифрование
+                        <select asp-for="Input.ImapSecurity">
+                            @foreach (var s in securities)
+                            {
+                                <option value="@s.Value" selected="@(s.Value == Model.Input.ImapSecurity)">@s.Title</option>
+                            }
+                        </select>
+                    </label>
+                </div>
+            </fieldset>
+            <fieldset class="field field--wide">
+                <legend>Отправка — SMTP</legend>
+                <div class="form-row">
+                    <label class="field">Сервер<input asp-for="Input.SmtpHost" maxlength="253" placeholder="smtp.yandex.ru" autocomplete="off" /></label>
+                    <label class="field">Порт<input asp-for="Input.SmtpPort" type="number" min="1" max="65535" required /></label>
+                    <label class="field">Шифрование
+                        <select asp-for="Input.SmtpSecurity">
+                            @foreach (var s in securities)
+                            {
+                                <option value="@s.Value" selected="@(s.Value == Model.Input.SmtpSecurity)">@s.Title</option>
+                            }
+                        </select>
+                    </label>
+                </div>
+            </fieldset>
+            <div class="form-row">
+                <label class="field">Читать письма начиная с
+                    <input asp-for="Input.ReadSince" type="date" />
+                    <span class="field__hint">Более старые письма не читаются. По умолчанию — начало текущего семестра.</span>
+                </label>
+            </div>
+            <p class="muted">Серверы Яндекса, Mail.ru и Gmail подставятся сами по адресу, если поля серверов пустые. Настройки почты вуза — у администраторов почты (обычно IMAP 993 и SMTP 465 с SSL).</p>
+        </div>
+    </form>
+    @if (c is not null)
+    {
+        <form method="post" asp-page-handler="Disconnect" class="subject-form__footer">
+            <span class="muted">Отключить почту — пароль удаляется, письма больше не читаются. Уже принятые работы останутся.</span>
+            <button type="submit" class="button button--small button--danger">Отключить</button>
+        </form>
+    }
+</section>
