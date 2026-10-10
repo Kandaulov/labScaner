@@ -1367,6 +1367,7 @@ fieldset.field legend {
 }
 
 .pre-text {
+  font-family: inherit;
   white-space: pre-wrap;
   font-size: 12px;
   line-height: 1.5;
@@ -1382,4 +1383,10 @@ fieldset.field legend {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+}
+
+.assignment-nav [aria-current="page"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
 }
