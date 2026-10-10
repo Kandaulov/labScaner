@@ -1,5 +1,6 @@
 using System.Reflection;
 using LabScaner.Core.Abstractions;
+using LabScaner.Core.Connections;
 using LabScaner.Core.Directory;
 using LabScaner.Core.Subjects;
 using LabScaner.Core.Teaching;
@@ -33,6 +34,8 @@ public sealed class LabScanerDbContext(DbContextOptions<LabScanerDbContext> opti
     public DbSet<CourseworkTopic> CourseworkTopics => Set<CourseworkTopic>();
 
     public DbSet<TaskDocument> TaskDocuments => Set<TaskDocument>();
+
+    public DbSet<MailConnection> MailConnections => Set<MailConnection>();
 
     /// <summary>Подставляется в глобальный фильтр при каждом запросе (EF параметризует члены контекста).</summary>
     private int? CurrentTeacherId => currentTeacher.TeacherId;

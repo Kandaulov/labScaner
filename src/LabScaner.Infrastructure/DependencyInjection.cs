@@ -56,6 +56,8 @@ public static class DependencyInjection
         services.Configure<SecurityStampValidatorOptions>(o => o.ValidationInterval = TimeSpan.FromMinutes(1));
 
         services.AddSingleton<IClock, SystemClock>();
+        services.AddSingleton<ISecretProtector, Security.DataProtectionSecretProtector>();
+        services.TryAddSingleton<IMailProbe, Mail.MailKitProbe>();
 
         return services;
     }

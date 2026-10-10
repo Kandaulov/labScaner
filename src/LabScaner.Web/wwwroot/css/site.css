@@ -1390,3 +1390,27 @@ fieldset.field legend {
   border-color: var(--accent);
   color: #fff;
 }
+
+.mail-status__badge--error {
+  color: #ffb4a1;
+  border-color: #8a3a22;
+}
+
+/* Проверка подключений */
+.check-list {
+  list-style: none;
+  margin: 0;
+  padding: 14px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.check-list__ok {
+  color: #1f6b3a;
+}
+
+.check-list__fail {
+  color: #a33a12;
+}
