@@ -74,7 +74,7 @@ public sealed partial class AssignmentTasksTests(PostgresFixture postgres)
     [Fact]
     public void Fixtures_ContainNoRealContacts()
     {
-        foreach (var file in Directory.GetFiles(_fixtures, "*.docx"))
+        foreach (var file in System.IO.Directory.GetFiles(_fixtures, "*.docx"))
         {
             var text = string.Join("\n", Read(Path.GetFileName(file)).Select(p => p.Text));
             Assert.DoesNotContain("ulstu", text, StringComparison.OrdinalIgnoreCase);
