@@ -105,6 +105,10 @@ public sealed class MailKitProbe : IMailProbe
             $"{protocol}: не удалось установить защищённое соединение с {endpoint}. Проверьте порт и тип шифрования (993/465 — SSL, 143/587 — STARTTLS).",
         TimeoutException =>
             $"{protocol}: сервер {endpoint} не ответил за {TimeoutMs / 1000} секунд.",
+        SocketException { SocketErrorCode: SocketError.HostNotFound or SocketError.TryAgain or SocketError.NoData } =>
+            $"{protocol}: не удалось подключиться к {endpoint} — сервер с таким именем не найден, проверьте адрес сервера.",
+        SocketException { SocketErrorCode: SocketError.ConnectionRefused } =>
+            $"{protocol}: не удалось подключиться к {endpoint} — сервер не принимает подключения на этом порту.",
         SocketException or IOException =>
             $"{protocol}: не удалось подключиться к {endpoint} — {ex.Message}",
         ProtocolException or CommandException or System.Security.Authentication.AuthenticationException =>

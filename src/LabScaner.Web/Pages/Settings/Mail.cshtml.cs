@@ -69,8 +69,10 @@ public sealed class MailModel(LabScanerDbContext db, ISecretProtector secrets, I
             }
 
             await db.SaveChangesAsync();
-            Message = isNew ? "Почта подключена." : "Настройки сохранены.";
             await CheckAsync(Input.Password);
+            Message = Connection.LastCheckOk == true
+                ? (isNew ? "Почта подключена." : "Настройки сохранены.")
+                : "Настройки сохранены, но ящик не отвечает — что не так, видно в проверке ниже.";
         }
         catch (ArgumentException ex)
         {

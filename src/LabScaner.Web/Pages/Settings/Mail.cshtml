@@ -18,7 +18,7 @@
 
 @if (Model.Message is not null)
 {
-    <div class="notice notice--ok" role="status">@Model.Message</div>
+    <div class="notice @(Model.Results.Any(r => !r.Ok) ? "notice--error" : "notice--ok")" role="status">@Model.Message</div>
 }
 @if (Model.Error is not null)
 {
