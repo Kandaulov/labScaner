@@ -54,7 +54,7 @@ public sealed class MailConnection : ITeacherOwned
         SmtpHost = string.Empty;
     }
 
-    public MailConnection(string address, string login, MailEndpoint imap, MailEndpoint smtp, DateOnly readSince)
+    public MailConnection(string address, string? login, MailEndpoint imap, MailEndpoint smtp, DateOnly readSince)
         : this()
     {
         Update(address, login, imap, smtp, readSince);

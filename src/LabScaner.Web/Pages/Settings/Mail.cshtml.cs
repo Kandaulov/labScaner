@@ -25,7 +25,7 @@ public sealed class MailModel(LabScanerDbContext db, ISecretProtector secrets, I
     /// <summary>Пароль сохранён, но не расшифровывается (ключи шифрования потеряны) — нужно ввести заново.</summary>
     public bool PasswordLost { get; private set; }
 
-    public DateOnly Today => DateOnly.FromDateTime(AppTime.Local(clock.UtcNow).DateTime);
+    public DateOnly Today => DateOnly.FromDateTime(Navigation.AppTime.Local(clock.UtcNow).DateTime);
 
     public async Task OnGetAsync()
     {
