@@ -49,6 +49,19 @@ jobs:
             c=$(grep -o '<Counters [^>]*>' "$f" | head -1)
             echo "::notice title=Тесты $(basename "$f" .trx)::$c"
           done
+          # Упавшие тесты — целиком: сообщение и строка теста, где сработала проверка.
+          python3 - <<'PY'
+          import glob, html, re
+          for f in glob.glob("TestResults/*.trx"):
+              s = open(f, encoding="utf-8").read()
+              for m in re.finditer(r'<UnitTestResult [^>]*testName="([^"]+)"[^>]*outcome="Failed".*?</UnitTestResult>', s, re.S):
+                  block = m.group(0)
+                  msg = html.unescape((re.search(r"<Message>(.*?)</Message>", block, re.S) or [None, ""])[1])
+                  trace = html.unescape((re.search(r"<StackTrace>(.*?)</StackTrace>", block, re.S) or [None, ""])[1])
+                  where = [l.strip() for l in trace.splitlines() if "/tests/" in l][:2]
+                  text = (msg[:1500] + "\n" + "\n".join(where)).replace("%", "%25").replace("\r", "").replace("\n", "%0A")
+                  print(f"::error title={html.unescape(m.group(1))[-120:]}::{text}")
+          PY
 
       - name: Результаты тестов
         if: always()

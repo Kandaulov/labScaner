@@ -25,7 +25,8 @@ namespace LabScaner.Infrastructure.Persistence.Migrations
                 name: "checklist",
                 table: "assignments",
                 type: "text[]",
-                nullable: false);
+                nullable: false,
+                defaultValueSql: "'{}'");
 
             migrationBuilder.AddColumn<string>(
                 name: "task_text",

@@ -216,7 +216,7 @@ public sealed partial class AssignmentTasksTests(PostgresFixture postgres)
             ["checklist"] = "RabbitMQ развёрнут\r\n\r\n- Создана очередь проекта\r\nКонвейер пишет события в очередь",
             ["ai"] = "true",
         });
-        var savedPage = await saved.Content.ReadAsStringAsync();
+        var savedPage = WebUtility.HtmlDecode(await saved.Content.ReadAsStringAsync()); // переводы строк в textarea кодируются
         Assert.Contains("Сохранено.", savedPage, StringComparison.Ordinal);
         Assert.Contains("RabbitMQ развёрнут\nСоздана очередь проекта\nКонвейер пишет события в очередь</textarea>", savedPage, StringComparison.Ordinal);
 
