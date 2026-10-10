@@ -2,6 +2,7 @@ using System.Reflection;
 using LabScaner.Core.Abstractions;
 using LabScaner.Core.Directory;
 using LabScaner.Core.Subjects;
+using LabScaner.Core.Teaching;
 using LabScaner.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -24,6 +25,12 @@ public sealed class LabScanerDbContext(DbContextOptions<LabScanerDbContext> opti
     public DbSet<Term> Terms => Set<Term>();
 
     public DbSet<Subject> Subjects => Set<Subject>();
+
+    public DbSet<SubjectTerm> SubjectTerms => Set<SubjectTerm>();
+
+    public DbSet<Assignment> Assignments => Set<Assignment>();
+
+    public DbSet<CourseworkTopic> CourseworkTopics => Set<CourseworkTopic>();
 
     /// <summary>Подставляется в глобальный фильтр при каждом запросе (EF параметризует члены контекста).</summary>
     private int? CurrentTeacherId => currentTeacher.TeacherId;

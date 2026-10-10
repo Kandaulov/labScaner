@@ -1089,3 +1089,69 @@
     max-width: none;
   }
 }
+
+/* Переключатель предмета и группы в шапке журнала */
+.jhead--form {
+  gap: 12px;
+}
+
+/* Тема курсовой (ADR-025): правка прямо в журнале */
+.jt .jt__topic {
+  width: 260px;
+  min-width: 220px;
+  max-width: 320px;
+  text-align: left;
+  padding: 0 8px;
+  border-left: 1px solid #eef0f3;
+}
+
+.topic {
+  display: block;
+  width: 100%;
+  font: inherit;
+  font-size: 12px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--text);
+  padding: 4px 6px;
+  cursor: pointer;
+}
+
+.topic:hover,
+.topic:focus-visible {
+  border-color: #c9cfd8;
+  background: var(--surface);
+}
+
+.topic--empty {
+  color: var(--accent);
+}
+
+.topic-edit {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.topic-edit input {
+  flex: 1 1 140px;
+  font: inherit;
+  font-size: 12px;
+  min-height: 28px;
+  border: 1px solid #c9cfd8;
+  border-radius: 5px;
+  padding: 0 6px;
+}
+
+.topic-edit .error-text {
+  flex-basis: 100%;
+  font-size: 12px;
+  white-space: normal;
+}

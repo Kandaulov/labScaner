@@ -1,13 +1,121 @@
 @page
+@model LabScaner.Web.Pages.Journal.IndexModel
+@using LabScaner.Core.Subjects
+@using LabScaner.Core.Teaching
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
 @{
     ViewData["Title"] = "Журнал группы";
     ViewData[NavMenu.ActiveKey] = NavMenu.Journal;
+    var ru = System.Globalization.CultureInfo.GetCultureInfo("ru-RU");
+    var st = Model.Current;
+    var token = Antiforgery.GetAndStoreTokens(HttpContext).RequestToken;
 }
-<partial name="_PageHeader" model='@("Журнал группы")' />
-<section class="card">
-    <partial name="_Empty" model='@(new EmptyState("Журнал пока пуст", "Заведите предмет, семестр и группу — здесь появится таблица: студенты, лабораторные, курсовая, экзамен или зачёт.", "Перейти к предметам", "/Subjects"))' />
-</section>
-<div class="banner">
-    <span class="banner__text">Пока журнал пуст, можно посмотреть <b>прототип</b> на тестовых данных: 25 студентов, быстрая отметка, карточка сдачи, автомат.</span>
-    <a href="/Prototype/Journal">Открыть прототип</a>
+@if (st is null)
+{
+    <partial name="_PageHeader" model='@("Журнал группы")' />
+    <section class="card">
+        <partial name="_Empty" model='@(new EmptyState("Журнал пока пуст", "Заведите предмет в семестре: «Предметы» → предмет → «+ Семестр». Здесь появится таблица: студенты, лабораторные, курсовая, экзамен или зачёт.", "Перейти к предметам", "/Subjects"))' />
+    </section>
+    return;
+}
+@{
+    var term = st.Term!;
+    var assessment = st.Subject!.FinalAssessment;
+    var labDays = term.CreditWeekStart.DayNumber - Model.Today.DayNumber;
+}
+<div id="journal-page" class="journal-page" hx-headers='{"RequestVerificationToken": "@token"}'>
+    <header class="jhead">
+        <h1>Журнал группы</h1>
+        <form method="get" class="jhead jhead--form" hx-get="/Journal" hx-trigger="change" hx-target="#journal-page" hx-select="#journal-page" hx-swap="outerHTML" hx-push-url="true">
+            <label class="jhead__field">Предмет и семестр
+                <select name="st">
+                    @foreach (var s in Model.SubjectTerms)
+                    {
+                        <option value="@s.Id" selected="@(s.Id == st.Id)">@LabScaner.Web.Pages.Journal.IndexModel.Label(s)@(s.Subject!.IsActive ? "" : " (архив)")</option>
+                    }
+                </select>
+            </label>
+            @if (st.Groups.Count > 0)
+            {
+                <label class="jhead__field">Группа
+                    <select name="group">
+                        @foreach (var g in st.Groups.OrderBy(g => g.Name, StringComparer.Ordinal))
+                        {
+                            <option value="@g.Id" selected="@(g.Id == Model.GroupId)">@g.Name</option>
+                        }
+                    </select>
+                </label>
+            }
+            <noscript><button type="submit" class="button">Показать</button></noscript>
+        </form>
+        <span class="chip chip--warn">
+            Лабы до @term.CreditWeekStart.ToString("dd.MM", ru)@(labDays >= 0 ? $" — {labDays} дн." : " — срок прошёл")@(st.Coursework is null ? "" : $" · курсовая до {st.Coursework.Deadline(term).ToString("dd.MM", ru)}")
+        </span>
+        <span class="jhead__spacer"></span>
+        <a class="button" href="/Subjects/Term?id=@st.Id">Настройки семестра</a>
+    </header>
+
+    @if (Model.Group is null)
+    {
+        <section class="card">
+            <partial name="_Empty" model='@(new EmptyState("У предмета нет групп", "Выберите группы на странице семестра — журнал строится по каждой группе.", "Выбрать группы", $"/Subjects/Term?id={st.Id}"))' />
+        </section>
+    }
+    else if (Model.Students.Count == 0)
+    {
+        <section class="card">
+            <partial name="_Empty" model='@(new EmptyState($"В группе {Model.Group.Name} нет студентов", "Список группы загружает администратор из Excel.", "К группам", "/Groups"))' />
+        </section>
+    }
+    else
+    {
+        <div class="banner">
+            <span class="banner__text">Сдач пока нет: письма студентов начнут попадать в журнал после подключения почты (этап 4).</span>
+        </div>
+        <div class="jt-wrap">
+            <table class="jt">
+                <thead>
+                    <tr>
+                        <th class="jt__name"><span>Студент</span><span class="muted">@Model.Students.Count</span></th>
+                        @foreach (var w in Model.Works)
+                        {
+                            <th class="jt__work @(w.Kind == AssignmentKind.Coursework ? "jt__cw" : null)" title="@w.Title">
+                                <b>@(w.Kind == AssignmentKind.Coursework ? "Курсовая" : $"Лаб {w.Number}")</b><small>до @w.Deadline(term).ToString("dd.MM", ru)</small>
+                            </th>
+                        }
+                        @if (st.Coursework is not null)
+                        {
+                            <th class="jt__topic"><b>Тема курсовой</b><small>@st.Topics.Count(t => Model.Students.Any(s => s.Id == t.StudentId)) из @Model.Students.Count</small></th>
+                        }
+                        <th class="jt__auto"><b>Автомат</b><small>«@assessment.AutomatMark()»</small></th>
+                        <th class="jt__final"><b>@assessment.Title()</b><small>дата · @(assessment == FinalAssessment.Pass ? "отметка" : "оценка")</small></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (var i = 0; i < Model.Students.Count; i++)
+                    {
+                        var s = Model.Students[i];
+                        <tr>
+                            <th class="jt__name" scope="row">
+                                <span class="jt__n mono">@(i + 1)</span>
+                                <span class="jt__student" title="@s.Name.FullName">@s.Name.WithInitials</span>
+                            </th>
+                            @foreach (var w in Model.Works)
+                            {
+                                <td class="jt__work @(w.Kind == AssignmentKind.Coursework ? "jt__cw" : null)">
+                                    <span class="cell cell--none" aria-label="@w.ShortName: нет сдачи">—</span>
+                                </td>
+                            }
+                            @if (st.Coursework is not null)
+                            {
+                                <partial name="_TopicCell" model="new LabScaner.Web.Pages.Journal.TopicCell(st.Id, s.Id, s.Name.WithInitials, st.TopicOf(s.Id))" />
+                            }
+                            <td class="jt__auto"><span class="auto">—</span></td>
+                            <td class="jt__final"><span class="auto">—</span></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
 </div>

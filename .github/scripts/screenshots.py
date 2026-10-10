@@ -113,52 +113,51 @@ with sync_playwright() as p:
         page.wait_for_load_state("networkidle")
         page.screenshot(path=folder / "19-subjects.png", full_page=True)
 
-        # Прототип журнала (шаг 2.5): сценарии с htmx
+        # Шаг 3.4: предмет в семестре, темы курсовых, журнал группы
+        if name == "desktop":
+            page.goto(f"{BASE}/Subjects")
+            page.wait_for_load_state("networkidle")
+            form = "form[action*='AddTerm']"
+            page.fill(f"{form} input[name='NewTerm.StudySemester']", "7")
+            page.fill(f"{form} input[name='NewTerm.Labs']", "8")
+            page.check(f"{form} input[name='NewTerm.Coursework']")
+            for box in page.query_selector_all(f"{form} input[name='NewTerm.GroupIds']"):
+                box.check()
+            page.click(f"{form} button[type=submit]")
+            page.wait_for_load_state("networkidle")
+            page.screenshot(path=folder / "20-subject-term.png", full_page=True)
+
+            page.set_input_files("form[action*='Topics'] input[type=file]", os.environ["SHOT_GROUPS_XLSX"])
+            page.click("form[action*='Topics'] button[type=submit]")
+            page.wait_for_load_state("networkidle")
+            page.screenshot(path=folder / "21-subject-term-topics.png", full_page=True)
+
+            page.goto(f"{BASE}/Subjects")
+            page.wait_for_load_state("networkidle")
+            page.screenshot(path=folder / "22-subjects-terms.png", full_page=True)
+
         import time
         started = time.perf_counter()
-        response = page.goto(f"{BASE}/Prototype/Journal")
+        response = page.goto(f"{BASE}/Journal")
         page.wait_for_load_state("networkidle")
         elapsed = (time.perf_counter() - started) * 1000
         size = len(response.body()) // 1024
         print(f"::notice title=Журнал ({name})::загрузка {elapsed:.0f} мс, HTML {size} КБ")
-        page.screenshot(path=folder / "20-journal.png", full_page=name == "desktop")
+        page.screenshot(path=folder / "23-journal.png", full_page=True)
 
-        page.click("#c4-4 .cell")
-        page.wait_for_selector("#c4-4 .quick")
-        page.screenshot(path=folder / "21-journal-quick.png")
+        if name == "desktop" and page.locator("select[name='group'] option").count() > 1:
+            page.select_option("select[name='group']", index=1)
+            page.wait_for_selector("#journal-page .jt")
+            page.wait_for_load_state("networkidle")
+            page.screenshot(path=folder / "24-journal-group2.png", full_page=True)
 
-        started = time.perf_counter()
-        page.click("#c4-4 .quick button[value='5']")
-        page.wait_for_selector("#c4-4 .cell--ok")
-        print(f"::notice title=Быстрая отметка ({name})::{(time.perf_counter() - started) * 1000:.0f} мс до обновления ячейки")
-        page.screenshot(path=folder / "22-journal-marked.png")
-
-        page.click("#c9-3 .cell")
-        page.wait_for_selector("#c9-3 .quick")
-        page.click("#c9-3 .quick a")
-        page.wait_for_selector("#panel .panel")
-        page.screenshot(path=folder / "23-journal-panel.png", full_page=name == "mobile")
-
-        page.click("#panel button[role=tab]:nth-child(2)")
-        page.wait_for_selector("#panel .timeline")
-        page.screenshot(path=folder / "24-journal-comments.png", full_page=name == "mobile")
-        page.click("#panel [data-close-panel]")
-
-        page.goto(f"{BASE}/Prototype/Journal?filter=automat")
-        page.wait_for_load_state("networkidle")
-        for box in page.query_selector_all(".jt__check")[:2]:
-            box.check()
-        page.query_selector_all("tbody .jt__check")[0].dispatch_event("change")
-        page.wait_for_selector("#selection button")
-        page.click("#selection button")
-        page.wait_for_selector("#modal .modal")
-        page.screenshot(path=folder / "25-journal-automat-dialog.png")
-        page.keyboard.press("Escape")
-
-        page.goto(f"{BASE}/Prototype/Journal")
-        page.click("#e3 .final")
-        page.wait_for_selector("#e3 .quick")
-        page.screenshot(path=folder / "26-journal-exam.png")
+        if page.locator(".topic").count() > 0:
+            page.click(".topic >> nth=0")
+            page.wait_for_selector(".topic-edit input")
+            page.fill(".topic-edit input", "Учёт заявок в сервисном центре")
+            page.click(".topic-edit button[type=submit]")
+            page.wait_for_selector(".topic-edit", state="detached")
+            page.screenshot(path=folder / "25-journal-topic.png")
 
         if name == "mobile":
             page.goto(f"{BASE}/")

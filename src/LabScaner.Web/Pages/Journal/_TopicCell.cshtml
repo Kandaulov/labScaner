@@ -1,0 +1,7 @@
+@model LabScaner.Web.Pages.Journal.TopicCell
+<td id="topic-@Model.StudentId" class="jt__topic">
+    <button type="button" class="topic @(Model.Topic is null ? "topic--empty" : null)" title="@(Model.Topic ?? "Тема не задана")"
+            aria-label="Тема курсовой: @Model.StudentName"
+            hx-get="@Url.Page("/Journal/Index", "Topic", new { st = Model.SubjectTermId, student = Model.StudentId })"
+            hx-target="closest td" hx-swap="outerHTML">@(Model.Topic ?? "+ тема")</button>
+</td>

@@ -90,9 +90,89 @@
                 <span class="muted">@(current.IsActive ? "Предмет больше не читается? Перенесите в архив — данные сохранятся, письма по нему перестанут распознаваться." : "Предмет в архиве.")</span>
                 <button type="submit" class="button button--small @(current.IsActive ? "button--danger" : null)">@(current.IsActive ? "В архив" : "Вернуть из архива")</button>
             </form>
-            <div class="subject-form__footer">
-                <span class="muted">Семестры, группы, задания и дедлайны предмета — шаги 3.4 и 3.5.</span>
-            </div>
         }
     </section>
 </div>
+
+@if (current is not null)
+{
+    var ru = System.Globalization.CultureInfo.GetCultureInfo("ru-RU");
+    <section class="card" aria-labelledby="terms-h">
+        <div class="card__header">
+            <h2 id="terms-h">Семестры «@current.Code»</h2>
+            <span class="muted">группы, папка на Диске, работы и дедлайны</span>
+        </div>
+        @if (Model.SubjectTerms.Count > 0)
+        {
+            <div class="table-wrap">
+                <table class="table">
+                    <thead><tr><th>Семестр</th><th>Группы</th><th>Работы</th><th>Дедлайны</th><th></th></tr></thead>
+                    <tbody>
+                        @foreach (var st in Model.SubjectTerms)
+                        {
+                            var labs = st.Assignments.Count(a => a.Kind == LabScaner.Core.Teaching.AssignmentKind.Lab);
+                            var cw = st.Assignments.Any(a => a.Kind == LabScaner.Core.Teaching.AssignmentKind.Coursework);
+                            <tr>
+                                <td><a href="/Subjects/Term?id=@st.Id"><b>@st.Term!.Title</b></a> <span class="muted">· @st.StudySemester сем</span></td>
+                                <td>@(st.Groups.Count == 0 ? "—" : string.Join(", ", st.Groups.Select(g => g.Name).Order(StringComparer.Ordinal)))</td>
+                                <td>лаб — @labs@(cw ? " + курсовая" : "")</td>
+                                <td class="muted">лабы до @st.Term.CreditWeekStart.ToString("dd.MM", ru)@(cw ? $", курсовая до {st.Term.SessionStart.ToString("dd.MM", ru)}" : "")</td>
+                                <td class="table__actions"><a class="button button--small" href="/Subjects/Term?id=@st.Id">Настроить</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+
+        @if (!current.IsActive)
+        {
+            <p class="card__note muted">Предмет в архиве — новый семестр не заводится.</p>
+        }
+        else if (Model.FreeTerms.Count == 0)
+        {
+            <p class="card__note muted">Новых семестров в календаре нет. Календарь ведёт администратор: «Администрирование» → «Календарь».</p>
+        }
+        else if (Model.AllGroups.Count == 0)
+        {
+            <partial name="_Empty" model='@(new EmptyState("Нет групп", "Чтобы завести предмет в семестре, нужны группы: их загружает администратор из Excel.", "К группам", "/Groups"))' />
+        }
+        else
+        {
+            <form method="post" asp-page-handler="AddTerm" asp-route-id="@current.Id" class="subject-form__body term-new">
+                <h3>+ Семестр</h3>
+                <div class="form-row">
+                    <label class="field">Семестр
+                        <select name="NewTerm.TermId" required>
+                            @foreach (var t in Model.FreeTerms)
+                            {
+                                <option value="@t.Id" selected="@(t.Id == Model.NewTerm.TermId)">@t.Title</option>
+                            }
+                        </select>
+                    </label>
+                    <label class="field">Семестр обучения
+                        <input type="number" name="NewTerm.StudySemester" value="@Model.NewTerm.StudySemester" min="1" max="12" required />
+                        <span class="field__hint">Для {N} в пути на Диске</span>
+                    </label>
+                    <label class="field">Лабораторных
+                        <input type="number" name="NewTerm.Labs" value="@Model.NewTerm.Labs" min="0" max="@LabScaner.Core.Teaching.SubjectTerm.MaxLabs" required />
+                    </label>
+                    <label class="check term-new__cw"><input type="checkbox" name="NewTerm.Coursework" value="true" checked="@Model.NewTerm.Coursework" /> Есть курсовая</label>
+                </div>
+                <fieldset class="field field--wide">
+                    <legend>Группы</legend>
+                    <div class="checks">
+                        @foreach (var g in Model.AllGroups)
+                        {
+                            <label class="check"><input type="checkbox" name="NewTerm.GroupIds" value="@g.Id" checked="@((Model.NewTerm.GroupIds ?? []).Contains(g.Id))" /> @g.Name</label>
+                        }
+                    </div>
+                </fieldset>
+                <div class="form__actions">
+                    <button type="submit" class="button button--primary">Завести семестр</button>
+                    <span class="muted">Путь на Диске возьмётся по шаблону — его можно поправить на странице семестра.</span>
+                </div>
+            </form>
+        }
+    </section>
+}

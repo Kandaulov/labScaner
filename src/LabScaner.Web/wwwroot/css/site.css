@@ -1154,3 +1154,89 @@ h2 {
   border-top: 1px solid var(--border-soft);
   font-size: 13px;
 }
+
+/* Флажки и наборы флажков (группы предмета в семестре). */
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.check input,
+.field .check input {
+  width: 16px;
+  height: 16px;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  accent-color: var(--brand);
+}
+
+.checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+}
+
+fieldset.field {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+fieldset.field legend {
+  padding: 0;
+  margin-bottom: 8px;
+}
+
+/* Предмет в семестре. */
+.term-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.term-new {
+  border-top: 1px solid var(--border-soft);
+}
+
+.term-new h3 {
+  margin: 0;
+  font-size: 15px;
+}
+
+.term-new__cw {
+  align-self: end;
+  min-height: 38px;
+}
+
+.input-wide,
+.table input[type="date"] {
+  font: inherit;
+  font-size: 13px;
+  min-height: 32px;
+  border: 1px solid #c9cfd8;
+  border-radius: 6px;
+  padding: 0 8px;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.input-wide {
+  width: 100%;
+  min-width: 220px;
+}
+
+.form__actions--wrap {
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.table-wrap + .card__note {
+  padding-top: 14px;
+}
